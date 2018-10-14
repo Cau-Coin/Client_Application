@@ -80,54 +80,45 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:layout_weight="8"
-                android:hint="수업명, 교수명으로 강의평을 검색하세요!"
+                android:layout_weight="7"
+                android:hint="수업명으로 강의평을 검색하세요!"
                 android:inputType="text"
                 android:textAlignment="center"/>
             <Button
                 android:id="@+id/main_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:text="검색"
                 android:textSize="13dp"/>
+            <Button
+                android:id="@+id/main_filter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="필터"
+                android:textSize="13dp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="데이터 받아오는건 가장 통신 빠른 노드로부터, 그건 노드 만든 후 구현"
-                android:textSize="13dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:text="최초엔 데이터 받아와서 myList에 최신 순으로 N개 넣고"
-                android:textSize="15dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="검색 누를 시 myList 업데이트해서 표시"
-                android:textSize="15dp"/>
-        </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_recycler2"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:scrollbars="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="10dp"
                 android:scrollbars="vertical">
 
             </android.support.v7.widget.RecyclerView>
