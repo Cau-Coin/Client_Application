@@ -5,6 +5,7 @@ public class RecycleItem {
     String grade;
     String semester;
     String takeYear;
+    String evaluateId;
 
     public String getSubject() {
         return subject;
@@ -22,10 +23,15 @@ public class RecycleItem {
         return takeYear;
     }
 
-    public RecycleItem(String grade, String semester,String subject, String takeYear) {
+    public String getEvaluateId() {
+        return evaluateId;
+    }
+
+    public RecycleItem(String grade, String semester,String subject, String takeYear, String evaluateId) {
         this.subject = subject;
         this.grade = grade;
         this.semester = semester;
         this.takeYear = takeYear;
+        this.evaluateId = evaluateId;
     }
 }

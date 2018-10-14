@@ -49,6 +49,12 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/main_mycoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="잔여 코인"/>
             <Button
                 android:id="@+id/main_write"
                 android:layout_width="wrap_content"
@@ -116,10 +122,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
                 android:scrollbars="vertical">
 
             </android.support.v7.widget.RecyclerView>
