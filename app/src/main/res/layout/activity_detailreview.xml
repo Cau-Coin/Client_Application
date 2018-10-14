@@ -9,54 +9,57 @@
         android:orientation="vertical">
 
             <TextView
+                android:id="@+id/detail_grade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="학년"
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/detail_semester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="학기"
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/detail_subject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="과목"
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/detail_evaluate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="평점"
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/detail_takeyear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="수강 년도"
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/detail_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="리뷰 내용"
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/detail_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="타임스탬프"
                 android:textSize="20dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="학년"
-                android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/detail_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="score"
