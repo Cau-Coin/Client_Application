@@ -14,6 +14,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class WriteActivity extends Activity {
     private String id;
     private String name;
@@ -276,7 +279,9 @@ public class WriteActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "리뷰를 한 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String currentDateTime = dateFormat.format(new Date());
+
                     Toast.makeText(getApplicationContext(), "평가가 등록되었습니다", Toast.LENGTH_SHORT).show();
                     Intent a = new Intent(WriteActivity.this, MainActivity.class);
                     a.putExtra("name",name);

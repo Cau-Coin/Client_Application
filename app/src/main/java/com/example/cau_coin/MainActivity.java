@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Data_Evaluate> dataList = new ArrayList<Data_Evaluate>();
 
-    private int num_Filter=0;
+    private int num_Filter = 0;
     private ArrayList<String> filter_dept = new ArrayList<String>();
     private ArrayList<String> filter_semester = new ArrayList<String>();
     private ArrayList<String> filter_grade = new ArrayList<String>();
@@ -136,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
                 "교수님이 조금 지루해요. 수업은 잘하세요!", "???", temp_score, temp_comment));
         // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-
         final Database_AutoLogin database = new Database_AutoLogin(getApplicationContext(), "mydb.db", null, 1);
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -153,19 +161,61 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(inputSearch.getText().toString().equals("")){
+                int check2 = 0;
+                if (inputSearch.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "수업명을 입력해주세요", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    myList.clear();
+                } else {
+                    int check = 0;
                     for (int i = 0; i < dataList.size(); i++) {
                         if (dataList.get(i).getSubject().contains(inputSearch.getText().toString())) {
-                            myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(), dataList.get(i).getSubject(),
-                                    dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                            check = 0;
+                            for (int a = 0; a < filter_dept.size(); a++) {
+                                if (dataList.get(i).getDept().contains(filter_dept.get(a)))
+                                    check = 1;
+                            }
+                            if (filter_dept.size() == 0) check = 1;
+                            if (check == 1) {
+                                check = 0;
+                                for (int b = 0; b < filter_grade.size(); b++) {
+                                    if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
+                                        check = 1;
+                                }
+                                if (filter_grade.size() == 0) check = 1;
+
+                                if (check == 1) {
+                                    check = 0;
+                                    for (int c = 0; c < filter_semester.size(); c++) {
+                                        if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
+                                            check = 1;
+                                    }
+                                    if (filter_semester.size() == 0) check = 1;
+
+                                    if (check == 1) {
+                                        if (check2 == 0) {
+                                            myList.clear();
+                                            check2 = 1;
+                                        }
+                                        myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
+                                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                                        if (num_Filter <= 0) {
+                                            myList2.clear();
+                                            adapter2.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-                    adapter.notifyDataSetChanged();
+                    if (check2 == 0) {
+                        Toast.makeText(getApplicationContext(), "해당 단어를 포함하는 과목은 없습니다", Toast.LENGTH_SHORT).show();
+                    } else {
+                        adapter.notifyDataSetChanged();
+
+                        GetLookup temp = new GetLookup();
+                        temp.execute();
+                    }
                 }
+
             }
         });
 
@@ -184,11 +234,11 @@ public class MainActivity extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] items = new String[]{"학부", "학년", "학기","전체글보기"};
+                final String[] items = new String[]{"학부", "학년", "학기", "전체글보기"};
                 final String[] items2 = new String[]{"소프트웨어학부", "융합공학부", "전자전기공학부"};
                 final String[] items3 = new String[]{"1학년", "2학년", "3학년", "4학년"};
                 final String[] items4 = new String[]{"1학기", "2학기"};
-                final String[] items5 = new String[]{"1","2","3","4"};
+                final String[] items5 = new String[]{"1", "2", "3", "4"};
                 final int[] selectedIndex = {0, 0};
                 AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
                 dialog.setTitle("검색 옵션을 선택하세요").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
@@ -199,24 +249,23 @@ public class MainActivity extends AppCompatActivity {
                 }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(selectedIndex[0]==3){
+                        if (selectedIndex[0] == 3) {
                             myList2.clear();
                             myList2.add(new RecycleItem3("전체글보기"));
                             adapter2.notifyDataSetChanged();
 
-                            num_Filter=-1;
+                            num_Filter = -1;
                             filter_semester.clear();
                             filter_grade.clear();
                             filter_dept.clear();
 
                             myList.clear();
-                            for(int i=0;i<dataList.size();i++){
+                            for (int i = 0; i < dataList.size(); i++) {
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
                                         dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
                             }
                             adapter.notifyDataSetChanged();
-                        }
-                        else{
+                        } else {
                             final String[] temp;
                             AlertDialog.Builder dialog2 = new AlertDialog.Builder(MainActivity.this);
                             if (selectedIndex[0] == 0) temp = items2;
@@ -231,26 +280,26 @@ public class MainActivity extends AppCompatActivity {
                             }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(num_Filter<=0){
-                                        num_Filter=0;
+                                    if (num_Filter <= 0) {
+                                        num_Filter = 0;
                                         myList2.remove(0);
                                     }
                                     if (selectedIndex[0] == 0) {
-                                        if (!filter_dept.contains(items2[selectedIndex[1]])){
+                                        if (!filter_dept.contains(items2[selectedIndex[1]])) {
                                             filter_dept.add(items2[selectedIndex[1]]);
                                             myList2.add(new RecycleItem3(items2[selectedIndex[1]]));
                                             adapter2.notifyDataSetChanged();
                                             num_Filter++;
                                         }
                                     } else if (selectedIndex[0] == 1) {
-                                        if (!filter_grade.contains(items5[selectedIndex[1]])){
+                                        if (!filter_grade.contains(items5[selectedIndex[1]])) {
                                             myList2.add(new RecycleItem3(items3[selectedIndex[1]]));
                                             filter_grade.add(items5[selectedIndex[1]]);
                                             adapter2.notifyDataSetChanged();
                                             num_Filter++;
                                         }
                                     } else {
-                                        if (!filter_semester.contains(items5[selectedIndex[1]])){
+                                        if (!filter_semester.contains(items5[selectedIndex[1]])) {
                                             myList2.add(new RecycleItem3(items4[selectedIndex[1]]));
                                             filter_semester.add(items5[selectedIndex[1]]);
                                             adapter2.notifyDataSetChanged();
@@ -260,28 +309,31 @@ public class MainActivity extends AppCompatActivity {
                                     inputSearch.setText("");
 
                                     myList.clear();
-                                    int check=0;
+                                    int check = 0;
                                     for (int i = 0; i < dataList.size(); i++) {
-                                        check=0;
-                                        for(int a=0;a<filter_dept.size();a++){
-                                            if(dataList.get(i).getDept().contains(filter_dept.get(a))) check=1;
+                                        check = 0;
+                                        for (int a = 0; a < filter_dept.size(); a++) {
+                                            if (dataList.get(i).getDept().contains(filter_dept.get(a)))
+                                                check = 1;
                                         }
-                                        if(filter_dept.size()==0) check=1;
-                                        if(check==1){
-                                            check=0;
-                                            for(int b=0;b<filter_grade.size();b++){
-                                                if(dataList.get(i).getGrade().contains(filter_grade.get(b))) check=1;
+                                        if (filter_dept.size() == 0) check = 1;
+                                        if (check == 1) {
+                                            check = 0;
+                                            for (int b = 0; b < filter_grade.size(); b++) {
+                                                if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
+                                                    check = 1;
                                             }
-                                            if(filter_grade.size()==0) check=1;
+                                            if (filter_grade.size() == 0) check = 1;
 
-                                            if(check==1){
-                                                check=0;
-                                                for(int c=0;c<filter_semester.size();c++){
-                                                    if(dataList.get(i).getSemester().contains(filter_semester.get(c))) check=1;
+                                            if (check == 1) {
+                                                check = 0;
+                                                for (int c = 0; c < filter_semester.size(); c++) {
+                                                    if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
+                                                        check = 1;
                                                 }
-                                                if(filter_semester.size()==0) check=1;
+                                                if (filter_semester.size() == 0) check = 1;
 
-                                                if(check==1){
+                                                if (check == 1) {
                                                     myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
                                                             dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
                                                 }
@@ -289,6 +341,9 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                     adapter.notifyDataSetChanged();
+
+                                    GetLookup temp = new GetLookup();
+                                    temp.execute();
                                 }
                             }).create().show();
                         }
@@ -315,11 +370,11 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyAdapter(myList, this);
         recyclerView.setAdapter(adapter);
 
-        // score가 가장 높은 5개 뽑는 것으로 함
         setMainPage5();
     }
 
-    public void setMainPage5(){
+    // score가 가장 높은 5개 뽑아서 페이지 구성
+    public void setMainPage5() {
         myList.clear();
         temp_comment.clear();
         temp_score.clear();
@@ -357,6 +412,9 @@ public class MainActivity extends AppCompatActivity {
         myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore()));
         myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore()));
         adapter.notifyDataSetChanged();
+
+        GetLookup temp = new GetLookup();
+        temp.execute();
     }
 
     class MyAdapter extends RecyclerView.Adapter {
@@ -380,7 +438,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ((ViewHolder) holder).cardview_text.setText("※ " + mItems.get(position).getDept() + ", " + mItems.get(position).getTakeYear() + "년 수강자\n" + mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+            if (mItems.get(position).getLookup()) {
+                ((ViewHolder) holder).cardview_text.setBackgroundColor(0xaaaaaaaa);
+                ((ViewHolder) holder).cardview_text.setText("※ 이미 조회한 정보입니다. - 평점 : "+mItems.get(position).getScore()+"\n\n※ " + mItems.get(position).getDept() + ", " +
+                        mItems.get(position).getTakeYear() + "년 수강자\n" +mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+            } else {
+                ((ViewHolder) holder).cardview_text.setBackgroundColor(0xeeeeeeee);
+                ((ViewHolder) holder).cardview_text.setText("※ " + mItems.get(position).getDept() + ", " + mItems.get(position).getTakeYear() + "년 수강자\n" +
+                        mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+            }
         }
 
         @Override
@@ -400,6 +466,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         int position = getPosition();
                         // 코인을 사용하는 것에 대한 트랜잭션을 전송해야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                        if(!mItems.get(position).getLookup()){  // 처음 열람한 경우
+                            WriteLookup temp = new WriteLookup();
+                            temp.execute(mItems.get(position).getEvaluateId());
+                        }
                         Intent a = new Intent(MainActivity.this, DetailReviewActivity.class);
                         a.putExtra("name", name);
                         a.putExtra("major", major);
@@ -449,61 +519,61 @@ public class MainActivity extends AppCompatActivity {
             public ViewHolder(View itemView) {
                 super(itemView);
                 cardview_text = (TextView) itemView.findViewById(R.id.cardview3_text);
-                cardview_button = (TextView)itemView.findViewById(R.id.cardview3_button);
+                cardview_button = (TextView) itemView.findViewById(R.id.cardview3_button);
 
                 cardview_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(num_Filter>0){
+                        if (num_Filter > 0) {
                             int position = getPosition();
-                            if (filter_dept.contains(mItems.get(position).getFilter_noType())){
+                            if (filter_dept.contains(mItems.get(position).getFilter_noType())) {
                                 filter_dept.remove(filter_dept.indexOf(mItems.get(position).getFilter_noType()));
                                 myList2.remove(position);
                                 adapter2.notifyDataSetChanged();
                                 num_Filter--;
-                            }
-                            else if (filter_grade.contains(mItems.get(position).getFilter_noType())){
+                            } else if (filter_grade.contains(mItems.get(position).getFilter_noType()) && mItems.get(position).getFilter_Type().equals("학년")) {
                                 filter_grade.remove(filter_grade.indexOf(mItems.get(position).getFilter_noType()));
                                 myList2.remove(position);
                                 adapter2.notifyDataSetChanged();
                                 num_Filter--;
-                            }
-                            else if (filter_semester.contains(mItems.get(position).getFilter_noType())){
+                            } else if (filter_semester.contains(mItems.get(position).getFilter_noType()) && mItems.get(position).getFilter_Type().equals("학기")) {
                                 filter_semester.remove(filter_semester.indexOf(mItems.get(position).getFilter_noType()));
                                 myList2.remove(position);
                                 adapter2.notifyDataSetChanged();
                                 num_Filter--;
                             }
 
-                            if(num_Filter==0){
+                            if (num_Filter == 0) {
                                 setMainPage5();
                                 myList2.add(new RecycleItem3("인기게시글"));
                                 adapter2.notifyDataSetChanged();
-                            }
-                            else{
+                            } else {
                                 myList.clear();
-                                int check=0;
+                                int check = 0;
                                 for (int i = 0; i < dataList.size(); i++) {
-                                    check=0;
-                                    for(int a=0;a<filter_dept.size();a++){
-                                        if(dataList.get(i).getDept().contains(filter_dept.get(a))) check=1;
+                                    check = 0;
+                                    for (int a = 0; a < filter_dept.size(); a++) {
+                                        if (dataList.get(i).getDept().contains(filter_dept.get(a)))
+                                            check = 1;
                                     }
-                                    if(filter_dept.size()==0) check=1;
-                                    if(check==1){
-                                        check=0;
-                                        for(int b=0;b<filter_grade.size();b++){
-                                            if(dataList.get(i).getGrade().contains(filter_grade.get(b))) check=1;
+                                    if (filter_dept.size() == 0) check = 1;
+                                    if (check == 1) {
+                                        check = 0;
+                                        for (int b = 0; b < filter_grade.size(); b++) {
+                                            if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
+                                                check = 1;
                                         }
-                                        if(filter_grade.size()==0) check=1;
+                                        if (filter_grade.size() == 0) check = 1;
 
-                                        if(check==1){
-                                            check=0;
-                                            for(int c=0;c<filter_semester.size();c++){
-                                                if(dataList.get(i).getSemester().contains(filter_semester.get(c))) check=1;
+                                        if (check == 1) {
+                                            check = 0;
+                                            for (int c = 0; c < filter_semester.size(); c++) {
+                                                if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
+                                                    check = 1;
                                             }
-                                            if(filter_semester.size()==0) check=1;
+                                            if (filter_semester.size() == 0) check = 1;
 
-                                            if(check==1){
+                                            if (check == 1) {
                                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
                                                         dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
                                             }
@@ -512,10 +582,9 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 adapter.notifyDataSetChanged();
                             }
-                        }
-                        else if(num_Filter==-1){
+                        } else if (num_Filter == -1) {
                             setMainPage5();
-                            num_Filter=0;
+                            num_Filter = 0;
                             myList2.clear();
                             myList2.add(new RecycleItem3("인기게시글"));
                             adapter2.notifyDataSetChanged();
@@ -523,6 +592,121 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
+    }
+
+    public class GetLookup extends AsyncTask<String, Void, String> {
+
+        public String doInBackground(String... params) {
+            try {
+                String url = "http://115.68.207.101/read_lookup.php?userid=" + id;
+
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (jsonArray.length() != 0) {
+                        ArrayList<String> list = new ArrayList<String>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject item = jsonArray.getJSONObject(i);
+
+                            list.add(item.getString("e_id"));
+                        }
+
+                        for (int a = 0; a < myList.size(); a++) {
+                            for(int b=0;b<list.size();b++){
+                                if (myList.get(a).getEvaluateId().equals(list.get(b))) {
+                                    myList.get(a).setLookup(true);
+                                }
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+
+                } catch (JSONException e) {
+                }
+            }
+
+        }
+    }
+
+    public class WriteLookup extends AsyncTask<String, Void, String> {
+
+        public String doInBackground(String... params) {
+            try {
+                String eval_id = params[0];
+
+                String url = "http://115.68.207.101/write_lookup.php?userid=" + id + "&evalid=" + eval_id;
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+
+                return sb.toString();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 
