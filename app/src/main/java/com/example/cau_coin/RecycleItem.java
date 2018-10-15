@@ -8,6 +8,7 @@ public class RecycleItem {
     String takeYear;
     String evaluateId;
     String score;
+    boolean lookup;
 
     public String getSubject() {
         return subject;
@@ -29,8 +30,16 @@ public class RecycleItem {
         return evaluateId;
     }
 
+    public boolean getLookup() {
+        return lookup;
+    }
+
     public String getDept() {
         return dept;
+    }
+
+    public void setLookup(boolean lookup) {
+        this.lookup = lookup;
     }
 
     public String getScore() {
@@ -45,5 +54,6 @@ public class RecycleItem {
         this.takeYear = takeYear;
         this.evaluateId = evaluateId;
         this.score = score;
+        this.lookup=false;
     }
 }
