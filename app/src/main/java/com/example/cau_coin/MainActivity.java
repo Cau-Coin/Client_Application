@@ -209,8 +209,6 @@ public class MainActivity extends AppCompatActivity {
                     if (check2 == 0) {
                         Toast.makeText(getApplicationContext(), "해당 단어를 포함하는 과목은 없습니다", Toast.LENGTH_SHORT).show();
                     } else {
-                        adapter.notifyDataSetChanged();
-
                         GetLookup temp = new GetLookup();
                         temp.execute();
                     }
@@ -264,7 +262,8 @@ public class MainActivity extends AppCompatActivity {
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
                                         dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
                             }
-                            adapter.notifyDataSetChanged();
+                            GetLookup temp = new GetLookup();
+                            temp.execute();
                         } else {
                             final String[] temp;
                             AlertDialog.Builder dialog2 = new AlertDialog.Builder(MainActivity.this);
@@ -340,8 +339,6 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
-                                    adapter.notifyDataSetChanged();
-
                                     GetLookup temp = new GetLookup();
                                     temp.execute();
                                 }
@@ -411,7 +408,6 @@ public class MainActivity extends AppCompatActivity {
         myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore()));
         myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore()));
         myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore()));
-        adapter.notifyDataSetChanged();
 
         GetLookup temp = new GetLookup();
         temp.execute();
@@ -440,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (mItems.get(position).getLookup()) {
                 ((ViewHolder) holder).cardview_text.setBackgroundColor(0xaaaaaaaa);
-                ((ViewHolder) holder).cardview_text.setText("※ 이미 조회한 정보입니다. - 평점 : "+mItems.get(position).getScore()+"\n\n※ " + mItems.get(position).getDept() + ", " +
+                ((ViewHolder) holder).cardview_text.setText("※ 이미 조회한 정보입니다 - 평점 : "+mItems.get(position).getScore()+"\n\n※ " + mItems.get(position).getDept() + ", " +
                         mItems.get(position).getTakeYear() + "년 수강자\n" +mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
             } else {
                 ((ViewHolder) holder).cardview_text.setBackgroundColor(0xeeeeeeee);
@@ -580,7 +576,8 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
-                                adapter.notifyDataSetChanged();
+                                GetLookup temp = new GetLookup();
+                                temp.execute();
                             }
                         } else if (num_Filter == -1) {
                             setMainPage5();
@@ -656,12 +653,12 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        adapter.notifyDataSetChanged();
                     }
 
                 } catch (JSONException e) {
                 }
             }
+            adapter.notifyDataSetChanged();
 
         }
     }
