@@ -11,9 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DetailReviewActivity extends Activity {
     private String id;
@@ -46,6 +51,10 @@ public class DetailReviewActivity extends Activity {
         TextView myReview = (TextView) findViewById(R.id.detail_review);
         TextView myTimeStamp = (TextView) findViewById(R.id.detail_timestamp);
         TextView myScore = (TextView) findViewById(R.id.detail_score);
+
+        Button giveScore = (Button)findViewById(R.id.detail_givescore);
+        Button registerComment = (Button)findViewById(R.id.detail_registerComment);
+        final EditText inputComment = (EditText) findViewById(R.id.detail_inputComment);
 
         recyclerView = (RecyclerView) findViewById(R.id.detail_recycler);
         layoutManager = new LinearLayoutManager(this);
@@ -144,6 +153,41 @@ public class DetailReviewActivity extends Activity {
                 break;
             }
         }
+
+        giveScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] items = new String[]{"1", "2", "3", "4","5"};
+                final int[] selectedIndex = {0};
+                AlertDialog.Builder dialog = new AlertDialog.Builder(DetailReviewActivity.this);
+                dialog.setTitle("평점을 선택해주세요").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedIndex[0] = which;
+                    }
+                }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), items[selectedIndex[0]], Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+            }
+        });
+
+        registerComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(inputComment.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "댓글을 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String currentDateTime = dateFormat.format(new Date());
+
+                    Toast.makeText(getApplicationContext(), "["+currentDateTime+"] "+inputComment.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     class MyAdapter extends RecyclerView.Adapter {

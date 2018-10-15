@@ -66,6 +66,35 @@
                 android:layout_marginTop="15dp"
                 android:textSize="20dp"/>
 
+            <Button
+                android:id="@+id/detail_givescore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평점주기"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/detail_inputComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:hint="이 평가에 대한 댓글을 남기세요!"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    android:inputType="text"/>
+                <Button
+                    android:id="@+id/detail_registerComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:text="등록"
+                    android:textSize="13dp"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

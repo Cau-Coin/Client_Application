@@ -19,6 +19,18 @@ public class RecycleItem3 {
         }
     }
 
+    public String getFilter_Type(){
+        if(filter.contains("학년")){
+            return "학년";
+        }
+        else if(filter.contains("학기")){
+            return "학기";
+        }
+        else{
+            return filter;
+        }
+    }
+
     public RecycleItem3(String filter) {
         this.filter = filter;
     }
