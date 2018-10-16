@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class WriteActivity extends Activity {
-    private String id;
+    private String userid;
     private String name;
     private String major;
 
@@ -33,7 +33,7 @@ public class WriteActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
-        id = getIntent().getExtras().getString("id");
+        userid = getIntent().getExtras().getString("id");
         name = getIntent().getExtras().getString("name");
         major = getIntent().getExtras().getString("major");
 
@@ -86,6 +86,8 @@ public class WriteActivity extends Activity {
         input_semester.setAdapter(blankAdapter);
         input_subject.setAdapter(blankAdapter);
         input_evaluate.setAdapter(blankAdapter);
+
+        final Database_Evaluate database = new Database_Evaluate(getApplicationContext(), "evaldb.db", null, 1);
 
         input_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -236,8 +238,16 @@ public class WriteActivity extends Activity {
                     input_evaluate.setAdapter(blankAdapter);
                 }
                 else{
-                    input_evaluate.setAdapter(evaluateAdapter);
-                    select_subject = selected;
+                    if(database.getEvaluate(userid,selected)){
+                        input_evaluate.setAdapter(evaluateAdapter);
+                        select_subject = selected;
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "이미 이 과목에 대한 강의평가를 했습니다", Toast.LENGTH_SHORT).show();
+                        input_subject.setAdapter(input_subject.getAdapter());
+                        select_subject="";
+                        input_evaluate.setAdapter(blankAdapter);
+                    }
                 }
             }
 
@@ -279,6 +289,7 @@ public class WriteActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "리뷰를 한 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    database.insertData_Evaluate(userid,select_subject);
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String currentDateTime = dateFormat.format(new Date());
 
@@ -286,7 +297,7 @@ public class WriteActivity extends Activity {
                     Intent a = new Intent(WriteActivity.this, MainActivity.class);
                     a.putExtra("name",name);
                     a.putExtra("major",major);
-                    a.putExtra("id",id);
+                    a.putExtra("id",userid);
                     startActivity(a);
                     finish();
                 }
@@ -307,7 +318,7 @@ public class WriteActivity extends Activity {
                 Intent a = new Intent(WriteActivity.this, MainActivity.class);
                 a.putExtra("name",name);
                 a.putExtra("major",major);
-                a.putExtra("id",id);
+                a.putExtra("id",userid);
                 startActivity(a);
                 finish();
             }
