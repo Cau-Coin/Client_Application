@@ -300,7 +300,7 @@ public class WriteActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "리뷰를 한 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //database.insertData_Evaluate(userid,select_subject);
+                    database.insertData_Evaluate(userid,select_subject);
 
                     SendData sendData = new SendData();
                     sendData.execute(input_review.getText().toString());
