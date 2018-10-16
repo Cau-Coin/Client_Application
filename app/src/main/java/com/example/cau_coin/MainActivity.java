@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> temp_score = new ArrayList<String>();
     ArrayList<String> temp_comment = new ArrayList<String>();
 
+    ArrayList<String> lookupList = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,74 +78,12 @@ public class MainActivity extends AppCompatActivity {
         userMajor.setText(major);
 
         // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        setData();
 
-        temp_score.add("5");
-        temp_score.add("3");
-        temp_score.add("2");
-        temp_comment.add("교수님 좋아요!");
-        temp_comment.add("교수님이 너무 좋은거 동감이에요!");
-        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학", "4", "2017",
-                "교수님이 좋았어요", "???", temp_score, temp_comment));
+        GetLookup lookupServer = new GetLookup();
+        lookupServer.execute();
 
-        temp_comment.clear();
-        temp_score.clear();
-        temp_score.add("4");
-        temp_score.add("5");
-        temp_score.add("3");
-        temp_comment.add("인정... 영어 그자체");
-        temp_comment.add("교수님이 너무 야해요");
-        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계", "4", "2018",
-                "교수님 영어실력은 감탄 그자체", "???", temp_score, temp_comment));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_score.add("3");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_comment.add("교수님은 좋아요");
-        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러", "4", "2017",
-                "교수님이 수업을 잘 안하심", "???", temp_score, temp_comment));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("3");
-        temp_comment.add("수업이 너무 지루해요");
-        temp_comment.add("교수님 진짜 별로임");
-        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학", "1", "2018",
-                "교수님 진짜 별로에요", "???", temp_score, temp_comment));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_score.add("5");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_comment.add("교수님 강의력은 정말 최고");
-        temp_comment.add("시험문제가 진짜 어렵긴 함..");
-        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조", "3", "2016",
-                "시험이 너무 어려워요", "???", temp_score, temp_comment));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_score.add("4");
-        temp_score.add("2");
-        temp_score.add("5");
-        temp_comment.add("수업시간에 졸수가 없어요...");
-        temp_comment.add("논리회로에서 컴공을 포기하게 되었어요ㅠ");
-        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로", "5", "2015",
-                "조성래교수님 사랑해요!", "???", temp_score, temp_comment));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_score.add("2");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_comment.add("교수님 강의력만은 정말 최고에요");
-        temp_comment.add("좀 졸리긴해요");
-        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴", "4", "2018",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "???", temp_score, temp_comment));
-        // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //System.out.println("@@@@@@@@@@@@@"+lookupList.get(0));
 
         final Database_AutoLogin database = new Database_AutoLogin(getApplicationContext(), "mydb.db", null, 1);
 
@@ -209,8 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     if (check2 == 0) {
                         Toast.makeText(getApplicationContext(), "해당 단어를 포함하는 과목은 없습니다", Toast.LENGTH_SHORT).show();
                     } else {
-                        GetLookup temp = new GetLookup();
-                        temp.execute();
+                        checkLookup();
                     }
                 }
 
@@ -262,8 +201,7 @@ public class MainActivity extends AppCompatActivity {
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
                                         dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
                             }
-                            GetLookup temp = new GetLookup();
-                            temp.execute();
+                            checkLookup();
                         } else {
                             final String[] temp;
                             AlertDialog.Builder dialog2 = new AlertDialog.Builder(MainActivity.this);
@@ -339,8 +277,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
-                                    GetLookup temp = new GetLookup();
-                                    temp.execute();
+                                    checkLookup();
                                 }
                             }).create().show();
                         }
@@ -368,9 +305,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         setMainPage5();
+
     }
 
-    // score가 가장 높은 5개 뽑아서 페이지 구성
+    // score가 가장 높은 5개 뽑아서 페이지 구성 (인기 게시글)
     public void setMainPage5() {
         myList.clear();
         temp_comment.clear();
@@ -408,11 +346,22 @@ public class MainActivity extends AppCompatActivity {
         myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore()));
         myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore()));
         myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore()));
-
-        GetLookup temp = new GetLookup();
-        temp.execute();
+        checkLookup();
     }
 
+    // 이미 조회한 이력이 있는지 체크하고 myList의 상태를 변경해주는 함수
+    public void checkLookup(){
+        for (int a = 0; a < myList.size(); a++) {
+            for(int b=0;b<lookupList.size();b++){
+                if (myList.get(a).getEvaluateId().equals(lookupList.get(b))) {
+                    myList.get(a).setLookup(true);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    // 게시글 리스트 출력하기 위한 리사이클러 뷰의 어댑터
     class MyAdapter extends RecyclerView.Adapter {
         private Context context;
         private ArrayList<RecycleItem> mItems;
@@ -479,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 필터 리스트 출력하기 위한 리사이클러 뷰의 어댑터
     class MyAdapter2 extends RecyclerView.Adapter {
         private Context context;
         private ArrayList<RecycleItem3> mItems;
@@ -576,8 +526,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
-                                GetLookup temp = new GetLookup();
-                                temp.execute();
+                                checkLookup();
                             }
                         } else if (num_Filter == -1) {
                             setMainPage5();
@@ -592,6 +541,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 조회 리스트를 가져오기 위한 서버 연동 코드
     public class GetLookup extends AsyncTask<String, Void, String> {
 
         public String doInBackground(String... params) {
@@ -639,30 +589,23 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
 
                     if (jsonArray.length() != 0) {
-                        ArrayList<String> list = new ArrayList<String>();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject item = jsonArray.getJSONObject(i);
 
-                            list.add(item.getString("e_id"));
+                            lookupList.add(item.getString("e_id"));
                         }
 
-                        for (int a = 0; a < myList.size(); a++) {
-                            for(int b=0;b<list.size();b++){
-                                if (myList.get(a).getEvaluateId().equals(list.get(b))) {
-                                    myList.get(a).setLookup(true);
-                                }
-                            }
-                        }
+                        checkLookup();
                     }
 
                 } catch (JSONException e) {
                 }
             }
-            adapter.notifyDataSetChanged();
 
         }
     }
 
+    // 조회 시 조회 리스트에 추가하기 위한 서버 연동 코드
     public class WriteLookup extends AsyncTask<String, Void, String> {
 
         public String doInBackground(String... params) {
@@ -729,5 +672,75 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    public void setData(){
+        temp_score.add("5");
+        temp_score.add("3");
+        temp_score.add("2");
+        temp_comment.add("교수님 좋아요!");
+        temp_comment.add("교수님이 너무 좋은거 동감이에요!");
+        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학", "4", "2017",
+                "교수님이 좋았어요", "???", temp_score, temp_comment));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_score.add("4");
+        temp_score.add("5");
+        temp_score.add("3");
+        temp_comment.add("인정... 영어 그자체");
+        temp_comment.add("교수님이 너무 야해요");
+        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계", "4", "2018",
+                "교수님 영어실력은 감탄 그자체", "???", temp_score, temp_comment));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_score.add("3");
+        temp_score.add("4");
+        temp_score.add("3");
+        temp_comment.add("교수님은 좋아요");
+        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러", "4", "2017",
+                "교수님이 수업을 잘 안하심", "???", temp_score, temp_comment));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("3");
+        temp_comment.add("수업이 너무 지루해요");
+        temp_comment.add("교수님 진짜 별로임");
+        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학", "1", "2018",
+                "교수님 진짜 별로에요", "???", temp_score, temp_comment));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_score.add("5");
+        temp_score.add("4");
+        temp_score.add("3");
+        temp_comment.add("교수님 강의력은 정말 최고");
+        temp_comment.add("시험문제가 진짜 어렵긴 함..");
+        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조", "3", "2016",
+                "시험이 너무 어려워요", "???", temp_score, temp_comment));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_score.add("4");
+        temp_score.add("2");
+        temp_score.add("5");
+        temp_comment.add("수업시간에 졸수가 없어요...");
+        temp_comment.add("논리회로에서 컴공을 포기하게 되었어요ㅠ");
+        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로", "5", "2015",
+                "조성래교수님 사랑해요!", "???", temp_score, temp_comment));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_score.add("2");
+        temp_score.add("4");
+        temp_score.add("3");
+        temp_comment.add("교수님 강의력만은 정말 최고에요");
+        temp_comment.add("좀 졸리긴해요");
+        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴", "4", "2018",
+                "교수님이 조금 지루해요. 수업은 잘하세요!", "???", temp_score, temp_comment));
     }
 }
