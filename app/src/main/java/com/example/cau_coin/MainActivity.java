@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
         GetLookup lookupServer = new GetLookup();
         lookupServer.execute();
 
-        //System.out.println("@@@@@@@@@@@@@"+lookupList.get(0));
-
         final Database_AutoLogin database = new Database_AutoLogin(getApplicationContext(), "mydb.db", null, 1);
 
         logout.setOnClickListener(new View.OnClickListener() {
