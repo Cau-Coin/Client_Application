@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         id = getIntent().getExtras().getString("id");
         name = getIntent().getExtras().getString("name");
         major = getIntent().getExtras().getString("major");
+        String fromwhere = getIntent().getExtras().getString("from");
 
         TextView userName = (TextView) findViewById(R.id.main_userName);
         TextView userID = (TextView) findViewById(R.id.main_userID);
@@ -302,7 +303,38 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyAdapter(myList, this);
         recyclerView.setAdapter(adapter);
 
-        setMainPage5();
+        if(fromwhere.equals("detail")){
+            filter_dept = (ArrayList<String>) getIntent().getSerializableExtra("filter_dept");
+            filter_grade = (ArrayList<String>) getIntent().getSerializableExtra("filter_grade");
+            filter_semester = (ArrayList<String>) getIntent().getSerializableExtra("filter_semester");
+            num_Filter = getIntent().getExtras().getInt("num_Filter");
+
+            if(num_Filter==0){
+                setMainPage5();
+            }
+            else if(num_Filter==-1){
+                myList2.clear();
+                myList2.add(new RecycleItem3("전체글보기"));
+                adapter2.notifyDataSetChanged();
+
+                filter_semester.clear();
+                filter_grade.clear();
+                filter_dept.clear();
+
+                myList.clear();
+                for (int i = 0; i < dataList.size(); i++) {
+                    myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
+                            dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                }
+                checkLookup();
+            }
+            else{
+                setMainPageF();
+            }
+        }
+        else{
+            setMainPage5();
+        }
 
     }
 
@@ -344,6 +376,55 @@ public class MainActivity extends AppCompatActivity {
         myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore()));
         myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore()));
         myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore()));
+        checkLookup();
+    }
+
+    // 이전에 필터가 적용된 상태에서 상세 보기를 하고 왔을 때, 다시 필터를 적용시켜 준다.
+    public void setMainPageF(){
+        myList2.clear();
+        for(int i=0;i<filter_dept.size();i++){
+            myList2.add(new RecycleItem3(filter_dept.get(i)));
+        }
+        for(int i=0;i<filter_grade.size();i++){
+            myList2.add(new RecycleItem3(filter_grade.get(i)+"학년"));
+        }
+        for(int i=0;i<filter_semester.size();i++){
+            myList2.add(new RecycleItem3(filter_semester.get(i)+"학기"));
+        }
+        adapter2.notifyDataSetChanged();
+
+        myList.clear();
+        int check;
+        for (int i = 0; i < dataList.size(); i++) {
+            check = 0;
+            for (int a = 0; a < filter_dept.size(); a++) {
+                if (dataList.get(i).getDept().contains(filter_dept.get(a)))
+                    check = 1;
+            }
+            if (filter_dept.size() == 0) check = 1;
+            if (check == 1) {
+                check = 0;
+                for (int b = 0; b < filter_grade.size(); b++) {
+                    if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
+                        check = 1;
+                }
+                if (filter_grade.size() == 0) check = 1;
+
+                if (check == 1) {
+                    check = 0;
+                    for (int c = 0; c < filter_semester.size(); c++) {
+                        if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
+                            check = 1;
+                    }
+                    if (filter_semester.size() == 0) check = 1;
+
+                    if (check == 1) {
+                        myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
+                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                    }
+                }
+            }
+        }
         checkLookup();
     }
 
@@ -418,6 +499,10 @@ public class MainActivity extends AppCompatActivity {
                         a.putExtra("major", major);
                         a.putExtra("id", id);
                         a.putExtra("evaluateId", mItems.get(position).evaluateId);
+                        a.putExtra("filter_dept",filter_dept);
+                        a.putExtra("filter_grade",filter_grade);
+                        a.putExtra("filter_semester",filter_semester);
+                        a.putExtra("num_Filter",num_Filter);
                         startActivity(a);
                         finish();
                     }

@@ -310,6 +310,7 @@ public class WriteActivity extends Activity {
                     a.putExtra("name",name);
                     a.putExtra("major",major);
                     a.putExtra("id",userid);
+                    a.putExtra("from","write");
                     startActivity(a);
                     finish();
                 }
@@ -408,6 +409,7 @@ public class WriteActivity extends Activity {
                 a.putExtra("name",name);
                 a.putExtra("major",major);
                 a.putExtra("id",userid);
+                a.putExtra("from","write");
                 startActivity(a);
                 finish();
             }

@@ -36,6 +36,11 @@ public class DetailReviewActivity extends Activity {
     ArrayList<String> temp_score = new ArrayList<String>();
     ArrayList<String> temp_comment = new ArrayList<String>();
 
+    private ArrayList<String> filter_dept;
+    private ArrayList<String> filter_semester;
+    private ArrayList<String> filter_grade;
+    private int num_Filter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,11 @@ public class DetailReviewActivity extends Activity {
         name = getIntent().getExtras().getString("name");
         major = getIntent().getExtras().getString("major");
         evaluateId = getIntent().getExtras().getString("evaluateId");
+
+        filter_dept = (ArrayList<String>) getIntent().getSerializableExtra("filter_dept");
+        filter_grade = (ArrayList<String>) getIntent().getSerializableExtra("filter_grade");
+        filter_semester = (ArrayList<String>) getIntent().getSerializableExtra("filter_semester");
+        num_Filter = getIntent().getExtras().getInt("num_Filter");
 
         TextView myGrade = (TextView) findViewById(R.id.detail_grade);
         TextView mySemester = (TextView) findViewById(R.id.detail_semester);
@@ -191,6 +201,11 @@ public class DetailReviewActivity extends Activity {
                 a.putExtra("name", name);
                 a.putExtra("major", major);
                 a.putExtra("id", id);
+                a.putExtra("from","detail");
+                a.putExtra("filter_dept",filter_dept);
+                a.putExtra("filter_grade",filter_grade);
+                a.putExtra("filter_semester",filter_semester);
+                a.putExtra("num_Filter",num_Filter);
                 startActivity(a);
                 finish();
             }
