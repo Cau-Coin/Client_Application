@@ -37,6 +37,9 @@ public class LoginActivity extends Activity {
     private TextView id_error;
     private TextView pwd_error;
 
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
     private String[] datas;
 
     Runnable runnable = new Runnable() {
@@ -208,25 +211,14 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onBackPressed(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
 
-        builder.setTitle("※ Cau Coin 종료");
-        builder.setMessage("정말로 앱을 종료하시겠어요?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            super.onBackPressed();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "종료하려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
+        }
     }
 }

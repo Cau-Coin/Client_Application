@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private String name;
     private String major;
 
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
@@ -303,16 +306,15 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyAdapter(myList, this);
         recyclerView.setAdapter(adapter);
 
-        if(fromwhere.equals("detail")){
+        if (fromwhere.equals("detail")) {
             filter_dept = (ArrayList<String>) getIntent().getSerializableExtra("filter_dept");
             filter_grade = (ArrayList<String>) getIntent().getSerializableExtra("filter_grade");
             filter_semester = (ArrayList<String>) getIntent().getSerializableExtra("filter_semester");
             num_Filter = getIntent().getExtras().getInt("num_Filter");
 
-            if(num_Filter==0){
+            if (num_Filter == 0) {
                 setMainPage5();
-            }
-            else if(num_Filter==-1){
+            } else if (num_Filter == -1) {
                 myList2.clear();
                 myList2.add(new RecycleItem3("전체글보기"));
                 adapter2.notifyDataSetChanged();
@@ -327,12 +329,10 @@ public class MainActivity extends AppCompatActivity {
                             dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
                 }
                 checkLookup();
-            }
-            else{
+            } else {
                 setMainPageF();
             }
-        }
-        else{
+        } else {
             setMainPage5();
         }
 
@@ -380,16 +380,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 이전에 필터가 적용된 상태에서 상세 보기를 하고 왔을 때, 다시 필터를 적용시켜 준다.
-    public void setMainPageF(){
+    public void setMainPageF() {
         myList2.clear();
-        for(int i=0;i<filter_dept.size();i++){
+        for (int i = 0; i < filter_dept.size(); i++) {
             myList2.add(new RecycleItem3(filter_dept.get(i)));
         }
-        for(int i=0;i<filter_grade.size();i++){
-            myList2.add(new RecycleItem3(filter_grade.get(i)+"학년"));
+        for (int i = 0; i < filter_grade.size(); i++) {
+            myList2.add(new RecycleItem3(filter_grade.get(i) + "학년"));
         }
-        for(int i=0;i<filter_semester.size();i++){
-            myList2.add(new RecycleItem3(filter_semester.get(i)+"학기"));
+        for (int i = 0; i < filter_semester.size(); i++) {
+            myList2.add(new RecycleItem3(filter_semester.get(i) + "학기"));
         }
         adapter2.notifyDataSetChanged();
 
@@ -429,9 +429,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 이미 조회한 이력이 있는지 체크하고 myList의 상태를 변경해주는 함수
-    public void checkLookup(){
+    public void checkLookup() {
         for (int a = 0; a < myList.size(); a++) {
-            for(int b=0;b<lookupList.size();b++){
+            for (int b = 0; b < lookupList.size(); b++) {
                 if (myList.get(a).getEvaluateId().equals(lookupList.get(b))) {
                     myList.get(a).setLookup(true);
                 }
@@ -464,8 +464,8 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (mItems.get(position).getLookup()) {
                 ((ViewHolder) holder).cardview_text.setBackgroundColor(0xaaaaaaaa);
-                ((ViewHolder) holder).cardview_text.setText("※ 이미 조회한 정보입니다 - 평점 : "+mItems.get(position).getScore()+"\n\n※ " + mItems.get(position).getDept() + ", " +
-                        mItems.get(position).getTakeYear() + "년 수강자\n" +mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+                ((ViewHolder) holder).cardview_text.setText("※ 이미 조회한 정보입니다 - 평점 : " + mItems.get(position).getScore() + "\n\n※ " + mItems.get(position).getDept() + ", " +
+                        mItems.get(position).getTakeYear() + "년 수강자\n" + mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
             } else {
                 ((ViewHolder) holder).cardview_text.setBackgroundColor(0xeeeeeeee);
                 ((ViewHolder) holder).cardview_text.setText("※ " + mItems.get(position).getDept() + ", " + mItems.get(position).getTakeYear() + "년 수강자\n" +
@@ -490,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         int position = getPosition();
                         // 코인을 사용하는 것에 대한 트랜잭션을 전송해야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                        if(!mItems.get(position).getLookup()){  // 처음 열람한 경우
+                        if (!mItems.get(position).getLookup()) {  // 처음 열람한 경우
                             WriteLookup temp = new WriteLookup();
                             temp.execute(mItems.get(position).getEvaluateId());
                         }
@@ -499,10 +499,10 @@ public class MainActivity extends AppCompatActivity {
                         a.putExtra("major", major);
                         a.putExtra("id", id);
                         a.putExtra("evaluateId", mItems.get(position).evaluateId);
-                        a.putExtra("filter_dept",filter_dept);
-                        a.putExtra("filter_grade",filter_grade);
-                        a.putExtra("filter_semester",filter_semester);
-                        a.putExtra("num_Filter",num_Filter);
+                        a.putExtra("filter_dept", filter_dept);
+                        a.putExtra("filter_grade", filter_grade);
+                        a.putExtra("filter_semester", filter_semester);
+                        a.putExtra("num_Filter", num_Filter);
                         startActivity(a);
                         finish();
                     }
@@ -735,30 +735,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
 
-        builder.setTitle("※ Cau Coin 종료");
-        builder.setMessage("정말로 앱을 종료하시겠어요?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            super.onBackPressed();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "종료하려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    public void setData(){
+    public void setData() {
         temp_score.add("5");
         temp_score.add("3");
         temp_score.add("2");

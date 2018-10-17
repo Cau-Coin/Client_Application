@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="major">
+        <item></item>
         <item>소프트웨어학부</item>
         <item>융합공학부</item>
         <item>전자전기공학부</item>
