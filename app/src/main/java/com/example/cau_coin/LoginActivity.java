@@ -8,9 +8,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -33,6 +34,8 @@ public class LoginActivity extends Activity {
     private EditText input_pwd;
     private CheckBox checkBox;
     private Database_AutoLogin database;
+    private TextView id_error;
+    private TextView pwd_error;
 
     private String[] datas;
 
@@ -57,9 +60,11 @@ public class LoginActivity extends Activity {
 
         input_id = (EditText)findViewById(R.id.login_id);
         input_pwd = (EditText)findViewById(R.id.login_pwd);
-        Button signin = (Button)findViewById(R.id.login_signin);
-        Button signup = (Button)findViewById(R.id.login_signup);
+        ImageView signin = (ImageView)findViewById(R.id.login_signin);
+        TextView signup = (TextView)findViewById(R.id.login_signup);
         checkBox = (CheckBox)findViewById(R.id.login_checkbox);
+        id_error = (TextView)findViewById(R.id.login_iderror);
+        pwd_error = (TextView)findViewById(R.id.login_pwderror);
 
         database = new Database_AutoLogin(getApplicationContext(),"mydb.db",null,1);
 
@@ -78,6 +83,8 @@ public class LoginActivity extends Activity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id_error.setVisibility(View.INVISIBLE);
+                pwd_error.setVisibility(View.INVISIBLE);
                 GetAccount temp = new GetAccount();
                 temp.execute(input_id.getText().toString());
             }
@@ -86,6 +93,8 @@ public class LoginActivity extends Activity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id_error.setVisibility(View.INVISIBLE);
+                pwd_error.setVisibility(View.INVISIBLE);
                 Intent a = new Intent(LoginActivity.this,SignupActivity.class);
                 startActivity(a);
                 finish();
@@ -149,7 +158,8 @@ public class LoginActivity extends Activity {
 
                     if(jsonArray.length() ==0) {
                         hasID = false; // Login fail.
-                        Toast.makeText(getApplicationContext(), "존재하지 않는 아이디입니다", Toast.LENGTH_SHORT).show();
+                        id_error.setVisibility(View.VISIBLE);
+                        pwd_error.setVisibility(View.INVISIBLE);
                     }
                     else
                     {
@@ -171,8 +181,8 @@ public class LoginActivity extends Activity {
                                     if(checkBox.isChecked()){
                                         database.insertData(idFromServer,pwdFromServer,nameFromServer,majorFromServer);
                                     }
-
-                                    Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다", Toast.LENGTH_SHORT).show();
+                                    id_error.setVisibility(View.INVISIBLE);
+                                    pwd_error.setVisibility(View.INVISIBLE);
                                     Intent a = new Intent(LoginActivity.this,MainActivity.class);
                                     a.putExtra("name",nameFromServer);
                                     a.putExtra("major",majorFromServer);
@@ -182,7 +192,8 @@ public class LoginActivity extends Activity {
                                     finish();
                                 }
                                 else{
-                                    Toast.makeText(LoginActivity.this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                                    id_error.setVisibility(View.INVISIBLE);
+                                    pwd_error.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
