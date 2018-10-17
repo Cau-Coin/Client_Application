@@ -8,6 +8,8 @@ public class RecycleItem {
     String takeYear;
     String evaluateId;
     String score;
+    String evaluate;
+    String review;
     boolean lookup;
 
     public String getSubject() {
@@ -46,7 +48,15 @@ public class RecycleItem {
         return score;
     }
 
-    public RecycleItem(String dept, String grade, String semester, String subject, String takeYear, String evaluateId, String score) {
+    public String getEvaluate(){
+        return evaluate;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public RecycleItem(String dept, String grade, String semester, String subject, String takeYear, String evaluateId, String score,String evaluate, String review) {
         this.dept = dept;
         this.subject = subject;
         this.grade = grade;
@@ -54,6 +64,8 @@ public class RecycleItem {
         this.takeYear = takeYear;
         this.evaluateId = evaluateId;
         this.score = score;
+        this.evaluate=evaluate;
+        this.review=review;
         this.lookup=false;
     }
 }

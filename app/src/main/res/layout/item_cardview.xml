@@ -7,19 +7,127 @@
         android:layout_height="120dp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/cardview_text"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/signatureColor">
+            <LinearLayout
+                android:id="@+id/cardview_firstlayout"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="5dp"
-                android:paddingLeft="10dp"
-                android:text="text"
-                android:background="#eeeeee"/>
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1.75dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <!-- 좌에 과목명, 우에 시간과 수강년도 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/cardview_subject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16dp"
+                            android:textColor="@color/moredarkColor"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="15dp"
+                            android:text="text"/>
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+                            <TextView
+                                android:id="@+id/cardview_takeyear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginRight="12dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/darkColor"
+                                android:text="text"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+                            <TextView
+                                android:id="@+id/cardview_major"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginRight="12dp"
+                                android:layout_marginTop="2dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/darkColor"
+                                android:text="text"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 학부, 학년, 학기 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+                    <TextView
+                        android:id="@+id/cardview_status_unlook"
+                        android:visibility="visible"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/darkColor"
+                        android:text="미열람 상태이므로 리뷰 내용 확인 불가"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/cardview_status_look1"
+                            android:visibility="invisible"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/darkColor"
+                            android:text="text"/>
+                        <TextView
+                            android:id="@+id/cardview_status_look2"
+                            android:visibility="invisible"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:layout_marginTop="2dp"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/darkColor"
+                            android:text="text"/>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

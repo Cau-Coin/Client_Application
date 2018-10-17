@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".MainActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -121,7 +122,9 @@
                 android:id="@+id/main_recycler2"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="10dp"
                 android:scrollbars="horizontal">
 
             </android.support.v7.widget.RecyclerView>
@@ -170,22 +173,31 @@
                     app:backgroundTint="#ffffff"
                     app:pressedTranslationZ="10dp" />
 
-                <FrameLayout
-                    android:id="@+id/main_frame1"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/main_recycler"
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:scrollbars="vertical">
+                        android:layout_height="3dp"
+                        android:background="@color/signatureColor"/>
+                    <FrameLayout
+                        android:id="@+id/main_frame1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/main_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1.75dp"
+                            android:scrollbars="vertical">
 
-                    </android.support.v7.widget.RecyclerView>
-                </FrameLayout>
+                        </android.support.v7.widget.RecyclerView>
+                    </FrameLayout>
+                </RelativeLayout>
 
             </android.support.design.widget.CoordinatorLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

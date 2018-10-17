@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             myList.clear();
                             for (int i = 0; i < dataList.size(); i++) {
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
                             }
                             checkLookup();
                         } else {
@@ -271,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 myList.clear();
                 for (int i = 0; i < dataList.size(); i++) {
                     myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                            dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                            dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
                 }
                 checkLookup();
             } else {
@@ -324,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
                                     check2 = 1;
                                 }
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
                                 if (num_Filter <= 0) {
                                     myList2.clear();
                                     adapter2.notifyDataSetChanged();
@@ -395,11 +398,11 @@ public class MainActivity extends AppCompatActivity {
                 data5 = dataList.get(i);
             }
         }
-        myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore()));
-        myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore()));
-        myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore()));
-        myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore()));
-        myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore()));
+        myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(),data1.getEvaluate(),data1.getReview()));
+        myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(),data2.getEvaluate(),data2.getReview()));
+        myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(),data3.getEvaluate(),data3.getReview()));
+        myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore(),data4.getEvaluate(),data4.getReview()));
+        myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore(),data5.getEvaluate(),data5.getReview()));
         checkLookup();
 
         myList2.clear();
@@ -448,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (check == 1) {
                         myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
                     }
                 }
             }
@@ -491,14 +494,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (mItems.get(position).getLookup()) {
-                ((ViewHolder) holder).cardview_text.setBackgroundColor(0xaaaaaaaa);
-                ((ViewHolder) holder).cardview_text.setText("※ 이미 조회한 정보입니다 - 평점 : " + mItems.get(position).getScore() + "\n\n※ " + mItems.get(position).getDept() + ", " +
-                        mItems.get(position).getTakeYear() + "년 수강자\n" + mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+                ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffefefef);
+
+                ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.INVISIBLE);
+                ((ViewHolder) holder).cardview_status_look1.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).cardview_status_look2.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).cardview_status_look1.setText("[ 수강자 평점 : "+mItems.get(position).getEvaluate()+", 평가 평점 : "+mItems.get(position).getScore()+" ]");
+                ((ViewHolder) holder).cardview_status_look2.setText(mItems.get(position).getReview());
             } else {
-                ((ViewHolder) holder).cardview_text.setBackgroundColor(0xeeeeeeee);
-                ((ViewHolder) holder).cardview_text.setText("※ " + mItems.get(position).getDept() + ", " + mItems.get(position).getTakeYear() + "년 수강자\n" +
-                        mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+                ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffffffff);
+                ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).cardview_status_look1.setVisibility(View.INVISIBLE);
+                ((ViewHolder) holder).cardview_status_look2.setVisibility(View.INVISIBLE);
+                ((ViewHolder) holder).cardview_status_unlook.setText("미열람 상태이므로 리뷰 내용 확인 불가");
             }
+
+            String[] sub = mItems.get(position).getSubject().split("-");
+            ((ViewHolder) holder).cardview_subject.setText(sub[0] + " : "+sub[1]);
+
+            ((ViewHolder) holder).cardview_takeyear.setText(mItems.get(position).getTakeYear()+" "+mItems.get(position).getSemester()+"학기 수강자");
+            ((ViewHolder) holder).cardview_major.setText(mItems.get(position).getDept()+" "+mItems.get(position).getGrade()+"학년 "+mItems.get(position).getSemester()+"학기");
         }
 
         @Override
@@ -507,11 +522,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView cardview_text;
+            public LinearLayout firstLayout;
+            public TextView cardview_status_unlook;
+            public TextView cardview_status_look1;
+            public TextView cardview_status_look2;
+            public TextView cardview_takeyear;
+            public TextView cardview_subject;
+            public TextView cardview_major;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                cardview_text = (TextView) itemView.findViewById(R.id.cardview_text);
+                cardview_status_unlook = (TextView) itemView.findViewById(R.id.cardview_status_unlook);
+                cardview_status_look1 = (TextView) itemView.findViewById(R.id.cardview_status_look1);
+                cardview_status_look2 = (TextView) itemView.findViewById(R.id.cardview_status_look2);
+                cardview_takeyear = (TextView)itemView.findViewById(R.id.cardview_takeyear);
+                cardview_subject = (TextView)itemView.findViewById(R.id.cardview_subject);
+                cardview_major = (TextView)itemView.findViewById(R.id.cardview_major);
+                firstLayout = (LinearLayout)itemView.findViewById(R.id.cardview_firstlayout);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -741,14 +768,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // 받아온 데이터에선 학년,학기가 "1학기" "1학년" 식으로 들어감. 따라서 이거 빼고 숫자만 넣는 과정 있어야함.
     public void setData() {
         temp_score.add("5");
         temp_score.add("3");
         temp_score.add("2");
         temp_comment.add("교수님 좋아요!");
         temp_comment.add("교수님이 너무 좋은거 동감이에요!");
-        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학", "4", "2017",
-                "교수님이 좋았어요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
+                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -757,8 +785,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("인정... 영어 그자체");
         temp_comment.add("교수님이 너무 야해요");
-        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계", "4", "2018",
-                "교수님 영어실력은 감탄 그자체", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계 - 백정엽", "4", "2017년",
+                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -766,8 +794,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("4");
         temp_score.add("3");
         temp_comment.add("교수님은 좋아요");
-        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러", "4", "2017",
-                "교수님이 수업을 잘 안하심", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러 - 김중헌", "4", "2017년",
+                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -776,8 +804,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("수업이 너무 지루해요");
         temp_comment.add("교수님 진짜 별로임");
-        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학", "1", "2018",
-                "교수님 진짜 별로에요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학 - 김상욱", "1", "2015년",
+                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -786,8 +814,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("교수님 강의력은 정말 최고");
         temp_comment.add("시험문제가 진짜 어렵긴 함..");
-        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조", "3", "2016",
-                "시험이 너무 어려워요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조 - 백정엽", "3", "2016년",
+                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -796,8 +824,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("5");
         temp_comment.add("수업시간에 졸수가 없어요...");
         temp_comment.add("논리회로에서 컴공을 포기하게 되었어요ㅠ");
-        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로", "5", "2015",
-                "조성래교수님 사랑해요!", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "5", "2015년",
+                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -806,7 +834,7 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("교수님 강의력만은 정말 최고에요");
         temp_comment.add("좀 졸리긴해요");
-        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴", "4", "2018",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
+                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment));
     }
 }
