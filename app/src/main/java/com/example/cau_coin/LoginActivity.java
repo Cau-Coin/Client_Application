@@ -44,6 +44,7 @@ public class LoginActivity extends Activity {
             a.putExtra("name",datas[2]);
             a.putExtra("major",datas[3]);
             a.putExtra("id",datas[0]);
+            a.putExtra("from","login");
             startActivity(a);
             finish();
         }
@@ -176,6 +177,7 @@ public class LoginActivity extends Activity {
                                     a.putExtra("name",nameFromServer);
                                     a.putExtra("major",majorFromServer);
                                     a.putExtra("id",idFromServer);
+                                    a.putExtra("from","login");
                                     startActivity(a);
                                     finish();
                                 }

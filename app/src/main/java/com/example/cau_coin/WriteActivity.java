@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -290,19 +301,98 @@ public class WriteActivity extends Activity {
                 }
                 else{
                     database.insertData_Evaluate(userid,select_subject);
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String currentDateTime = dateFormat.format(new Date());
+
+                    SendData sendData = new SendData();
+                    sendData.execute(input_review.getText().toString());
 
                     Toast.makeText(getApplicationContext(), "평가가 등록되었습니다", Toast.LENGTH_SHORT).show();
                     Intent a = new Intent(WriteActivity.this, MainActivity.class);
                     a.putExtra("name",name);
                     a.putExtra("major",major);
                     a.putExtra("id",userid);
+                    a.putExtra("from","write");
                     startActivity(a);
                     finish();
                 }
             }
         });
+    }
+
+    public class SendData extends AsyncTask<String,Void,String> {
+
+        public String doInBackground(String ...params)
+        {
+            try{
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateTime = dateFormat.format(new Date());
+
+                JSONObject myJsonObject = new JSONObject();
+                String review = params[0];
+
+                try {
+                    myJsonObject.put("userid",userid);
+                    myJsonObject.put("dept",major);
+                    myJsonObject.put("grade",select_grade);
+                    myJsonObject.put("semester",select_semester);
+                    myJsonObject.put("subject",select_subject);
+                    myJsonObject.put("evaluate",select_evaluate);
+                    myJsonObject.put("takeyear",select_year);
+                    myJsonObject.put("review",review);
+                    myJsonObject.put("timestamp",currentDateTime);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = "http://115.68.207.101:4444/write_transaction";
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                while((line = reader.readLine())!=null)
+                {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            }catch(Exception e){
+
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if(s!= null) {
+
+            }
+
+        }
     }
 
     @Override
@@ -319,6 +409,7 @@ public class WriteActivity extends Activity {
                 a.putExtra("name",name);
                 a.putExtra("major",major);
                 a.putExtra("id",userid);
+                a.putExtra("from","write");
                 startActivity(a);
                 finish();
             }
