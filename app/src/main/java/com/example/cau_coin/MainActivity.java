@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -57,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> lookupList = new ArrayList<String>();
 
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen=false;
+    private FloatingActionButton fab, fab1, fab2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,20 +73,18 @@ public class MainActivity extends AppCompatActivity {
         name = getIntent().getExtras().getString("name");
         major = getIntent().getExtras().getString("major");
         String fromwhere = getIntent().getExtras().getString("from");
-
-        TextView userName = (TextView) findViewById(R.id.main_userName);
-        TextView userID = (TextView) findViewById(R.id.main_userID);
-        TextView userMajor = (TextView) findViewById(R.id.main_userMajor);
+        
         final EditText inputSearch = (EditText) findViewById(R.id.main_inputsearch);
 
-        Button write = (Button) findViewById(R.id.main_write);
         Button search = (Button) findViewById(R.id.main_search);
-        Button logout = (Button) findViewById(R.id.main_logout);
-        Button filter = (Button) findViewById(R.id.main_filter);
+        TextView logout = (TextView) findViewById(R.id.main_signout);
+        TextView filter = (TextView) findViewById(R.id.main_filter);
 
-        userName.setText(name);
-        userID.setText(id);
-        userMajor.setText(major);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        fab1 = (FloatingActionButton) findViewById(R.id.main_fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.main_fab2);
 
         // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         setData();
@@ -288,7 +293,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        write.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
+            }
+        });
+
+        fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent a = new Intent(MainActivity.this, WriteActivity.class);
@@ -297,6 +309,14 @@ public class MainActivity extends AppCompatActivity {
                 a.putExtra("id", id);
                 startActivity(a);
                 finish();
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
+                Toast.makeText(getApplicationContext(), "Button2", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -336,6 +356,24 @@ public class MainActivity extends AppCompatActivity {
             setMainPage5();
         }
 
+    }
+
+    public void anim(){
+        if (isFabOpen) {
+            fab.setImageResource(R.drawable.plusimg);
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fab.setImageResource(R.drawable.ximg2);
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+        }
     }
 
     // score가 가장 높은 5개 뽑아서 페이지 구성 (인기 게시글)

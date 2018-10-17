@@ -5,70 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
+        <!-- 상단바 구역, 여기는 높이 고정(비율로 하지 않음) -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="65dp"
+            android:background="@color/signatureColor"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/main_userName"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textAlignment="center"
-                android:text="이름"/>
-            <TextView
-                android:id="@+id/main_userID"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="학번"
-                android:textAlignment="center"
-                android:textSize="15dp"/>
-            <TextView
-                android:id="@+id/main_userMajor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="전공"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:text="@string/app_name"
+                android:textSize="30dp"
+                android:textColor="@color/normalColor"
+                android:fontFamily="@font/nanumsquareroundeb"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:textStyle="bold"/>
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
             <TextView
+                android:id="@+id/main_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter"
+                android:textStyle="bold"
+                android:textColor="@color/normalColor"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:textSize="17dp"/>
+            <TextView
+                android:id="@+id/main_signout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign-out"
+                android:textStyle="bold"
+                android:textColor="@color/normalColor"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:textSize="17dp"/>
+
+        </LinearLayout>
+
+        <!-- 잔여 코인, 글쓰기 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
                 android:id="@+id/main_mycoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="잔여 코인"/>
-            <Button
-                android:id="@+id/main_write"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="글쓰기"
-                android:textSize="13dp"/>
-            <Button
-                android:id="@+id/main_logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="로그아웃"
-                android:textSize="13dp"/>
+                android:text="잔여 코인"
+                android:textSize="15dp" />
         </LinearLayout>
 
+        <!-- 검색 버튼 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,27 +83,22 @@
                 android:id="@+id/main_inputsearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
                 android:layout_weight="7"
                 android:hint="수업명으로 강의평을 검색하세요!"
                 android:inputType="text"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
             <Button
                 android:id="@+id/main_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:text="검색"
-                android:textSize="13dp"/>
-            <Button
-                android:id="@+id/main_filter"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="필터"
-                android:textSize="13dp"/>
+                android:textSize="13dp" />
         </LinearLayout>
 
+        <!-- 리사이클러 뷰, 플로팅 액션 버튼 파트 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -114,16 +113,66 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_recycler"
+            <android.support.design.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:scrollbars="vertical">
+                android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
+                <!-- 플로팅액션버튼, 우측 하단의 글쓰기 버튼! 플러스랑 엑스 이미지는 50px로 다운함 -->
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:backgroundTint="@color/signatureColor"
+                    android:backgroundTintMode="multiply"
+                    android:src="@drawable/plusimg"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_anchor="@id/main_frame1"
+                    app:layout_anchorGravity="right|bottom"/>
+
+                <!-- fab1, fab2 는 fab를 클릭했을 때 위로 올라오는 버튼들. 최초에 invisible로 정의한다. 이미지는 25px로 다운함 -->
+                <!--backgroundTint : 버튼 색 변경 / src : 버튼에 아이콘 넣을 때 사용 / pressedTranslationz : 클릭 시 그림자 범위 /elevation : 바닥부터 버튼까지의 높이-->
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_fab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:src="@drawable/pencilimg"
+                    android:visibility="invisible"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="87dp"
+                    app:backgroundTint="#ffffff"
+                    app:pressedTranslationZ="10dp" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_fab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:src="@drawable/personimg"
+                    android:visibility="invisible"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="148dp"
+                    app:backgroundTint="#ffffff"
+                    app:pressedTranslationZ="10dp" />
+
+                <FrameLayout
+                    android:id="@+id/main_frame1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/main_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:scrollbars="vertical">
+
+                    </android.support.v7.widget.RecyclerView>
+                </FrameLayout>
+
+            </android.support.design.widget.CoordinatorLayout>
+
         </LinearLayout>
-
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

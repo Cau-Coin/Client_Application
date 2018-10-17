@@ -190,7 +190,7 @@ public class SignupActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("※회원가입 취소");
-        builder.setMessage("작성중이던 내용은 저장되지 않습니다. 취소하시겠어요?");
+        builder.setMessage("작성하던 내용은 저장되지 않습니다. 취소하시겠어요?");
         builder.setCancelable(false);
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override

@@ -80,7 +80,7 @@ public class LoginActivity extends Activity {
             input_pwd.setText(datas[1]);
             checkBox.setChecked(true);
 
-            handler.postDelayed(runnable,700);
+            handler.postDelayed(runnable,1000);
         }
 
         signin.setOnClickListener(new View.OnClickListener() {
