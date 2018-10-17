@@ -100,6 +100,7 @@ public class DetailReviewActivity extends Activity {
 
         final Database_Evaluate database = new Database_Evaluate(getApplicationContext(), "evaldb.db", null, 1);
 
+
         giveScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,36 +190,18 @@ public class DetailReviewActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("※ 상세 보기 종료");
-        builder.setMessage("메인 화면으로 돌아가시겠어요?\n다시 보려면 코인을 지불해야 합니다.\n(단, 평점은 확인할 수 있습니다)");
-        builder.setCancelable(false);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent a = new Intent(DetailReviewActivity.this, MainActivity.class);
-                a.putExtra("name", name);
-                a.putExtra("major", major);
-                a.putExtra("id", id);
-                a.putExtra("from","detail");
-                a.putExtra("filter_dept",filter_dept);
-                a.putExtra("filter_grade",filter_grade);
-                a.putExtra("filter_semester",filter_semester);
-                a.putExtra("num_Filter",num_Filter);
-                startActivity(a);
-                finish();
-            }
-        });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        Intent a = new Intent(DetailReviewActivity.this, MainActivity.class);
+        a.putExtra("name", name);
+        a.putExtra("major", major);
+        a.putExtra("id", id);
+        a.putExtra("from","detail");
+        a.putExtra("filter_dept",filter_dept);
+        a.putExtra("filter_grade",filter_grade);
+        a.putExtra("filter_semester",filter_semester);
+        a.putExtra("num_Filter",num_Filter);
+        startActivity(a);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

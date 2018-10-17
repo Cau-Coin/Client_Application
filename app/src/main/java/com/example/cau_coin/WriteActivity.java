@@ -340,7 +340,6 @@ public class WriteActivity extends Activity {
                     myJsonObject.put("takeyear",select_year);
                     myJsonObject.put("review",review);
                     myJsonObject.put("timestamp",currentDateTime);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -388,10 +387,6 @@ public class WriteActivity extends Activity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
-            if(s!= null) {
-
-            }
 
         }
     }
