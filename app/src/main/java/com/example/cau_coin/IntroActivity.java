@@ -24,7 +24,7 @@ public class IntroActivity extends Activity {
         setContentView(R.layout.activity_intro);
         init();
 
-        handler.postDelayed(runnable,2000);
+        handler.postDelayed(runnable,1000);
     }
 
     public void init(){
@@ -33,8 +33,7 @@ public class IntroActivity extends Activity {
 
     @Override
     public void onBackPressed(){
-        super.onBackPressed();
-        handler.removeCallbacks(runnable);
+        ;
     }
 
 }

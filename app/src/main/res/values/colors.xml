@@ -3,4 +3,17 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!--- Login 화면에서 EditText의 밑줄 색. normalColor는 평소 색, cursorColor는 눌렀을 때 색, redColor는 경고 표시용 빨간색 -->
+    <color name="cursorColor">#EEEEEE</color>
+    <color name="normalColor">#DEDEDE</color>
+    <color name="redColor">#B71C1C</color>
+
+    <!--- 어플 메인 색상. 로그인 배경부터 적용된다 -->
+    <color name="signatureColor">#045473</color>
+    <color name="signatureColorLight">#3787a6</color>
+
+    <!-- 기타 색상들 -->
+    <color name="darkColor">#898989</color>
+    <color name="moredarkColor">#343434</color>
 </resources>

@@ -330,6 +330,7 @@ public class WriteActivity extends Activity {
                 String review = params[0];
 
                 try {
+                    myJsonObject.put("type","evaluate");
                     myJsonObject.put("userid",userid);
                     myJsonObject.put("dept",major);
                     myJsonObject.put("grade",select_grade);

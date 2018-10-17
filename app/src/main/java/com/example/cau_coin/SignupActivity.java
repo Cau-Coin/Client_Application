@@ -1,5 +1,6 @@
 package com.example.cau_coin;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,9 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class SignupActivity extends Activity {
+    TextView error;
     private String selected_major;
     private int check;
 
@@ -38,15 +40,22 @@ public class SignupActivity extends Activity {
         final EditText input_name = (EditText) findViewById(R.id.signup_name);
         final Spinner input_major = (Spinner) findViewById(R.id.signup_major);
 
-        Button signup = (Button) findViewById(R.id.signup_signup);
-        Button goback = (Button) findViewById(R.id.signup_goback);
+        TextView signup = (TextView) findViewById(R.id.signup_signup);
+        TextView goback = (TextView) findViewById(R.id.signup_goback);
+        error = (TextView) findViewById(R.id.signup_error);
 
-        ArrayAdapter majorAdapter = ArrayAdapter.createFromResource(this,  R.array.major, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter majorAdapter = ArrayAdapter.createFromResource(this, R.array.major, android.R.layout.simple_spinner_dropdown_item);
         input_major.setAdapter(majorAdapter);
         input_major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_major = (String) input_major.getItemAtPosition(position);
+                if (position == 0) {
+                    ((TextView) parent.getChildAt(0)).setText("Select your major");
+                }
+                ((TextView) parent.getChildAt(0)).setTextColor(0xFFDEDEDE);
+                ((TextView) parent.getChildAt(0)).setTextSize(14);
             }
 
             @Override
@@ -58,12 +67,19 @@ public class SignupActivity extends Activity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                error.setVisibility(View.INVISIBLE);
                 if (input_id.getText().toString().equals("")) {
-                    Toast.makeText(SignupActivity.this, "학번을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    error.setVisibility(View.VISIBLE);
+                    error.setText("※ Write your student ID");
                 } else if (input_pwd.getText().toString().equals("")) {
-                    Toast.makeText(SignupActivity.this, "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    error.setVisibility(View.VISIBLE);
+                    error.setText("※ Write your own Password");
                 } else if (input_name.getText().toString().equals("")) {
-                    Toast.makeText(SignupActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    error.setVisibility(View.VISIBLE);
+                    error.setText("※ Write your Name");
+                } else if (selected_major.equals("")) {
+                    error.setVisibility(View.VISIBLE);
+                    error.setText("※ Select your Major");
                 } else {
                     SignAccount temp = new SignAccount();
                     temp.execute(input_id.getText().toString(), input_pwd.getText().toString(), input_name.getText().toString(), selected_major);
@@ -116,7 +132,8 @@ public class SignupActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(SignupActivity.this, "이미 존재하는 아이디입니다", Toast.LENGTH_SHORT).show();
+                            error.setVisibility(View.VISIBLE);
+                            error.setText("※ Already registered student ID");
                         }
                     });
 
@@ -173,7 +190,7 @@ public class SignupActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("※회원가입 취소");
-        builder.setMessage("작성중이던 내용은 저장되지 않습니다. 취소하시겠어요?");
+        builder.setMessage("작성하던 내용은 저장되지 않습니다. 취소하시겠어요?");
         builder.setCancelable(false);
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override

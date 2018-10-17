@@ -4,16 +4,25 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     private String id;
     private String name;
     private String major;
+
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
+    private EditText inputSearch;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -54,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> lookupList = new ArrayList<String>();
 
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab, fab1, fab2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,19 +82,17 @@ public class MainActivity extends AppCompatActivity {
         major = getIntent().getExtras().getString("major");
         String fromwhere = getIntent().getExtras().getString("from");
 
-        TextView userName = (TextView) findViewById(R.id.main_userName);
-        TextView userID = (TextView) findViewById(R.id.main_userID);
-        TextView userMajor = (TextView) findViewById(R.id.main_userMajor);
-        final EditText inputSearch = (EditText) findViewById(R.id.main_inputsearch);
+        inputSearch = (EditText) findViewById(R.id.main_inputsearch);
 
-        Button write = (Button) findViewById(R.id.main_write);
-        Button search = (Button) findViewById(R.id.main_search);
-        Button logout = (Button) findViewById(R.id.main_logout);
-        Button filter = (Button) findViewById(R.id.main_filter);
+        ImageView search = (ImageView) findViewById(R.id.main_search);
+        TextView logout = (TextView) findViewById(R.id.main_signout);
+        TextView filter = (TextView) findViewById(R.id.main_filter);
 
-        userName.setText(name);
-        userID.setText(id);
-        userMajor.setText(major);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        fab1 = (FloatingActionButton) findViewById(R.id.main_fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.main_fab2);
 
         // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         setData();
@@ -97,61 +113,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        searching();
+                        break;
+                    default:
+                        return false;
+                }
+                return true;
+            }
+        });
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int check2 = 0;
-                if (inputSearch.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "수업명을 입력해주세요", Toast.LENGTH_SHORT).show();
-                } else {
-                    int check = 0;
-                    for (int i = 0; i < dataList.size(); i++) {
-                        if (dataList.get(i).getSubject().contains(inputSearch.getText().toString())) {
-                            check = 0;
-                            for (int a = 0; a < filter_dept.size(); a++) {
-                                if (dataList.get(i).getDept().contains(filter_dept.get(a)))
-                                    check = 1;
-                            }
-                            if (filter_dept.size() == 0) check = 1;
-                            if (check == 1) {
-                                check = 0;
-                                for (int b = 0; b < filter_grade.size(); b++) {
-                                    if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
-                                        check = 1;
-                                }
-                                if (filter_grade.size() == 0) check = 1;
-
-                                if (check == 1) {
-                                    check = 0;
-                                    for (int c = 0; c < filter_semester.size(); c++) {
-                                        if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
-                                            check = 1;
-                                    }
-                                    if (filter_semester.size() == 0) check = 1;
-
-                                    if (check == 1) {
-                                        if (check2 == 0) {
-                                            myList.clear();
-                                            check2 = 1;
-                                        }
-                                        myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
-                                        if (num_Filter <= 0) {
-                                            myList2.clear();
-                                            adapter2.notifyDataSetChanged();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (check2 == 0) {
-                        Toast.makeText(getApplicationContext(), "해당 단어를 포함하는 과목은 없습니다", Toast.LENGTH_SHORT).show();
-                    } else {
-                        checkLookup();
-                    }
-                }
-
+                searching();
             }
         });
 
@@ -162,10 +141,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView2.setLayoutManager(layoutManager2);
         adapter2 = new MyAdapter2(myList2, this);
         recyclerView2.setAdapter(adapter2);
-
-        myList2.clear();
-        myList2.add(new RecycleItem3("인기게시글"));
-        adapter2.notifyDataSetChanged();
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             myList.clear();
                             for (int i = 0; i < dataList.size(); i++) {
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
                             }
                             checkLookup();
                         } else {
@@ -218,65 +193,26 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (num_Filter <= 0) {
                                         num_Filter = 0;
-                                        myList2.remove(0);
                                     }
                                     if (selectedIndex[0] == 0) {
                                         if (!filter_dept.contains(items2[selectedIndex[1]])) {
                                             filter_dept.add(items2[selectedIndex[1]]);
-                                            myList2.add(new RecycleItem3(items2[selectedIndex[1]]));
-                                            adapter2.notifyDataSetChanged();
                                             num_Filter++;
                                         }
                                     } else if (selectedIndex[0] == 1) {
                                         if (!filter_grade.contains(items5[selectedIndex[1]])) {
-                                            myList2.add(new RecycleItem3(items3[selectedIndex[1]]));
                                             filter_grade.add(items5[selectedIndex[1]]);
-                                            adapter2.notifyDataSetChanged();
                                             num_Filter++;
                                         }
                                     } else {
                                         if (!filter_semester.contains(items5[selectedIndex[1]])) {
-                                            myList2.add(new RecycleItem3(items4[selectedIndex[1]]));
                                             filter_semester.add(items5[selectedIndex[1]]);
-                                            adapter2.notifyDataSetChanged();
                                             num_Filter++;
                                         }
                                     }
                                     inputSearch.setText("");
 
-                                    myList.clear();
-                                    int check = 0;
-                                    for (int i = 0; i < dataList.size(); i++) {
-                                        check = 0;
-                                        for (int a = 0; a < filter_dept.size(); a++) {
-                                            if (dataList.get(i).getDept().contains(filter_dept.get(a)))
-                                                check = 1;
-                                        }
-                                        if (filter_dept.size() == 0) check = 1;
-                                        if (check == 1) {
-                                            check = 0;
-                                            for (int b = 0; b < filter_grade.size(); b++) {
-                                                if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
-                                                    check = 1;
-                                            }
-                                            if (filter_grade.size() == 0) check = 1;
-
-                                            if (check == 1) {
-                                                check = 0;
-                                                for (int c = 0; c < filter_semester.size(); c++) {
-                                                    if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
-                                                        check = 1;
-                                                }
-                                                if (filter_semester.size() == 0) check = 1;
-
-                                                if (check == 1) {
-                                                    myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                                            dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
-                                                }
-                                            }
-                                        }
-                                    }
-                                    checkLookup();
+                                    setMainPageF();
                                 }
                             }).create().show();
                         }
@@ -285,7 +221,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        write.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
+            }
+        });
+
+        fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent a = new Intent(MainActivity.this, WriteActivity.class);
@@ -297,22 +240,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
+                Toast.makeText(getApplicationContext(), "Button2", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MyAdapter(myList, this);
         recyclerView.setAdapter(adapter);
 
-        if(fromwhere.equals("detail")){
+        if (fromwhere.equals("detail")) {
             filter_dept = (ArrayList<String>) getIntent().getSerializableExtra("filter_dept");
             filter_grade = (ArrayList<String>) getIntent().getSerializableExtra("filter_grade");
             filter_semester = (ArrayList<String>) getIntent().getSerializableExtra("filter_semester");
             num_Filter = getIntent().getExtras().getInt("num_Filter");
 
-            if(num_Filter==0){
+            if (num_Filter == 0) {
                 setMainPage5();
-            }
-            else if(num_Filter==-1){
+            } else if (num_Filter == -1) {
                 myList2.clear();
                 myList2.add(new RecycleItem3("전체글보기"));
                 adapter2.notifyDataSetChanged();
@@ -324,18 +274,95 @@ public class MainActivity extends AppCompatActivity {
                 myList.clear();
                 for (int i = 0; i < dataList.size(); i++) {
                     myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                            dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                            dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
                 }
                 checkLookup();
-            }
-            else{
+            } else {
                 setMainPageF();
             }
-        }
-        else{
+        } else {
             setMainPage5();
         }
 
+    }
+
+    // 검색을 진행하는 함수
+    public void searching() {
+        int check2 = 0;
+        if (inputSearch.getText().toString().equals("")) {
+            if (num_Filter > 0) {
+                setMainPageF();
+            } else {
+                setMainPage5();
+            }
+        } else {
+            int check = 0;
+            for (int i = 0; i < dataList.size(); i++) {
+                if (dataList.get(i).getSubject().contains(inputSearch.getText().toString())) {
+                    check = 0;
+                    for (int a = 0; a < filter_dept.size(); a++) {
+                        if (dataList.get(i).getDept().contains(filter_dept.get(a)))
+                            check = 1;
+                    }
+                    if (filter_dept.size() == 0) check = 1;
+                    if (check == 1) {
+                        check = 0;
+                        for (int b = 0; b < filter_grade.size(); b++) {
+                            if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
+                                check = 1;
+                        }
+                        if (filter_grade.size() == 0) check = 1;
+
+                        if (check == 1) {
+                            check = 0;
+                            for (int c = 0; c < filter_semester.size(); c++) {
+                                if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
+                                    check = 1;
+                            }
+                            if (filter_semester.size() == 0) check = 1;
+
+                            if (check == 1) {
+                                if (check2 == 0) {
+                                    myList.clear();
+                                    check2 = 1;
+                                }
+                                myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
+                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
+                                if (num_Filter <= 0) {
+                                    myList2.clear();
+                                    adapter2.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (check2 == 0) {
+                Toast.makeText(getApplicationContext(), "해당 단어를 포함하는 과목은 없습니다", Toast.LENGTH_SHORT).show();
+            } else {
+                checkLookup();
+            }
+        }
+
+    }
+
+    // Floating Action Button 의 애니메이션 처리 함수
+    public void anim() {
+        if (isFabOpen) {
+            fab.setImageResource(R.drawable.plusimg);
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fab.setImageResource(R.drawable.ximg2);
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+        }
     }
 
     // score가 가장 높은 5개 뽑아서 페이지 구성 (인기 게시글)
@@ -371,25 +398,29 @@ public class MainActivity extends AppCompatActivity {
                 data5 = dataList.get(i);
             }
         }
-        myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore()));
-        myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore()));
-        myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore()));
-        myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore()));
-        myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore()));
+        myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(),data1.getEvaluate(),data1.getReview()));
+        myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(),data2.getEvaluate(),data2.getReview()));
+        myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(),data3.getEvaluate(),data3.getReview()));
+        myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore(),data4.getEvaluate(),data4.getReview()));
+        myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore(),data5.getEvaluate(),data5.getReview()));
         checkLookup();
+
+        myList2.clear();
+        myList2.add(new RecycleItem3("인기게시글"));
+        adapter2.notifyDataSetChanged();
     }
 
     // 이전에 필터가 적용된 상태에서 상세 보기를 하고 왔을 때, 다시 필터를 적용시켜 준다.
-    public void setMainPageF(){
+    public void setMainPageF() {
         myList2.clear();
-        for(int i=0;i<filter_dept.size();i++){
+        for (int i = 0; i < filter_dept.size(); i++) {
             myList2.add(new RecycleItem3(filter_dept.get(i)));
         }
-        for(int i=0;i<filter_grade.size();i++){
-            myList2.add(new RecycleItem3(filter_grade.get(i)+"학년"));
+        for (int i = 0; i < filter_grade.size(); i++) {
+            myList2.add(new RecycleItem3(filter_grade.get(i) + "학년"));
         }
-        for(int i=0;i<filter_semester.size();i++){
-            myList2.add(new RecycleItem3(filter_semester.get(i)+"학기"));
+        for (int i = 0; i < filter_semester.size(); i++) {
+            myList2.add(new RecycleItem3(filter_semester.get(i) + "학기"));
         }
         adapter2.notifyDataSetChanged();
 
@@ -420,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (check == 1) {
                         myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
+                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(),dataList.get(i).getEvaluate(),dataList.get(i).getReview()));
                     }
                 }
             }
@@ -429,9 +460,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 이미 조회한 이력이 있는지 체크하고 myList의 상태를 변경해주는 함수
-    public void checkLookup(){
+    public void checkLookup() {
         for (int a = 0; a < myList.size(); a++) {
-            for(int b=0;b<lookupList.size();b++){
+            for (int b = 0; b < lookupList.size(); b++) {
                 if (myList.get(a).getEvaluateId().equals(lookupList.get(b))) {
                     myList.get(a).setLookup(true);
                 }
@@ -463,14 +494,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (mItems.get(position).getLookup()) {
-                ((ViewHolder) holder).cardview_text.setBackgroundColor(0xaaaaaaaa);
-                ((ViewHolder) holder).cardview_text.setText("※ 이미 조회한 정보입니다 - 평점 : "+mItems.get(position).getScore()+"\n\n※ " + mItems.get(position).getDept() + ", " +
-                        mItems.get(position).getTakeYear() + "년 수강자\n" +mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+                ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffefefef);
+
+                ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.INVISIBLE);
+                ((ViewHolder) holder).cardview_status_look1.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).cardview_status_look2.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).cardview_status_look1.setText("[ 수강자 평점 : "+mItems.get(position).getEvaluate()+", 평가 평점 : "+mItems.get(position).getScore()+" ]");
+                ((ViewHolder) holder).cardview_status_look2.setText(mItems.get(position).getReview());
             } else {
-                ((ViewHolder) holder).cardview_text.setBackgroundColor(0xeeeeeeee);
-                ((ViewHolder) holder).cardview_text.setText("※ " + mItems.get(position).getDept() + ", " + mItems.get(position).getTakeYear() + "년 수강자\n" +
-                        mItems.get(position).getGrade() + "학년 " + mItems.get(position).getSemester() + "학기 " + mItems.get(position).getSubject());
+                ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffffffff);
+                ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).cardview_status_look1.setVisibility(View.INVISIBLE);
+                ((ViewHolder) holder).cardview_status_look2.setVisibility(View.INVISIBLE);
+                ((ViewHolder) holder).cardview_status_unlook.setText("미열람 상태이므로 리뷰 내용 확인 불가");
             }
+
+            String[] sub = mItems.get(position).getSubject().split("-");
+            ((ViewHolder) holder).cardview_subject.setText(sub[0] + " : "+sub[1]);
+
+            ((ViewHolder) holder).cardview_takeyear.setText(mItems.get(position).getTakeYear()+" "+mItems.get(position).getSemester()+"학기 수강자");
+            ((ViewHolder) holder).cardview_major.setText(mItems.get(position).getDept()+" "+mItems.get(position).getGrade()+"학년 "+mItems.get(position).getSemester()+"학기");
         }
 
         @Override
@@ -479,18 +522,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView cardview_text;
+            public LinearLayout firstLayout;
+            public TextView cardview_status_unlook;
+            public TextView cardview_status_look1;
+            public TextView cardview_status_look2;
+            public TextView cardview_takeyear;
+            public TextView cardview_subject;
+            public TextView cardview_major;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                cardview_text = (TextView) itemView.findViewById(R.id.cardview_text);
+                cardview_status_unlook = (TextView) itemView.findViewById(R.id.cardview_status_unlook);
+                cardview_status_look1 = (TextView) itemView.findViewById(R.id.cardview_status_look1);
+                cardview_status_look2 = (TextView) itemView.findViewById(R.id.cardview_status_look2);
+                cardview_takeyear = (TextView)itemView.findViewById(R.id.cardview_takeyear);
+                cardview_subject = (TextView)itemView.findViewById(R.id.cardview_subject);
+                cardview_major = (TextView)itemView.findViewById(R.id.cardview_major);
+                firstLayout = (LinearLayout)itemView.findViewById(R.id.cardview_firstlayout);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = getPosition();
                         // 코인을 사용하는 것에 대한 트랜잭션을 전송해야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                        if(!mItems.get(position).getLookup()){  // 처음 열람한 경우
+                        if (!mItems.get(position).getLookup()) {  // 처음 열람한 경우
                             WriteLookup temp = new WriteLookup();
                             temp.execute(mItems.get(position).getEvaluateId());
                         }
@@ -499,10 +554,10 @@ public class MainActivity extends AppCompatActivity {
                         a.putExtra("major", major);
                         a.putExtra("id", id);
                         a.putExtra("evaluateId", mItems.get(position).evaluateId);
-                        a.putExtra("filter_dept",filter_dept);
-                        a.putExtra("filter_grade",filter_grade);
-                        a.putExtra("filter_semester",filter_semester);
-                        a.putExtra("num_Filter",num_Filter);
+                        a.putExtra("filter_dept", filter_dept);
+                        a.putExtra("filter_grade", filter_grade);
+                        a.putExtra("filter_semester", filter_semester);
+                        a.putExtra("num_Filter", num_Filter);
                         startActivity(a);
                         finish();
                     }
@@ -574,42 +629,8 @@ public class MainActivity extends AppCompatActivity {
 
                             if (num_Filter == 0) {
                                 setMainPage5();
-                                myList2.add(new RecycleItem3("인기게시글"));
-                                adapter2.notifyDataSetChanged();
                             } else {
-                                myList.clear();
-                                int check = 0;
-                                for (int i = 0; i < dataList.size(); i++) {
-                                    check = 0;
-                                    for (int a = 0; a < filter_dept.size(); a++) {
-                                        if (dataList.get(i).getDept().contains(filter_dept.get(a)))
-                                            check = 1;
-                                    }
-                                    if (filter_dept.size() == 0) check = 1;
-                                    if (check == 1) {
-                                        check = 0;
-                                        for (int b = 0; b < filter_grade.size(); b++) {
-                                            if (dataList.get(i).getGrade().contains(filter_grade.get(b)))
-                                                check = 1;
-                                        }
-                                        if (filter_grade.size() == 0) check = 1;
-
-                                        if (check == 1) {
-                                            check = 0;
-                                            for (int c = 0; c < filter_semester.size(); c++) {
-                                                if (dataList.get(i).getSemester().contains(filter_semester.get(c)))
-                                                    check = 1;
-                                            }
-                                            if (filter_semester.size() == 0) check = 1;
-
-                                            if (check == 1) {
-                                                myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore()));
-                                            }
-                                        }
-                                    }
-                                }
-                                checkLookup();
+                                setMainPageF();
                             }
                         } else if (num_Filter == -1) {
                             setMainPage5();
@@ -735,37 +756,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
 
-        builder.setTitle("※ Cau Coin 종료");
-        builder.setMessage("정말로 앱을 종료하시겠어요?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            super.onBackPressed();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "종료하려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    public void setData(){
+    // 받아온 데이터에선 학년,학기가 "1학기" "1학년" 식으로 들어감. 따라서 이거 빼고 숫자만 넣는 과정 있어야함.
+    public void setData() {
         temp_score.add("5");
         temp_score.add("3");
         temp_score.add("2");
         temp_comment.add("교수님 좋아요!");
         temp_comment.add("교수님이 너무 좋은거 동감이에요!");
-        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학", "4", "2017",
-                "교수님이 좋았어요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
+                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -774,8 +785,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("인정... 영어 그자체");
         temp_comment.add("교수님이 너무 야해요");
-        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계", "4", "2018",
-                "교수님 영어실력은 감탄 그자체", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계 - 백정엽", "4", "2017년",
+                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -783,8 +794,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("4");
         temp_score.add("3");
         temp_comment.add("교수님은 좋아요");
-        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러", "4", "2017",
-                "교수님이 수업을 잘 안하심", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러 - 김중헌", "4", "2017년",
+                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -793,8 +804,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("수업이 너무 지루해요");
         temp_comment.add("교수님 진짜 별로임");
-        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학", "1", "2018",
-                "교수님 진짜 별로에요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학 - 김상욱", "1", "2015년",
+                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -803,8 +814,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("교수님 강의력은 정말 최고");
         temp_comment.add("시험문제가 진짜 어렵긴 함..");
-        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조", "3", "2016",
-                "시험이 너무 어려워요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조 - 백정엽", "3", "2016년",
+                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -813,8 +824,8 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("5");
         temp_comment.add("수업시간에 졸수가 없어요...");
         temp_comment.add("논리회로에서 컴공을 포기하게 되었어요ㅠ");
-        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로", "5", "2015",
-                "조성래교수님 사랑해요!", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "5", "2015년",
+                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -823,7 +834,7 @@ public class MainActivity extends AppCompatActivity {
         temp_score.add("3");
         temp_comment.add("교수님 강의력만은 정말 최고에요");
         temp_comment.add("좀 졸리긴해요");
-        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴", "4", "2018",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
+                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment));
     }
 }
