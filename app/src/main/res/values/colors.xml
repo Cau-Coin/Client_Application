@@ -11,4 +11,7 @@
 
     <!--- 어플 메인 색상. 로그인 배경부터 적용된다 -->
     <color name="signatureColor">#045473</color>
+
+    <!-- 기타 색상들 -->
+    <color name="darkColor">#898989</color>
 </resources>

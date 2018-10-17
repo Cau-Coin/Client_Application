@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> lookupList = new ArrayList<String>();
 
     private Animation fab_open, fab_close;
-    private Boolean isFabOpen=false;
+    private Boolean isFabOpen = false;
     private FloatingActionButton fab, fab1, fab2;
 
     @Override
@@ -73,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
         name = getIntent().getExtras().getString("name");
         major = getIntent().getExtras().getString("major");
         String fromwhere = getIntent().getExtras().getString("from");
-        
+
         final EditText inputSearch = (EditText) findViewById(R.id.main_inputsearch);
 
-        Button search = (Button) findViewById(R.id.main_search);
+        ImageView search = (ImageView) findViewById(R.id.main_search);
         TextView logout = (TextView) findViewById(R.id.main_signout);
         TextView filter = (TextView) findViewById(R.id.main_filter);
 
@@ -226,7 +227,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (num_Filter <= 0) {
                                         num_Filter = 0;
-                                        myList2.remove(0);
+                                        myList2.clear();
+                                        adapter2.notifyDataSetChanged();
                                     }
                                     if (selectedIndex[0] == 0) {
                                         if (!filter_dept.contains(items2[selectedIndex[1]])) {
@@ -358,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void anim(){
+    public void anim() {
         if (isFabOpen) {
             fab.setImageResource(R.drawable.plusimg);
             fab1.startAnimation(fab_close);
