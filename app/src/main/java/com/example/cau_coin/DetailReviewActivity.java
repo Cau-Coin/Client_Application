@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +52,17 @@ public class DetailReviewActivity extends Activity {
     private ArrayList<String> filter_grade;
     private int num_Filter;
 
+    private ImageView returnbutton;
+    private TextView myProfessor;
+    private TextView mySemester;
+    private TextView mySubject;
+    private TextView myEvaluate;
+    private TextView myTakeYear;
+    private TextView myReview;
+    private TextView myTimeStamp;
+    private TextView myScore;
+    private TextView myTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,17 +78,8 @@ public class DetailReviewActivity extends Activity {
         filter_semester = (ArrayList<String>) getIntent().getSerializableExtra("filter_semester");
         num_Filter = getIntent().getExtras().getInt("num_Filter");
 
-        TextView myGrade = (TextView) findViewById(R.id.detail_grade);
-        TextView mySemester = (TextView) findViewById(R.id.detail_semester);
-        TextView mySubject = (TextView) findViewById(R.id.detail_subject);
-        TextView myEvaluate = (TextView) findViewById(R.id.detail_evaluate);
-        TextView myTakeYear = (TextView) findViewById(R.id.detail_takeyear);
-        TextView myReview = (TextView) findViewById(R.id.detail_review);
-        TextView myTimeStamp = (TextView) findViewById(R.id.detail_timestamp);
-        TextView myScore = (TextView) findViewById(R.id.detail_score);
-
-        Button giveScore = (Button)findViewById(R.id.detail_givescore);
-        Button registerComment = (Button)findViewById(R.id.detail_registerComment);
+        TextView giveScore = (TextView) findViewById(R.id.detail_givescore);
+        Button registerComment = (Button) findViewById(R.id.detail_registerComment);
         final EditText inputComment = (EditText) findViewById(R.id.detail_inputComment);
 
         recyclerView = (RecyclerView) findViewById(R.id.detail_recycler);
@@ -75,37 +88,33 @@ public class DetailReviewActivity extends Activity {
         adapter = new DetailReviewActivity.MyAdapter(myList, this);
         recyclerView.setAdapter(adapter);
 
-        // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        returnbutton = (ImageView)findViewById(R.id.detail_returnback);
+        myProfessor = (TextView) findViewById(R.id.detail_professor);
+        mySemester = (TextView) findViewById(R.id.detail_semester);
+        mySubject = (TextView) findViewById(R.id.detail_subject);
+        myEvaluate = (TextView) findViewById(R.id.detail_evaluate);
+        myTakeYear = (TextView) findViewById(R.id.detail_takeyear);
+        myReview = (TextView) findViewById(R.id.detail_review);
+        myTimeStamp = (TextView) findViewById(R.id.detail_timestamp);
+        myScore = (TextView) findViewById(R.id.detail_score);
+        myTitle = (TextView) findViewById(R.id.detail_title);
+
         setData();
-
-        for (int a = 0; a < dataList.size(); a++) {
-            if (dataList.get(a).getEvaluateId().equals(evaluateId)) {
-                myGrade.setText(dataList.get(a).getGrade() + "학년");
-                mySemester.setText(dataList.get(a).getSemester() + "학기");
-                mySubject.setText(dataList.get(a).getSubject());
-                myEvaluate.setText(dataList.get(a).getEvaluate() + "점");
-                myTakeYear.setText(dataList.get(a).getTakeYear() + "년 수강생");
-                myReview.setText("리뷰 : " + dataList.get(a).getReview());
-                myTimeStamp.setText(dataList.get(a).getTimeStamp());
-                myScore.setText(dataList.get(a).getScore());
-
-                myList.clear();
-                for (int b = 0; b < dataList.get(a).getCommentNum(); b++) {
-                    myList.add(new RecycleItem2(dataList.get(a).getComment(b)));
-                }
-                adapter.notifyDataSetChanged();
-                break;
-            }
-        }
 
         final Database_Evaluate database = new Database_Evaluate(getApplicationContext(), "evaldb.db", null, 1);
 
+        returnbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         giveScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(database.getScore(id,evaluateId)){
-                    final String[] items = new String[]{"1", "2", "3", "4","5"};
+                if (database.getScore(id, evaluateId)) {
+                    final String[] items = new String[]{"1", "2", "3", "4", "5"};
                     final int[] selectedIndex = {0};
                     AlertDialog.Builder dialog = new AlertDialog.Builder(DetailReviewActivity.this);
                     dialog.setTitle("평점을 선택해주세요").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
@@ -116,12 +125,11 @@ public class DetailReviewActivity extends Activity {
                     }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(), items[selectedIndex[0]]+"점을 부여했습니다", Toast.LENGTH_SHORT).show();
-                            database.insertData_Score(id,evaluateId);
+                            Toast.makeText(getApplicationContext(), items[selectedIndex[0]] + "점을 부여했습니다", Toast.LENGTH_SHORT).show();
+                            database.insertData_Score(id, evaluateId);
                         }
                     }).create().show();
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), "이미 이 강의평가에 평점을 매겼습니다", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -130,14 +138,13 @@ public class DetailReviewActivity extends Activity {
         registerComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(inputComment.getText().toString().equals("")){
+                if (inputComment.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "댓글을 입력해주세요", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String currentDateTime = dateFormat.format(new Date());
 
-                    Toast.makeText(getApplicationContext(), "["+currentDateTime+"] "+inputComment.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "[" + currentDateTime + "] " + inputComment.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -194,25 +201,174 @@ public class DetailReviewActivity extends Activity {
         a.putExtra("name", name);
         a.putExtra("major", major);
         a.putExtra("id", id);
-        a.putExtra("from","detail");
-        a.putExtra("filter_dept",filter_dept);
-        a.putExtra("filter_grade",filter_grade);
-        a.putExtra("filter_semester",filter_semester);
-        a.putExtra("num_Filter",num_Filter);
+        a.putExtra("from", "detail");
+        a.putExtra("filter_dept", filter_dept);
+        a.putExtra("filter_grade", filter_grade);
+        a.putExtra("filter_semester", filter_semester);
+        a.putExtra("num_Filter", num_Filter);
         startActivity(a);
         finish();
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    // 블록으로부터 데이터 받아오기 위해 Transaction 전송
+    public class ReadData extends AsyncTask<String, Void, String> {
+
+        public String doInBackground(String... params) {
+            try {
+                JSONObject myJsonObject = new JSONObject();
+                try {
+                    myJsonObject.put("type", "giveme");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = "http://115.68.207.101:4444/read_block";
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                conn.disconnect();
+                return sb.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s != null) {
+                try {
+                    ArrayList<String> scoreParsed = new ArrayList<String>();
+                    ArrayList<String> commentParsed = new ArrayList<String>();
+                    String evaluateIdFromServer;
+                    String deptFromServer;
+                    String gradeFromServer;
+                    String semesterFromServer;
+                    String subjectFromServer;
+                    String evaluateFromServer;
+                    String takeYearFromServer;
+                    String reviewFromServer;
+                    String timeStampFromServer;
+                    String scoreFromServer;
+                    String commentFromServer;
+
+                    JSONObject jsonObject = new JSONObject(s);
+                    String jsonDataString = jsonObject.getString("eval");
+                    JSONArray jsonArray = new JSONArray(jsonDataString);
+
+                    JSONArray tempArray;
+                    String scoreTemp;
+                    String commentTemp;
+                    JSONObject item;
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        item = jsonArray.getJSONObject(i);
+
+                        evaluateIdFromServer = item.getString("evaluateid");
+                        deptFromServer = item.getString("dept");
+                        gradeFromServer = item.getString("grade");
+                        semesterFromServer = item.getString("semester");
+                        subjectFromServer = item.getString("subject");
+                        evaluateFromServer = item.getString("evaluate");
+                        takeYearFromServer = item.getString("takeyear");
+                        reviewFromServer = item.getString("review");
+                        timeStampFromServer = item.getString("timestamp");
+                        scoreFromServer = item.getString("score");
+                        commentFromServer = item.getString("comment");
+
+                        if (gradeFromServer.contains("학년")) {
+                            gradeFromServer = gradeFromServer.substring(0, 1);
+                        }
+                        if (semesterFromServer.contains("학기")) {
+                            semesterFromServer = semesterFromServer.substring(0, 1);
+                        }
+
+                        tempArray = new JSONArray(scoreFromServer);
+                        scoreParsed.clear();
+                        for (int j = 0; j < tempArray.length(); j++) {
+                            scoreTemp = tempArray.getString(j);
+                            scoreParsed.add(scoreTemp);
+                        }
+
+                        tempArray = new JSONArray(commentFromServer);
+                        commentParsed.clear();
+                        for (int j = 0; j < tempArray.length(); j++) {
+                            commentTemp = tempArray.getString(j);
+                            commentParsed.add(commentTemp);
+                        }
+
+                        dataList.add(new Data_Evaluate(evaluateIdFromServer, deptFromServer, gradeFromServer, semesterFromServer, subjectFromServer, evaluateFromServer, takeYearFromServer, reviewFromServer,
+                                timeStampFromServer, scoreParsed, commentParsed));
+                    }
+
+
+                } catch (JSONException e) {
+                }
+            }
+            for (int a = 0; a < dataList.size(); a++) {
+                if (dataList.get(a).getEvaluateId().equals(evaluateId)) {
+                    String[] temp = dataList.get(a).getSubject().split("-");
+                    String[] temp2 = dataList.get(a).getTimeStamp().split("-");
+
+                    myTitle.setText(temp[0] + ":"+temp[1]);
+                    mySubject.setText(temp[0].trim());
+                    myProfessor.setText(temp[1].trim());
+                    mySemester.setText(dataList.get(a).getGrade()+"학년 "+dataList.get(a).getSemester() + "학기");
+                    myEvaluate.setText(dataList.get(a).getEvaluate() + "점");
+                    myTakeYear.setText(dataList.get(a).getTakeYear() + " "+dataList.get(a).getSemester()+"학기 수강자");
+                    myReview.setText(dataList.get(a).getReview());
+                    myTimeStamp.setText(temp2[0]+"-"+temp2[1]+"-"+temp2[2].substring(0,2));
+                    myScore.setText(dataList.get(a).getScore());
+
+                    myList.clear();
+                    for (int b = 0; b < dataList.get(a).getCommentNum(); b++) {
+                        myList.add(new RecycleItem2(dataList.get(a).getComment(b)));
+                    }
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
     }
 
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    public void setData(){
+    public void setData() {
         temp_score.add("5");
         temp_score.add("3");
         temp_score.add("2");
         temp_comment.add("교수님 좋아요!");
         temp_comment.add("교수님이 너무 좋은거 동감이에요!");
-        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학", "4", "2017",
-                "교수님이 좋았어요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
+                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -221,8 +377,8 @@ public class DetailReviewActivity extends Activity {
         temp_score.add("3");
         temp_comment.add("인정... 영어 그자체");
         temp_comment.add("교수님이 너무 야해요");
-        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계", "4", "2018",
-                "교수님 영어실력은 감탄 그자체", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계 - 백정엽", "4", "2017년",
+                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -230,8 +386,8 @@ public class DetailReviewActivity extends Activity {
         temp_score.add("4");
         temp_score.add("3");
         temp_comment.add("교수님은 좋아요");
-        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러", "4", "2017",
-                "교수님이 수업을 잘 안하심", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러 - 김중헌", "4", "2017년",
+                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -240,8 +396,8 @@ public class DetailReviewActivity extends Activity {
         temp_score.add("3");
         temp_comment.add("수업이 너무 지루해요");
         temp_comment.add("교수님 진짜 별로임");
-        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학", "1", "2018",
-                "교수님 진짜 별로에요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학 - 김상욱", "1", "2015년",
+                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -250,8 +406,8 @@ public class DetailReviewActivity extends Activity {
         temp_score.add("3");
         temp_comment.add("교수님 강의력은 정말 최고");
         temp_comment.add("시험문제가 진짜 어렵긴 함..");
-        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조", "3", "2016",
-                "시험이 너무 어려워요", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조 - 백정엽", "3", "2016년",
+                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -260,8 +416,8 @@ public class DetailReviewActivity extends Activity {
         temp_score.add("5");
         temp_comment.add("수업시간에 졸수가 없어요...");
         temp_comment.add("논리회로에서 컴공을 포기하게 되었어요ㅠ");
-        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로", "5", "2015",
-                "조성래교수님 사랑해요!", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "5", "2015년",
+                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment));
 
         temp_comment.clear();
         temp_score.clear();
@@ -270,7 +426,10 @@ public class DetailReviewActivity extends Activity {
         temp_score.add("3");
         temp_comment.add("교수님 강의력만은 정말 최고에요");
         temp_comment.add("좀 졸리긴해요");
-        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴", "4", "2018",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "???", temp_score, temp_comment));
+        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
+                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment));
+
+        ReadData temp = new ReadData();
+        temp.execute();
     }
 }
