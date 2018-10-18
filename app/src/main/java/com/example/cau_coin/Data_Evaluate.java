@@ -74,9 +74,9 @@ public class Data_Evaluate {
             }
 
             result = (double) sum / score.size();
-            result = result*1000;
+            result = result*100;
             sum = (int)result;
-            result = (double)sum/1000;
+            result = (double)sum/100;
 
             return String.valueOf(result);
         } else {

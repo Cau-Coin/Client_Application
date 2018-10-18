@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         fab1 = (FloatingActionButton) findViewById(R.id.main_fab1);
         fab2 = (FloatingActionButton) findViewById(R.id.main_fab2);
 
-        // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         GetLookup lookupServer = new GetLookup();
         lookupServer.execute();
 
@@ -246,8 +245,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 anim();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("※ User Information");
-                builder.setMessage("\n Student ID : " + id + "\n\n Name : " + name + "\n\n Major : " + major + "\n\n Available Coin: " + "10");
+                builder.setTitle("User Information");
+                builder.setIcon(R.drawable.personimg);
+                builder.setMessage("\n Student ID : " + id + "\n\n Name : " + name + "\n\n Major : " + major + "\n\n Holding Coin : " + "10");
                 builder.setCancelable(false);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -267,13 +267,13 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyAdapter(myList, this);
         recyclerView.setAdapter(adapter);
 
-        setData();
         if (fromwhere.equals("detail")) {
             filter_dept = (ArrayList<String>) getIntent().getSerializableExtra("filter_dept");
             filter_grade = (ArrayList<String>) getIntent().getSerializableExtra("filter_grade");
             filter_semester = (ArrayList<String>) getIntent().getSerializableExtra("filter_semester");
             num_Filter = getIntent().getExtras().getInt("num_Filter");
         }
+        setData();
     }
 
     // 검색을 진행하는 함수
@@ -507,7 +507,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (mItems.get(position).getLookup()) {
-                ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffefefef);
+                ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffeeeeee);
 
                 ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.INVISIBLE);
                 ((ViewHolder) holder).cardview_status_look1.setVisibility(View.VISIBLE);
@@ -966,7 +966,7 @@ public class MainActivity extends AppCompatActivity {
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함
     public void setData() {
 
-        /*temp_score.add("5");
+        temp_score.add("5");
         temp_score.add("3");
         temp_score.add("2");
         temp_comment.add("교수님 좋아요!");
@@ -1031,7 +1031,7 @@ public class MainActivity extends AppCompatActivity {
         temp_comment.add("교수님 강의력만은 정말 최고에요");
         temp_comment.add("좀 졸리긴해요");
         dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment));*/
+                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment));
 
         ReadData temp = new ReadData();
         temp.execute();
