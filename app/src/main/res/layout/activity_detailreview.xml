@@ -257,6 +257,7 @@
                 android:background="#ffffff"
                 android:orientation="vertical">
 
+                <!-- Ratings / Give Score -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -289,75 +290,275 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
+                <!-- 점수랑 별, 비율 -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
                     android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"></LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="32">
 
                         <TextView
                             android:id="@+id/detail_score"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
                             android:text="5.0"
+                            android:layout_centerHorizontal="true"
                             android:textSize="50dp"
+                            android:textColor="@color/ratingsColor"
                             android:textStyle="bold" />
                     </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="6"
+                        android:layout_weight="65"
                         android:orientation="vertical">
-
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="5dp">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★★★★★"
+                                android:textColor="@color/starsColor"
+                                android:textSize="8dp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp">
+                                <TextView
+                                    android:id="@+id/detail_leftstar5"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/starsColor"/>
+                                <TextView
+                                    android:id="@+id/detail_rightstar5"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/normalColor"/>
+                            </LinearLayout>
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:visibility="invisible"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="비율 넣기"
-                                android:textSize="25dp" />
+                                android:text="★"
+                                android:textSize="8dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★★★★"
+                                android:textColor="@color/starsColor"
+                                android:textSize="8dp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp">
+                                <TextView
+                                    android:id="@+id/detail_leftstar4"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/starsColor"/>
+                                <TextView
+                                    android:id="@+id/detail_rightstar4"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/normalColor"/>
+                            </LinearLayout>
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:visibility="invisible"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★★"
+                                android:textSize="8dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★★★"
+                                android:textColor="@color/starsColor"
+                                android:textSize="8dp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp">
+                                <TextView
+                                    android:id="@+id/detail_leftstar3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/starsColor"/>
+                                <TextView
+                                    android:id="@+id/detail_rightstar3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/normalColor"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:visibility="invisible"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★★★"
+                                android:textSize="8dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★★"
+                                android:textColor="@color/starsColor"
+                                android:textSize="8dp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp">
+                                <TextView
+                                    android:id="@+id/detail_leftstar2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/starsColor"/>
+                                <TextView
+                                    android:id="@+id/detail_rightstar2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/normalColor"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:visibility="invisible"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★★★★"
+                                android:textSize="8dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★"
+                                android:textColor="@color/starsColor"
+                                android:textSize="8dp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp">
+                                <TextView
+                                    android:id="@+id/detail_leftstar1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/starsColor"/>
+                                <TextView
+                                    android:id="@+id/detail_rightstar1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/normalColor"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="8dp">
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- rating 수와 out of 5 표기 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"></RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="32">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="out of 5"
+                            android:layout_centerInParent="true"
+                            android:textStyle="bold"
+                            android:textColor="@color/starsColor"
+                            android:textSize="14dp"/>
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="65">
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:id="@+id/detail_numRating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ratings"
+                            android:textSize="14dp"
+                            android:layout_marginRight="20dp"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
+        <!-- 댓글 리스트 리사이클러 뷰 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/detail_inputComment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8.5"
-                android:hint="이 평가에 대한 댓글을 남기세요!"
-                android:inputType="text"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <Button
-                android:id="@+id/detail_registerComment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="등록"
-                android:textSize="13dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detail_recycler"
@@ -367,6 +568,51 @@
                 android:scrollbars="vertical">
 
             </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+        <!-- 댓글 남기기 구역 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/signatureColor">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:background="#ffffff"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8.75">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:src="@drawable/commentimg2"/>
+                    <EditText
+                        android:id="@+id/detail_inputComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:hint="이 평가에 대한 댓글을 남기세요!"
+                        android:inputType="text"
+                        android:background="@null"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/detail_registerComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.25"
+                    android:text="등록"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
