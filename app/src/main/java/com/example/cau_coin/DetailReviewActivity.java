@@ -12,9 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,21 @@ public class DetailReviewActivity extends Activity {
     private TextView myScore;
     private TextView myTitle;
 
+    private TextView left_5;
+    private TextView left_4;
+    private TextView left_3;
+    private TextView left_2;
+    private TextView left_1;
+    private TextView right_5;
+    private TextView right_4;
+    private TextView right_3;
+    private TextView right_2;
+    private TextView right_1;
+    private TextView numRating;
+
+    private InputMethodManager imm;
+    private EditText inputComment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +95,11 @@ public class DetailReviewActivity extends Activity {
         filter_semester = (ArrayList<String>) getIntent().getSerializableExtra("filter_semester");
         num_Filter = getIntent().getExtras().getInt("num_Filter");
 
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         TextView giveScore = (TextView) findViewById(R.id.detail_givescore);
         Button registerComment = (Button) findViewById(R.id.detail_registerComment);
-        final EditText inputComment = (EditText) findViewById(R.id.detail_inputComment);
+        inputComment = (EditText) findViewById(R.id.detail_inputComment);
 
         recyclerView = (RecyclerView) findViewById(R.id.detail_recycler);
         layoutManager = new LinearLayoutManager(this);
@@ -88,7 +107,7 @@ public class DetailReviewActivity extends Activity {
         adapter = new DetailReviewActivity.MyAdapter(myList, this);
         recyclerView.setAdapter(adapter);
 
-        returnbutton = (ImageView)findViewById(R.id.detail_returnback);
+        returnbutton = (ImageView) findViewById(R.id.detail_returnback);
         myProfessor = (TextView) findViewById(R.id.detail_professor);
         mySemester = (TextView) findViewById(R.id.detail_semester);
         mySubject = (TextView) findViewById(R.id.detail_subject);
@@ -98,6 +117,19 @@ public class DetailReviewActivity extends Activity {
         myTimeStamp = (TextView) findViewById(R.id.detail_timestamp);
         myScore = (TextView) findViewById(R.id.detail_score);
         myTitle = (TextView) findViewById(R.id.detail_title);
+
+        left_5 = (TextView) findViewById(R.id.detail_leftstar5);
+        left_4 = (TextView) findViewById(R.id.detail_leftstar4);
+        left_3 = (TextView) findViewById(R.id.detail_leftstar3);
+        left_2 = (TextView) findViewById(R.id.detail_leftstar2);
+        left_1 = (TextView) findViewById(R.id.detail_leftstar1);
+        right_5 = (TextView) findViewById(R.id.detail_rightstar5);
+        right_4 = (TextView) findViewById(R.id.detail_rightstar4);
+        right_3 = (TextView) findViewById(R.id.detail_rightstar3);
+        right_2 = (TextView) findViewById(R.id.detail_rightstar2);
+        right_1 = (TextView) findViewById(R.id.detail_rightstar1);
+        numRating = (TextView) findViewById(R.id.detail_numRating);
+
 
         setData();
 
@@ -144,6 +176,8 @@ public class DetailReviewActivity extends Activity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String currentDateTime = dateFormat.format(new Date());
 
+                    inputComment.setText("");
+                    hideKeyboard();
                     Toast.makeText(getApplicationContext(), "[" + currentDateTime + "] " + inputComment.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -339,15 +373,17 @@ public class DetailReviewActivity extends Activity {
                     String[] temp = dataList.get(a).getSubject().split("-");
                     String[] temp2 = dataList.get(a).getTimeStamp().split("-");
 
-                    myTitle.setText(temp[0] + ":"+temp[1]);
+                    myTitle.setText(temp[0] + ":" + temp[1]);
                     mySubject.setText(temp[0].trim());
                     myProfessor.setText(temp[1].trim());
-                    mySemester.setText(dataList.get(a).getGrade()+"학년 "+dataList.get(a).getSemester() + "학기");
+                    mySemester.setText(dataList.get(a).getGrade() + "학년 " + dataList.get(a).getSemester() + "학기");
                     myEvaluate.setText(dataList.get(a).getEvaluate() + "점");
-                    myTakeYear.setText(dataList.get(a).getTakeYear() + " "+dataList.get(a).getSemester()+"학기 수강자");
+                    myTakeYear.setText(dataList.get(a).getTakeYear() + " " + dataList.get(a).getSemester() + "학기 수강자");
                     myReview.setText(dataList.get(a).getReview());
-                    myTimeStamp.setText(temp2[0]+"-"+temp2[1]+"-"+temp2[2].substring(0,2));
+                    myTimeStamp.setText(temp2[0] + "-" + temp2[1] + "-" + temp2[2].substring(0, 2));
                     myScore.setText(dataList.get(a).getScore());
+
+                    setStar(a);
 
                     myList.clear();
                     for (int b = 0; b < dataList.get(a).getCommentNum(); b++) {
@@ -360,11 +396,106 @@ public class DetailReviewActivity extends Activity {
         }
     }
 
+    public void hideKeyboard(){
+        imm.hideSoftInputFromWindow(inputComment.getWindowToken(), 0);
+    }
+
+    // 별점 비율 표기
+    public void setStar(int a){
+        LinearLayout.LayoutParams i;
+        LinearLayout.LayoutParams j;
+
+        float starTemp1;
+        float starTemp2;
+        starTemp2 = dataList.get(a).getNumScore();
+        int num = (int) starTemp2;
+
+        numRating.setText( num+ " Ratings");
+
+        i = (LinearLayout.LayoutParams)left_5.getLayoutParams();
+        j = (LinearLayout.LayoutParams)right_5.getLayoutParams();
+        starTemp1 = dataList.get(a).getNumStar("5");
+        if(starTemp1==0){
+            i.weight = 1;
+            j.weight = 99;
+        }
+        else{
+            i.weight = starTemp1;
+            j.weight = (starTemp2-starTemp1);
+        }
+        left_5.setLayoutParams(i);
+        right_5.setLayoutParams(j);
+
+        i = (LinearLayout.LayoutParams)left_4.getLayoutParams();
+        j = (LinearLayout.LayoutParams)right_4.getLayoutParams();
+        starTemp1 = dataList.get(a).getNumStar("4");
+        if(starTemp1==0){
+            i.weight = 1;
+            j.weight = 99;
+        }
+        else{
+            i.weight = starTemp1;
+            j.weight = (starTemp2-starTemp1);
+        }
+        left_4.setLayoutParams(i);
+        right_4.setLayoutParams(j);
+
+        i = (LinearLayout.LayoutParams)left_3.getLayoutParams();
+        j = (LinearLayout.LayoutParams)right_3.getLayoutParams();
+        starTemp1 = dataList.get(a).getNumStar("3");
+        if(starTemp1==0){
+            i.weight = 1;
+            j.weight = 99;
+        }
+        else{
+            i.weight = starTemp1;
+            j.weight = (starTemp2-starTemp1);
+        }
+        left_3.setLayoutParams(i);
+        right_3.setLayoutParams(j);
+
+        i = (LinearLayout.LayoutParams)left_2.getLayoutParams();
+        j = (LinearLayout.LayoutParams)right_2.getLayoutParams();
+        starTemp1 = dataList.get(a).getNumStar("2");
+        if(starTemp1==0){
+            i.weight = 1;
+            j.weight = 99;
+        }
+        else{
+            i.weight = starTemp1;
+            j.weight = (starTemp2-starTemp1);
+        }
+        left_2.setLayoutParams(i);
+        right_2.setLayoutParams(j);
+
+        i = (LinearLayout.LayoutParams)left_1.getLayoutParams();
+        j = (LinearLayout.LayoutParams)right_1.getLayoutParams();
+        starTemp1 = dataList.get(a).getNumStar("1");
+        if(starTemp1==0){
+            i.weight = 1;
+            j.weight = 99;
+        }
+        else{
+            i.weight = starTemp1;
+            j.weight = (starTemp2-starTemp1);
+        }
+        left_1.setLayoutParams(i);
+        right_1.setLayoutParams(j);
+    }
+
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public void setData() {
         temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("4");
+        temp_score.add("4");
+        temp_score.add("4");
         temp_score.add("3");
-        temp_score.add("2");
+        temp_score.add("3");
+        temp_score.add("1");
         temp_comment.add("교수님 좋아요!");
         temp_comment.add("교수님이 너무 좋은거 동감이에요!");
         dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",

@@ -16,4 +16,6 @@
     <!-- 기타 색상들 -->
     <color name="darkColor">#898989</color>
     <color name="moredarkColor">#343434</color>
+    <color name="ratingsColor">#565656</color>
+    <color name="starsColor">#787878</color>
 </resources>

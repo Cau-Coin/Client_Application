@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab, fab1, fab2;
 
     private String fromwhere;
+    private InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab1 = (FloatingActionButton) findViewById(R.id.main_fab1);
         fab2 = (FloatingActionButton) findViewById(R.id.main_fab2);
+
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         GetLookup lookupServer = new GetLookup();
         lookupServer.execute();
@@ -278,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 검색을 진행하는 함수
     public void searching() {
+        hideKeyboard();
         int check2 = 0;
         if (inputSearch.getText().toString().equals("")) {
             if (num_Filter > 0) {
@@ -561,8 +566,9 @@ public class MainActivity extends AppCompatActivity {
                         // 코인을 사용하는 것에 대한 트랜잭션을 전송해야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                         if (!mItems.get(position).getLookup()) {  // 처음 열람한 경우
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setTitle("※ 리뷰 상세 보기");
+                            builder.setTitle("리뷰 상세 보기");
                             builder.setMessage("코인을 사용하여 리뷰를 자세히 보겠어요?");
+                            builder.setIcon(R.drawable.reviewimg);
                             builder.setCancelable(true);
                             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
@@ -967,8 +973,16 @@ public class MainActivity extends AppCompatActivity {
     public void setData() {
 
         temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("4");
+        temp_score.add("4");
+        temp_score.add("4");
         temp_score.add("3");
-        temp_score.add("2");
+        temp_score.add("3");
+        temp_score.add("1");
         temp_comment.add("교수님 좋아요!");
         temp_comment.add("교수님이 너무 좋은거 동감이에요!");
         dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
@@ -1035,5 +1049,9 @@ public class MainActivity extends AppCompatActivity {
 
         ReadData temp = new ReadData();
         temp.execute();
+    }
+
+    public void hideKeyboard(){
+        imm.hideSoftInputFromWindow(inputSearch.getWindowToken(), 0);
     }
 }

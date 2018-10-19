@@ -395,7 +395,7 @@ public class WriteActivity extends Activity {
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("글작성 취소");
+        builder.setTitle("강의 평가 취소");
         builder.setMessage("작성하던 내용은 저장되지 않습니다. 취소하시겠어요?");
         builder.setCancelable(false);
         builder.setIcon(R.drawable.pencilimg);

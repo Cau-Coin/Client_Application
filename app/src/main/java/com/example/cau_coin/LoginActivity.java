@@ -2,12 +2,14 @@ package com.example.cau_coin;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +42,8 @@ public class LoginActivity extends Activity {
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
 
+    private InputMethodManager imm;
+
     private String[] datas;
 
     Runnable runnable = new Runnable() {
@@ -69,6 +73,8 @@ public class LoginActivity extends Activity {
         id_error = (TextView)findViewById(R.id.login_iderror);
         pwd_error = (TextView)findViewById(R.id.login_pwderror);
 
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         database = new Database_AutoLogin(getApplicationContext(),"mydb.db",null,1);
 
         if(database.check_AutoLogin()){
@@ -86,6 +92,7 @@ public class LoginActivity extends Activity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 id_error.setVisibility(View.INVISIBLE);
                 pwd_error.setVisibility(View.INVISIBLE);
                 GetAccount temp = new GetAccount();
@@ -207,6 +214,11 @@ public class LoginActivity extends Activity {
             }
 
         }
+    }
+
+    public void hideKeyboard(){
+        imm.hideSoftInputFromWindow(input_id.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(input_pwd.getWindowToken(), 0);
     }
 
     @Override

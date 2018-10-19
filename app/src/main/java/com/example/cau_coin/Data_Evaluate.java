@@ -84,6 +84,25 @@ public class Data_Evaluate {
         }
     }
 
+    public float getNumStar(String star){
+        if(score.size()>0){
+            float sum=0;
+            for(int i=0;i<score.size();i++){
+                if(score.get(i).equals(star)){
+                    sum+=1;
+                }
+            }
+            return sum;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public float getNumScore(){
+        return score.size();
+    }
+
     public double getDoubleScore(){
         return Double.parseDouble(getScore());
     }
