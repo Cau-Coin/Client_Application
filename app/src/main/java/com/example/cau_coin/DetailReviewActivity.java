@@ -182,6 +182,13 @@ public class DetailReviewActivity extends Activity {
                 }
             }
         });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically(){
+                return false;
+            }
+        });
     }
 
     class MyAdapter extends RecyclerView.Adapter {
@@ -206,6 +213,9 @@ public class DetailReviewActivity extends Activity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ((DetailReviewActivity.MyAdapter.ViewHolder) holder).cardview_text.setText(mItems.get(position).getComment());
+
+            String[] time = mItems.get(position).getTimeStamp().split("-");
+            ((DetailReviewActivity.MyAdapter.ViewHolder) holder).cardview_timestamp.setText(time[0]+"-"+time[1]+"-"+time[2].substring(0,2));
         }
 
         @Override
@@ -215,10 +225,12 @@ public class DetailReviewActivity extends Activity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public TextView cardview_text;
+            public TextView cardview_timestamp;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 cardview_text = (TextView) itemView.findViewById(R.id.cardview2_text);
+                cardview_timestamp = (TextView) itemView.findViewById(R.id.cardview2_timestamp);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -387,7 +399,7 @@ public class DetailReviewActivity extends Activity {
 
                     myList.clear();
                     for (int b = 0; b < dataList.get(a).getCommentNum(); b++) {
-                        myList.add(new RecycleItem2(dataList.get(a).getComment(b)));
+                        myList.add(new RecycleItem2(dataList.get(a).getComment(b),dataList.get(a).getTimeStamp()));
                     }
                     adapter.notifyDataSetChanged();
                     break;
@@ -498,6 +510,11 @@ public class DetailReviewActivity extends Activity {
         temp_score.add("1");
         temp_comment.add("교수님 좋아요!");
         temp_comment.add("교수님이 너무 좋은거 동감이에요!");
+        temp_comment.add("수업을 안가게 돼요");
+        temp_comment.add("기말때 갑자기 어려워짐!");
+        temp_comment.add("기말고사 어려워요..ㅇㅈ..");
+        temp_comment.add("학점따기 개좋음");
+        temp_comment.add("학점 천사임");
         dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
                 "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment));
 
