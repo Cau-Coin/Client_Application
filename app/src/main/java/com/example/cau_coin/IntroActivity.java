@@ -53,7 +53,6 @@ public class IntroActivity extends Activity {
     @Override
     protected void onUserLeaveHint(){
         isUserOn=false;
-        System.out.println("@@@@@@@@@@@@@@나갔네!!");
         super.onUserLeaveHint();
     }
 

@@ -21,6 +21,7 @@
         <activity android:name=".SignupActivity"></activity>
         <activity android:name=".WriteActivity"></activity>
         <activity android:name=".DetailReviewActivity"></activity>
+        <activity android:name=".CauCoinActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

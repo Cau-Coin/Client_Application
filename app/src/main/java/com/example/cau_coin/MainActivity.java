@@ -46,7 +46,12 @@ public class MainActivity extends AppCompatActivity {
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
 
+    private final long CAUCOIN_INTERVAL_TIME = 3000;
+    private long caucoinPressedTime = 0;
+    private int caucoinClicked = 0;
+
     private EditText inputSearch;
+    private TextView caucoin;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -88,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         major = getIntent().getExtras().getString("major");
         fromwhere = getIntent().getExtras().getString("from");
 
+        caucoin = (TextView) findViewById(R.id.main_caucoin);
         inputSearch = (EditText) findViewById(R.id.main_inputsearch);
 
         ImageView search = (ImageView) findViewById(R.id.main_search);
@@ -106,6 +112,33 @@ public class MainActivity extends AppCompatActivity {
         lookupServer.execute();
 
         final Database_AutoLogin database = new Database_AutoLogin(getApplicationContext(), "mydb.db", null, 1);
+
+        caucoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long tempTime = System.currentTimeMillis();
+                long intervalTime = tempTime - caucoinPressedTime;
+
+                // 인터벌 시간이 유효시간 내인 경우
+                if (0 <= intervalTime && CAUCOIN_INTERVAL_TIME >= intervalTime) {
+                    if (caucoinClicked < 3) {
+                        caucoinClicked++;
+                    } else {
+                        Intent a = new Intent(MainActivity.this, CauCoinActivity.class);
+                        a.putExtra("name", name);
+                        a.putExtra("major", major);
+                        a.putExtra("id", id);
+                        startActivity(a);
+                        finish();
+                    }
+                }
+                // 인터벌 시간이 초과된 경우
+                else {
+                    caucoinClicked = 1;
+                    caucoinPressedTime = tempTime;
+                }
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,11 +401,11 @@ public class MainActivity extends AppCompatActivity {
         temp_comment.clear();
         temp_score.clear();
         temp_commentTime.clear();
-        Data_Evaluate data1 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment,temp_commentTime);
-        Data_Evaluate data2 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment,temp_commentTime);
-        Data_Evaluate data3 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment,temp_commentTime);
-        Data_Evaluate data4 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment,temp_commentTime);
-        Data_Evaluate data5 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment,temp_commentTime);
+        Data_Evaluate data1 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment, temp_commentTime);
+        Data_Evaluate data2 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment, temp_commentTime);
+        Data_Evaluate data3 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment, temp_commentTime);
+        Data_Evaluate data4 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment, temp_commentTime);
+        Data_Evaluate data5 = new Data_Evaluate("", "", "", "", "", "", "", "", "", temp_score, temp_comment, temp_commentTime);
         for (int i = 0; i < dataList.size(); i++) {
             if (dataList.get(i).getDoubleScore() > data1.getDoubleScore()) {
                 data5 = data4;
@@ -396,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
                 data5 = dataList.get(i);
             }
         }
-        switch (dataList.size()){
+        switch (dataList.size()) {
             case 4:
                 myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview()));
                 myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview()));
@@ -822,14 +855,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 블록으로부터 데이터 받아오기 위해 Transaction 전송
-    public class ReadData extends AsyncTask<String,Void,String> {
+    public class ReadData extends AsyncTask<String, Void, String> {
 
-        public String doInBackground(String ...params)
-        {
-            try{
+        public String doInBackground(String... params) {
+            try {
                 JSONObject myJsonObject = new JSONObject();
                 try {
-                    myJsonObject.put("type","giveme");
+                    myJsonObject.put("type", "giveme");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -853,13 +885,12 @@ public class MainActivity extends AppCompatActivity {
                 os.flush();
                 os.close();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
                 String line;
                 StringBuilder sb = new StringBuilder();
 
-                while((line = reader.readLine())!=null)
-                {
+                while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
 
@@ -867,7 +898,7 @@ public class MainActivity extends AppCompatActivity {
                 conn.disconnect();
                 return sb.toString();
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -877,7 +908,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s!= null) {
+            if (s != null) {
                 try {
                     ArrayList<String> scoreParsed = new ArrayList<String>();
                     ArrayList<String> commentParsed = new ArrayList<String>();
@@ -918,11 +949,11 @@ public class MainActivity extends AppCompatActivity {
                         scoreFromServer = item.getString("score");
                         commentFromServer = item.getString("comments");
 
-                        if(gradeFromServer.contains("학년")){
-                            gradeFromServer = gradeFromServer.substring(0,1);
+                        if (gradeFromServer.contains("학년")) {
+                            gradeFromServer = gradeFromServer.substring(0, 1);
                         }
-                        if(semesterFromServer.contains("학기")){
-                            semesterFromServer = semesterFromServer.substring(0,1);
+                        if (semesterFromServer.contains("학기")) {
+                            semesterFromServer = semesterFromServer.substring(0, 1);
                         }
 
                         tempArray = new JSONArray(scoreFromServer);
@@ -943,11 +974,11 @@ public class MainActivity extends AppCompatActivity {
                             commentTimeParsed.add(commentTemp);
                         }
 
-                        dataList.add(new Data_Evaluate(evaluateIdFromServer,deptFromServer,gradeFromServer,semesterFromServer,subjectFromServer,evaluateFromServer,takeYearFromServer,reviewFromServer,
-                                timeStampFromServer,scoreParsed,commentParsed,commentTimeParsed));
+                        dataList.add(new Data_Evaluate(evaluateIdFromServer, deptFromServer, gradeFromServer, semesterFromServer, subjectFromServer, evaluateFromServer, takeYearFromServer, reviewFromServer,
+                                timeStampFromServer, scoreParsed, commentParsed, commentTimeParsed));
                     }
 
-                }catch(JSONException e){
+                } catch (JSONException e) {
 
                 }
             }
@@ -1008,7 +1039,7 @@ public class MainActivity extends AppCompatActivity {
         temp_commentTime.add("2017-07-20 15:27:24");
         temp_commentTime.add("2017-07-24 13:54:20");
         dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
-                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment,temp_commentTime));
+                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -1021,7 +1052,7 @@ public class MainActivity extends AppCompatActivity {
         temp_commentTime.add("2017-01-05 20:54:04");
         temp_commentTime.add("2017-01-10 11:50:35");
         dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계 - 백정엽", "4", "2017년",
-                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment,temp_commentTime));
+                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -1033,7 +1064,7 @@ public class MainActivity extends AppCompatActivity {
         temp_commentTime.add("2017-01-05 20:54:04");
         temp_commentTime.add("2017-01-10 11:50:35");
         dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러 - 김중헌", "4", "2017년",
-                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment,temp_commentTime));
+                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -1046,7 +1077,7 @@ public class MainActivity extends AppCompatActivity {
         temp_commentTime.add("2015-08-20 20:54:04");
         temp_commentTime.add("2015-08-21 11:50:35");
         dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학 - 김상욱", "1", "2015년",
-                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment,temp_commentTime));
+                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -1059,7 +1090,7 @@ public class MainActivity extends AppCompatActivity {
         temp_commentTime.add("2017-01-31 20:54:04");
         temp_commentTime.add("2017-02-01 11:50:35");
         dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조 - 백정엽", "3", "2016년",
-                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment,temp_commentTime));
+                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -1072,7 +1103,7 @@ public class MainActivity extends AppCompatActivity {
         temp_commentTime.add("2016-11-12 20:54:04");
         temp_commentTime.add("2016-11-13 11:50:35");
         dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "5", "2015년",
-                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment,temp_commentTime));
+                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -1085,10 +1116,10 @@ public class MainActivity extends AppCompatActivity {
         temp_commentTime.add("2018-10-18 20:54:04");
         temp_commentTime.add("2018-10-20 11:50:35");
         dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment,temp_commentTime));
+                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
     }
 
-    public void hideKeyboard(){
+    public void hideKeyboard() {
         imm.hideSoftInputFromWindow(inputSearch.getWindowToken(), 0);
     }
 }
