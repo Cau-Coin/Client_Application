@@ -621,7 +621,7 @@
         <!-- 댓글 남기기 구역 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="48dp"
             android:background="@color/signatureColor">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -633,7 +633,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="8.75">
+                    android:layout_weight="8.8">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
@@ -644,21 +644,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:hint="이 평가에 대한 댓글을 남기세요!"
+                        android:hint="이 평가에 대한 한줄 평을 남기세요!"
                         android:inputType="text"
                         android:background="@null"
                         android:layout_marginLeft="5dp"
+                        android:imeOptions="actionSend"
                         android:textSize="15dp" />
                 </LinearLayout>
-
-
-                <Button
-                    android:id="@+id/detail_registerComment"
+                <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.25"
-                    android:text="등록"
-                    android:textSize="13dp" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2">
+                    <ImageView
+                        android:id="@+id/detail_registerComment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/signatureColor"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/sendimg"/>
+                </RelativeLayout>
+
             </LinearLayout>
 
         </LinearLayout>

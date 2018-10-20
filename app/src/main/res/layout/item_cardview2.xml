@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:text="2018-10-19"
                     android:textSize="13dp"
-                    android:layout_marginRight="12dp"/>
+                    android:layout_marginRight="10dp"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/cardview2_text"

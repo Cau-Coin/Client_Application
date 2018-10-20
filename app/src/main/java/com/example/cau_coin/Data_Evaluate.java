@@ -14,8 +14,10 @@ public class Data_Evaluate {
     private String timeStamp;
     private ArrayList<String> score = new ArrayList<String>();
     private ArrayList<String> comment = new ArrayList<String>();
+    private ArrayList<String> commentTime = new ArrayList<String>();
 
-    public Data_Evaluate(String evaluateId, String dept, String grade, String semester, String subject, String evaluate, String takeYear, String review, String timeStamp, ArrayList<String> score, ArrayList<String> comment) {
+    public Data_Evaluate(String evaluateId, String dept, String grade, String semester, String subject, String evaluate, String takeYear, String review, String timeStamp, ArrayList<String> score,
+                         ArrayList<String> comment,ArrayList<String> commentTime) {
         this.evaluateId = evaluateId;
         this.dept = dept;
         this.grade = grade;
@@ -27,6 +29,7 @@ public class Data_Evaluate {
         this.timeStamp = timeStamp;
         this.score.addAll(score);
         this.comment.addAll(comment);
+        this.commentTime.addAll(commentTime);
     }
 
     public String getEvaluateId() {
@@ -113,6 +116,10 @@ public class Data_Evaluate {
 
     public String getComment(int index) {
         return comment.get(index);
+    }
+
+    public String getCommentTime(int index) {
+        return commentTime.get(index);
     }
 
 }
