@@ -11,20 +11,6 @@
         <item>-선택-</item>
     </string-array>
 
-    <string-array name="grade">
-        <item>-선택-</item>
-        <item>1학년</item>
-        <item>2학년</item>
-        <item>3학년</item>
-        <item>4학년</item>
-    </string-array>
-
-    <string-array name="semester">
-        <item>-선택-</item>
-        <item>1학기</item>
-        <item>2학기</item>
-    </string-array>
-
     <string-array name="subject_sw_1_1">
         <item>-선택-</item>
         <item>미적분학 - 김상욱</item>
@@ -192,24 +178,5 @@
         <item>종합설계 - 최영완</item>
         <item>지능정보융합시스템 - 강훈</item>
         <item>초소형전기기계시스템 - 백창욱</item>
-    </string-array>
-
-    <string-array name="year">
-        <item>-선택-</item>
-        <item>2018년</item>
-        <item>2017년</item>
-        <item>2016년</item>
-        <item>2015년</item>
-        <item>2014년</item>
-        <item>2013년</item>
-    </string-array>
-
-    <string-array name="evaluate">
-        <item>-선택-</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
     </string-array>
 </resources>

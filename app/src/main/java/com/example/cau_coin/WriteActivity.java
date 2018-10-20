@@ -1,26 +1,28 @@
 package com.example.cau_coin;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -33,11 +35,41 @@ public class WriteActivity extends Activity {
     private String name;
     private String major;
 
-    private String select_grade;
-    private String select_semester;
-    private String select_subject;
-    private String select_year;
-    private String select_evaluate;
+    private String select_dept = "";
+    private String select_grade = "";
+    private String select_semester = "";
+    private String select_subject = "";
+    private String select_year = "";
+    private String select_evaluate = "";
+
+    private TextView dept_sw;
+    private TextView dept_ie;
+    private TextView dept_ee;
+
+    private TextView grade_1;
+    private TextView grade_2;
+    private TextView grade_3;
+    private TextView grade_4;
+
+    private TextView semester_1;
+    private TextView semester_2;
+
+    private TextView subject;
+
+    private TextView takeYear;
+
+    private TextView evaluate_1;
+    private TextView evaluate_2;
+    private TextView evaluate_3;
+    private TextView evaluate_4;
+    private TextView evaluate_5;
+
+    private EditText review;
+
+    private RelativeLayout register;
+
+    private InputMethodManager imm;
+    private Database_Evaluate database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,281 +80,451 @@ public class WriteActivity extends Activity {
         name = getIntent().getExtras().getString("name");
         major = getIntent().getExtras().getString("major");
 
-        TextView userMajor = (TextView)findViewById(R.id.write_major);
-        final Spinner input_grade = (Spinner)findViewById(R.id.write_grade);
-        final Spinner input_semester = (Spinner)findViewById(R.id.write_semester);
-        final Spinner input_subject = (Spinner)findViewById(R.id.write_subject);
-        final Spinner input_year = (Spinner)findViewById(R.id.write_year);
-        final Spinner input_evaluate = (Spinner)findViewById(R.id.write_evaluate);
-        final EditText input_review = (EditText)findViewById(R.id.write_review);
-        Button register = (Button)findViewById(R.id.write_register);
+        ImageView returnBack = (ImageView) findViewById(R.id.write_returnback);
+        dept_sw = (TextView) findViewById(R.id.write_dept_sw);
+        dept_ie = (TextView) findViewById(R.id.write_dept_ie);
+        dept_ee = (TextView) findViewById(R.id.write_dept_ee);
 
-        userMajor.setText(major);
+        grade_1 = (TextView) findViewById(R.id.write_grade_1);
+        grade_2 = (TextView) findViewById(R.id.write_grade_2);
+        grade_3 = (TextView) findViewById(R.id.write_grade_3);
+        grade_4 = (TextView) findViewById(R.id.write_grade_4);
 
-        final ArrayAdapter blankAdapter = ArrayAdapter.createFromResource(this,R.array.blank,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter gradeAdapter = ArrayAdapter.createFromResource(this,R.array.grade,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter semesterAdapter = ArrayAdapter.createFromResource(this,R.array.semester,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter yearAdapter = ArrayAdapter.createFromResource(this,R.array.year,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter evaluateAdapter = ArrayAdapter.createFromResource(this,R.array.evaluate,android.R.layout.simple_spinner_dropdown_item);
+        semester_1 = (TextView) findViewById(R.id.write_semester_1);
+        semester_2 = (TextView) findViewById(R.id.write_semester_2);
 
-        final ArrayAdapter subject_sw_1_1 = ArrayAdapter.createFromResource(this,R.array.subject_sw_1_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_sw_1_2 = ArrayAdapter.createFromResource(this,R.array.subject_sw_1_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_sw_2_1 = ArrayAdapter.createFromResource(this,R.array.subject_sw_2_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_sw_2_2 = ArrayAdapter.createFromResource(this,R.array.subject_sw_2_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_sw_3_1 = ArrayAdapter.createFromResource(this,R.array.subject_sw_3_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_sw_3_2 = ArrayAdapter.createFromResource(this,R.array.subject_sw_3_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_sw_4_1 = ArrayAdapter.createFromResource(this,R.array.subject_sw_4_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_sw_4_2 = ArrayAdapter.createFromResource(this,R.array.subject_sw_4_2,android.R.layout.simple_spinner_dropdown_item);
+        subject = (TextView) findViewById(R.id.write_subject);
 
-        final ArrayAdapter subject_ie_1_1 = ArrayAdapter.createFromResource(this,R.array.subject_ie_1_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ie_1_2 = ArrayAdapter.createFromResource(this,R.array.subject_ie_1_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ie_2_1 = ArrayAdapter.createFromResource(this,R.array.subject_ie_2_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ie_2_2 = ArrayAdapter.createFromResource(this,R.array.subject_ie_2_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ie_3_1 = ArrayAdapter.createFromResource(this,R.array.subject_ie_3_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ie_3_2 = ArrayAdapter.createFromResource(this,R.array.subject_ie_3_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ie_4_1 = ArrayAdapter.createFromResource(this,R.array.subject_ie_4_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ie_4_2 = ArrayAdapter.createFromResource(this,R.array.subject_ie_4_2,android.R.layout.simple_spinner_dropdown_item);
+        takeYear = (TextView) findViewById(R.id.write_takeyear);
 
-        final ArrayAdapter subject_ee_1_1 = ArrayAdapter.createFromResource(this,R.array.subject_ee_1_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ee_1_2 = ArrayAdapter.createFromResource(this,R.array.subject_ee_1_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ee_2_1 = ArrayAdapter.createFromResource(this,R.array.subject_ee_2_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ee_2_2 = ArrayAdapter.createFromResource(this,R.array.subject_ee_2_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ee_3_1 = ArrayAdapter.createFromResource(this,R.array.subject_ee_3_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ee_3_2 = ArrayAdapter.createFromResource(this,R.array.subject_ee_3_2,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ee_4_1 = ArrayAdapter.createFromResource(this,R.array.subject_ee_4_1,android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter subject_ee_4_2 = ArrayAdapter.createFromResource(this,R.array.subject_ee_4_2,android.R.layout.simple_spinner_dropdown_item);
+        evaluate_1 = (TextView) findViewById(R.id.write_evaluate_1);
+        evaluate_2 = (TextView) findViewById(R.id.write_evaluate_2);
+        evaluate_3 = (TextView) findViewById(R.id.write_evaluate_3);
+        evaluate_4 = (TextView) findViewById(R.id.write_evaluate_4);
+        evaluate_5 = (TextView) findViewById(R.id.write_evaluate_5);
 
-        input_year.setAdapter(yearAdapter);
-        input_grade.setAdapter(gradeAdapter);
-        input_semester.setAdapter(blankAdapter);
-        input_subject.setAdapter(blankAdapter);
-        input_evaluate.setAdapter(blankAdapter);
+        review = (EditText) findViewById(R.id.write_review);
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        final Database_Evaluate database = new Database_Evaluate(getApplicationContext(), "evaldb.db", null, 1);
+        register = (RelativeLayout) findViewById(R.id.write_register);
 
-        input_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        database = new Database_Evaluate(getApplicationContext(), "evaldb.db", null, 1);
+
+        dept_sw.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = (String) input_year.getItemAtPosition(position);
-
-                if(selected.equals("-선택-")){
-                    select_year="";
-                }
-                else{
-                    select_year = selected;
-                }
+            public void onClick(View v) {
+                onClickDept(dept_sw);
             }
-
+        });
+        dept_ie.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                onClickDept(dept_ie);
+            }
+        });
+        dept_ee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickDept(dept_ee);
             }
         });
 
-        input_grade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        grade_1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = (String) input_grade.getItemAtPosition(position);
-
-                if(selected.equals("-선택-")){
-                    input_semester.setAdapter(blankAdapter);
-                    input_subject.setAdapter(blankAdapter);
-                    input_evaluate.setAdapter(blankAdapter);
-                    select_grade="";
-                }
-                else{
-                    input_semester.setAdapter(semesterAdapter);
-                    input_subject.setAdapter(blankAdapter);
-                    input_evaluate.setAdapter(blankAdapter);
-                    select_grade = selected;
-                }
+            public void onClick(View v) {
+                onClickGrade(grade_1);
             }
-
+        });
+        grade_2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                onClickGrade(grade_2);
+            }
+        });
+        grade_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickGrade(grade_3);
+            }
+        });
+        grade_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickGrade(grade_4);
             }
         });
 
-        input_semester.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        semester_1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = (String) input_semester.getItemAtPosition(position);
+            public void onClick(View v) {
+                onClickSemester(semester_1);
+            }
+        });
+        semester_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSemester(semester_2);
+            }
+        });
 
-                if(selected.equals("-선택-")){
-                    input_subject.setAdapter(blankAdapter);
-                    input_evaluate.setAdapter(blankAdapter);
-                    select_semester="";
+        subject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (select_dept.equals("")) {
+                    Toast.makeText(getApplicationContext(), "학부를 먼저 선택해주세요", Toast.LENGTH_SHORT).show();
+                } else if (select_grade.equals("")) {
+                    Toast.makeText(getApplicationContext(), "학년을 먼저 선택해주세요", Toast.LENGTH_SHORT).show();
+                } else if (select_semester.equals("")) {
+                    Toast.makeText(getApplicationContext(), "학기를 먼저 선택해주세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    final String[] items = setSubjectItem();
+                    final int[] selectedIndex = {0};
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(WriteActivity.this);
+                    dialog.setTitle("과목을 선택해주세요").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedIndex[0] = which;
+                        }
+                    }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @SuppressLint("ResourceAsColor")
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            select_subject = items[selectedIndex[0]];
+                            if (select_subject.equals("-선택-")) {
+                                select_subject="";
+                                subject.setText("과목 선택");
+                                subject.setTextColor(0xff565656);
+                                subject.setTypeface(null, Typeface.NORMAL);
+                            } else {
+                                subject.setText(select_subject);
+                                subject.setTextColor(0xff045473);
+                                subject.setTypeface(null, Typeface.BOLD);
+                            }
+                        }
+                    }).create().show();
                 }
-                else{
-                    select_semester = selected;
-                    switch (select_grade){
-                        case "1학년":
-                            if(select_semester.equals("1학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_1_1);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_1_1);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_1_1);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else if(select_semester.equals("2학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_1_2);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_1_2);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_1_2);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else{
-                                input_subject.setAdapter(blankAdapter);
-                            }
-                            break;
-                        case "2학년":
-                            if(select_semester.equals("1학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_2_1);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_2_1);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_2_1);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else if(select_semester.equals("2학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_2_2);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_2_2);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_2_2);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else{
-                                input_subject.setAdapter(blankAdapter);
-                            }
-                            break;
-                        case "3학년":
-                            if(select_semester.equals("1학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_3_1);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_3_1);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_3_1);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else if(select_semester.equals("2학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_3_2);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_3_2);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_3_2);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else{
-                                input_subject.setAdapter(blankAdapter);
-                            }
-                            break;
-                        case "4학년":
-                            if(select_semester.equals("1학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_4_1);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_4_1);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_4_1);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else if(select_semester.equals("2학기")){
-                                if(major.equals("소프트웨어학부")) input_subject.setAdapter(subject_sw_4_2);
-                                else if(major.equals("융합공학부")) input_subject.setAdapter(subject_ie_4_2);
-                                else if(major.equals("전자전기공학부"))  input_subject.setAdapter(subject_ee_4_2);
-                                else input_subject.setAdapter(blankAdapter);
-                            }
-                            else{
-                                input_subject.setAdapter(blankAdapter);
-                            }
-                            break;
-                        default:
-                            input_subject.setAdapter(blankAdapter);
-                            break;
+            }
+        });
+
+        takeYear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] items = new String[]{"-선택-", "2018년", "2017년", "2016년", "2015년", "2014년", "2013년", "2012년"};
+                final int[] selectedIndex = {0};
+                AlertDialog.Builder dialog = new AlertDialog.Builder(WriteActivity.this);
+                dialog.setTitle("수강년도를 선택해주세요").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedIndex[0] = which;
                     }
-                    input_evaluate.setAdapter(blankAdapter);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        select_year = items[selectedIndex[0]];
+                        if (select_year.equals("-선택-")) {
+                            select_year="";
+                            takeYear.setText("수강년도 선택");
+                            takeYear.setTextColor(0xff565656);
+                            takeYear.setTypeface(null, Typeface.NORMAL);
+                        } else {
+                            takeYear.setText(select_year);
+                            takeYear.setTextColor(0xff045473);
+                            takeYear.setTypeface(null, Typeface.BOLD);
+                        }
+                    }
+                }).create().show();
             }
         });
 
-        input_subject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        evaluate_1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = (String) input_subject.getItemAtPosition(position);
-
-                if(selected.equals("-선택-")){
-                    select_subject="";
-                    input_evaluate.setAdapter(blankAdapter);
-                }
-                else{
-                    if(database.getEvaluate(userid,selected)){
-                        input_evaluate.setAdapter(evaluateAdapter);
-                        select_subject = selected;
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "이미 이 과목에 대한 강의평가를 했습니다", Toast.LENGTH_SHORT).show();
-                        input_subject.setAdapter(input_subject.getAdapter());
-                        select_subject="";
-                        input_evaluate.setAdapter(blankAdapter);
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                onClickEvaluate(evaluate_1);
             }
         });
-
-        input_evaluate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        evaluate_2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = (String) input_evaluate.getItemAtPosition(position);
-
-                if(selected.equals("-선택-")){
-                    select_evaluate="";
-                }
-                else{
-                    select_evaluate = selected;
-                }
+            public void onClick(View v) {
+                onClickEvaluate(evaluate_2);
             }
-
+        });
+        evaluate_3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                onClickEvaluate(evaluate_3);
+            }
+        });
+        evaluate_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickEvaluate(evaluate_4);
+            }
+        });
+        evaluate_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickEvaluate(evaluate_5);
             }
         });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(select_year.equals("")){
-                    Toast.makeText(getApplicationContext(), "항목을 모두 선택해주세요", Toast.LENGTH_SHORT).show();
-                }
-                else if(select_evaluate.equals("")){
-                    Toast.makeText(getApplicationContext(), "항목을 모두 선택해주세요", Toast.LENGTH_SHORT).show();
-                }
-                else if(input_review.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "리뷰를 한 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    database.insertData_Evaluate(userid,select_subject);
+                registerEval();
+            }
+        });
 
-                    SendData sendData = new SendData();
-                    sendData.execute(input_review.getText().toString());
+        returnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-                    Toast.makeText(getApplicationContext(), "평가가 등록되었습니다", Toast.LENGTH_SHORT).show();
-                    Intent a = new Intent(WriteActivity.this, MainActivity.class);
-                    a.putExtra("name",name);
-                    a.putExtra("major",major);
-                    a.putExtra("id",userid);
-                    a.putExtra("from","write");
-                    startActivity(a);
-                    finish();
+        review.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        registerEval();
+                        break;
+                    default:
+                        return false;
                 }
+                return true;
             }
         });
     }
 
-    public class SendData extends AsyncTask<String,Void,String> {
+    public void registerEval(){
+        hideKeyboard();
+        if (select_dept.equals("")) {
+            Toast.makeText(getApplicationContext(), "학부를 선택해주세요", Toast.LENGTH_SHORT).show();
+        } else if (select_grade.equals("")) {
+            Toast.makeText(getApplicationContext(), "학년을 선택해주세요", Toast.LENGTH_SHORT).show();
+        } else if (select_semester.equals("")) {
+            Toast.makeText(getApplicationContext(), "학기를 선택해주세요", Toast.LENGTH_SHORT).show();
+        } else if (select_subject.equals("")) {
+            Toast.makeText(getApplicationContext(), "과목을 선택해주세요", Toast.LENGTH_SHORT).show();
+        } else if (select_year.equals("")) {
+            Toast.makeText(getApplicationContext(), "수강년도를 선택해주세요", Toast.LENGTH_SHORT).show();
+        } else if (review.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "한줄평을 한 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show();
+        } else {
+            database.insertData_Evaluate(userid, select_subject);
 
-        public String doInBackground(String ...params)
-        {
-            try{
+            SendData sendData = new SendData();
+            sendData.execute(review.getText().toString());
+
+            Toast.makeText(getApplicationContext(), "평가가 등록되었습니다", Toast.LENGTH_SHORT).show();
+            Intent a = new Intent(WriteActivity.this, MainActivity.class);
+            a.putExtra("name", name);
+            a.putExtra("major", major);
+            a.putExtra("id", userid);
+            a.putExtra("from", "write");
+            startActivity(a);
+            finish();
+        }
+    }
+
+    public void hideKeyboard(){
+        imm.hideSoftInputFromWindow(review.getWindowToken(), 0);
+    }
+
+    public String[] setSubjectItem() {
+        switch (select_grade) {
+            case "1학년":
+                switch (select_dept){
+                    case "소프트웨어학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_sw_1_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_sw_1_2);
+                        }
+                        break;
+                    case "융합공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ie_1_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ie_1_2);
+                        }
+                        break;
+                    case "전자전기공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ee_1_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ee_1_2);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "2학년":
+                switch (select_dept){
+                    case "소프트웨어학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_sw_2_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_sw_2_2);
+                        }
+                        break;
+                    case "융합공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ie_2_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ie_2_2);
+                        }
+                        break;
+                    case "전자전기공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ee_2_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ee_2_2);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "3학년":
+                switch (select_dept){
+                    case "소프트웨어학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_sw_3_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_sw_3_2);
+                        }
+                        break;
+                    case "융합공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ie_3_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ie_3_2);
+                        }
+                        break;
+                    case "전자전기공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ee_3_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ee_3_2);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "4학년":
+                switch (select_dept){
+                    case "소프트웨어학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_sw_4_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_sw_4_2);
+                        }
+                        break;
+                    case "융합공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ie_4_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ie_4_2);
+                        }
+                        break;
+                    case "전자전기공학부":
+                        if(select_semester.equals("1학기")){
+                            return getResources().getStringArray(R.array.subject_ee_4_1);
+                        }
+                        else if(select_semester.equals("2학기")){
+                            return getResources().getStringArray(R.array.subject_ee_4_2);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+        String[] temp = {"0","0"};
+        return temp;
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void onClickDept(TextView dept) {
+        dept_sw.setTextColor(0xff565656);
+        dept_sw.setTypeface(null, Typeface.NORMAL);
+        dept_ie.setTextColor(0xff565656);
+        dept_ie.setTypeface(null, Typeface.NORMAL);
+        dept_ee.setTextColor(0xff565656);
+        dept_ee.setTypeface(null, Typeface.NORMAL);
+
+        dept.setTextColor(0xff045473);
+        dept.setTypeface(null, Typeface.BOLD);
+        select_dept = dept.getText().toString();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void onClickGrade(TextView grade) {
+        grade_1.setTextColor(0xff565656);
+        grade_1.setTypeface(null, Typeface.NORMAL);
+        grade_2.setTextColor(0xff565656);
+        grade_2.setTypeface(null, Typeface.NORMAL);
+        grade_3.setTextColor(0xff565656);
+        grade_3.setTypeface(null, Typeface.NORMAL);
+        grade_4.setTextColor(0xff565656);
+        grade_4.setTypeface(null, Typeface.NORMAL);
+
+        grade.setTextColor(0xff045473);
+        grade.setTypeface(null, Typeface.BOLD);
+        select_grade = grade.getText().toString();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void onClickSemester(TextView semester) {
+        semester_1.setTextColor(0xff565656);
+        semester_1.setTypeface(null, Typeface.NORMAL);
+        semester_2.setTextColor(0xff565656);
+        semester_2.setTypeface(null, Typeface.NORMAL);
+
+        semester.setTextColor(0xff045473);
+        semester.setTypeface(null, Typeface.BOLD);
+        select_semester = semester.getText().toString();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void onClickEvaluate(TextView evaluate) {
+        evaluate_1.setTextColor(0xff565656);
+        evaluate_1.setTypeface(null, Typeface.NORMAL);
+        evaluate_2.setTextColor(0xff565656);
+        evaluate_2.setTypeface(null, Typeface.NORMAL);
+        evaluate_3.setTextColor(0xff565656);
+        evaluate_3.setTypeface(null, Typeface.NORMAL);
+        evaluate_4.setTextColor(0xff565656);
+        evaluate_4.setTypeface(null, Typeface.NORMAL);
+        evaluate_5.setTextColor(0xff565656);
+        evaluate_5.setTypeface(null, Typeface.NORMAL);
+
+        evaluate.setTextColor(0xff045473);
+        evaluate.setTypeface(null, Typeface.BOLD);
+        select_evaluate = evaluate.getText().toString();
+    }
+
+    public class SendData extends AsyncTask<String, Void, String> {
+
+        public String doInBackground(String... params) {
+            try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String currentDateTime = dateFormat.format(new Date());
 
@@ -330,19 +532,21 @@ public class WriteActivity extends Activity {
                 String review = params[0];
 
                 try {
-                    myJsonObject.put("type","evaluate");
-                    myJsonObject.put("userid",userid);
-                    myJsonObject.put("dept",major);
-                    myJsonObject.put("grade",select_grade);
-                    myJsonObject.put("semester",select_semester);
-                    myJsonObject.put("subject",select_subject);
-                    myJsonObject.put("evaluate",select_evaluate);
-                    myJsonObject.put("takeyear",select_year);
-                    myJsonObject.put("review",review);
-                    myJsonObject.put("timestamp",currentDateTime);
+                    myJsonObject.put("type", "evaluate");
+                    myJsonObject.put("userid", userid);
+                    myJsonObject.put("dept", select_dept);
+                    myJsonObject.put("grade", select_grade);
+                    myJsonObject.put("semester", select_semester);
+                    myJsonObject.put("subject", select_subject);
+                    myJsonObject.put("evaluate", select_evaluate);
+                    myJsonObject.put("takeyear", select_year);
+                    myJsonObject.put("review", review);
+                    myJsonObject.put("timestamp", currentDateTime);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                System.out.println("@@@@@@@@@@@"+myJsonObject.toString());
 
                 String url = "http://115.68.207.101:4444/write_transaction";
                 URL obj = new URL(url);
@@ -363,20 +567,19 @@ public class WriteActivity extends Activity {
                 os.flush();
                 os.close();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
                 String line;
                 StringBuilder sb = new StringBuilder();
 
-                while((line = reader.readLine())!=null)
-                {
+                while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
 
                 reader.close();
                 return sb.toString();
 
-            }catch(Exception e){
+            } catch (Exception e) {
 
                 e.printStackTrace();
             }
@@ -403,10 +606,10 @@ public class WriteActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent a = new Intent(WriteActivity.this, MainActivity.class);
-                a.putExtra("name",name);
-                a.putExtra("major",major);
-                a.putExtra("id",userid);
-                a.putExtra("from","write");
+                a.putExtra("name", name);
+                a.putExtra("major", major);
+                a.putExtra("id", userid);
+                a.putExtra("from", "write");
                 startActivity(a);
                 finish();
             }
