@@ -133,8 +133,8 @@ public class DetailReviewActivity extends Activity {
         right_1 = (TextView) findViewById(R.id.detail_rightstar1);
         numRating = (TextView) findViewById(R.id.detail_numRating);
 
-
-        setData();
+        ReadData temp = new ReadData();
+        temp.execute();
 
         final Database_Evaluate database = new Database_Evaluate(getApplicationContext(), "evaldb.db", null, 1);
 
@@ -410,6 +410,8 @@ public class DetailReviewActivity extends Activity {
                 } catch (JSONException e) {
                 }
             }
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 서버쪽 완성되면 메소드와 여기 호출 지우기! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            setFakeData();
             for (int a = 0; a < dataList.size(); a++) {
                 if (dataList.get(a).getEvaluateId().equals(evaluateId)) {
                     String[] temp = dataList.get(a).getSubject().split("-");
@@ -526,7 +528,7 @@ public class DetailReviewActivity extends Activity {
     }
 
     // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    public void setData() {
+    public void setFakeData() {
         temp_score.add("5");
         temp_score.add("5");
         temp_score.add("5");
@@ -631,8 +633,5 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2018-10-20 11:50:35");
         dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
                 "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment,temp_commentTime));
-
-        ReadData temp = new ReadData();
-        temp.execute();
     }
 }

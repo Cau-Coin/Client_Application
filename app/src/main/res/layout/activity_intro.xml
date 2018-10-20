@@ -2,16 +2,56 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/signatureColor">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Intro Image"
-            android:textSize="25dp"
-            android:layout_centerInParent="true"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5">
+            <ImageView
+                android:id="@+id/intro_logo"
+                android:layout_width="370dp"
+                android:layout_height="370dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="35dp"
+                android:src="@drawable/applogo"/>
+        </RelativeLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CAU COIN"
+                    android:textSize="55dp"
+                    android:textColor="@color/normalColor"
+                    android:fontFamily="@font/nanumsquareroundeb"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Application for Always-On Project, 2018"
+                    android:textSize="11dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/normalColor"
+                    android:fontFamily="@font/nanumsquareroundeb"
+                    android:layout_centerInParent="true"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

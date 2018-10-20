@@ -4,17 +4,26 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 public class IntroActivity extends Activity {
     private Handler handler;
+    private boolean isUserOn = true;
+
+    private ImageView logo;
+    private Animation appear;
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Intent a = new Intent(IntroActivity.this,LoginActivity.class);
-            startActivity(a);
+            if(isUserOn){
+                Intent a = new Intent(IntroActivity.this,LoginActivity.class);
+                startActivity(a);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+            }
             finish();
-            overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         }
     };
 
@@ -22,9 +31,14 @@ public class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        init();
 
-        handler.postDelayed(runnable,1000);
+        logo = (ImageView)findViewById(R.id.intro_logo);
+        appear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.applogo_appear);
+
+        logo.setAnimation(appear);
+
+        init();
+        handler.postDelayed(runnable,3000);
     }
 
     public void init(){
@@ -34,6 +48,13 @@ public class IntroActivity extends Activity {
     @Override
     public void onBackPressed(){
         ;
+    }
+
+    @Override
+    protected void onUserLeaveHint(){
+        isUserOn=false;
+        System.out.println("@@@@@@@@@@@@@@나갔네!!");
+        super.onUserLeaveHint();
     }
 
 }
