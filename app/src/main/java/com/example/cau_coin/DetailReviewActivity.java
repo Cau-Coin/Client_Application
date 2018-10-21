@@ -83,6 +83,8 @@ public class DetailReviewActivity extends Activity {
     private InputMethodManager imm;
     private EditText inputComment;
 
+    private int eval_index;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +102,7 @@ public class DetailReviewActivity extends Activity {
 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        TextView giveScore = (TextView) findViewById(R.id.detail_givescore);
+        final TextView giveScore = (TextView) findViewById(R.id.detail_givescore);
         ImageView registerComment = (ImageView) findViewById(R.id.detail_registerComment);
         inputComment = (EditText) findViewById(R.id.detail_inputComment);
 
@@ -138,7 +140,7 @@ public class DetailReviewActivity extends Activity {
 
         final Database_Evaluate database = new Database_Evaluate(getApplicationContext(), "evaldb.db", null, 1);
 
-        if(!database.getScore(id,evaluateId)){
+        if (!database.getScore(id, evaluateId)) {
             giveScore.setText("Already Scored");
         }
 
@@ -166,6 +168,11 @@ public class DetailReviewActivity extends Activity {
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(getApplicationContext(), items[selectedIndex[0]] + "점을 부여했습니다", Toast.LENGTH_SHORT).show();
                             database.insertData_Score(id, evaluateId);
+                            giveScore.setText("Already Scored");
+
+                            dataList.get(eval_index).addScore(items[selectedIndex[0]]);
+                            setStar();
+
                         }
                     }).create().show();
                 } else {
@@ -195,15 +202,15 @@ public class DetailReviewActivity extends Activity {
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this){
+        recyclerView.setLayoutManager(new LinearLayoutManager(this) {
             @Override
-            public boolean canScrollVertically(){
+            public boolean canScrollVertically() {
                 return false;
             }
         });
     }
 
-    public void registerComment(){
+    public void registerComment() {
         if (inputComment.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "댓글을 입력해주세요", Toast.LENGTH_SHORT).show();
         } else {
@@ -240,7 +247,7 @@ public class DetailReviewActivity extends Activity {
             ((DetailReviewActivity.MyAdapter.ViewHolder) holder).cardview_text.setText(mItems.get(position).getComment());
 
             String[] time = mItems.get(position).getTimeStamp().split("-");
-            ((DetailReviewActivity.MyAdapter.ViewHolder) holder).cardview_timestamp.setText(time[0]+"-"+time[1]+"-"+time[2].substring(0,2));
+            ((DetailReviewActivity.MyAdapter.ViewHolder) holder).cardview_timestamp.setText(time[0] + "-" + time[1] + "-" + time[2].substring(0, 2));
         }
 
         @Override
@@ -403,7 +410,7 @@ public class DetailReviewActivity extends Activity {
                         }
 
                         dataList.add(new Data_Evaluate(evaluateIdFromServer, deptFromServer, gradeFromServer, semesterFromServer, subjectFromServer, evaluateFromServer, takeYearFromServer, reviewFromServer,
-                                timeStampFromServer, scoreParsed, commentParsed,commentTimeParsed));
+                                timeStampFromServer, scoreParsed, commentParsed, commentTimeParsed));
                     }
 
 
@@ -425,13 +432,13 @@ public class DetailReviewActivity extends Activity {
                     myTakeYear.setText(dataList.get(a).getTakeYear() + " " + dataList.get(a).getSemester() + "학기 수강자");
                     myReview.setText(dataList.get(a).getReview());
                     myTimeStamp.setText(temp2[0] + "-" + temp2[1] + "-" + temp2[2].substring(0, 2));
-                    myScore.setText(dataList.get(a).getScore());
 
-                    setStar(a);
+                    eval_index = a;
+                    setStar();
 
                     myList.clear();
                     for (int b = 0; b < dataList.get(a).getCommentNum(); b++) {
-                        myList.add(new RecycleItem2(dataList.get(a).getComment(b),dataList.get(a).getCommentTime(b)));
+                        myList.add(new RecycleItem2(dataList.get(a).getComment(b), dataList.get(a).getCommentTime(b)));
                     }
                     adapter.notifyDataSetChanged();
                     break;
@@ -440,88 +447,85 @@ public class DetailReviewActivity extends Activity {
         }
     }
 
-    public void hideKeyboard(){
+    public void hideKeyboard() {
         imm.hideSoftInputFromWindow(inputComment.getWindowToken(), 0);
     }
 
     // 별점 비율 표기
-    public void setStar(int a){
+    public void setStar() {
+        myScore.setText(dataList.get(eval_index).getScore());
+
         LinearLayout.LayoutParams i;
         LinearLayout.LayoutParams j;
 
         float starTemp1;
         float starTemp2;
-        starTemp2 = dataList.get(a).getNumScore();
+        starTemp2 = dataList.get(eval_index).getNumScore();
         int num = (int) starTemp2;
 
-        numRating.setText( num+ " Ratings");
+        numRating.setText(num + " Ratings");
 
-        i = (LinearLayout.LayoutParams)left_5.getLayoutParams();
-        j = (LinearLayout.LayoutParams)right_5.getLayoutParams();
-        starTemp1 = dataList.get(a).getNumStar("5");
-        if(starTemp1==0){
+        i = (LinearLayout.LayoutParams) left_5.getLayoutParams();
+        j = (LinearLayout.LayoutParams) right_5.getLayoutParams();
+        starTemp1 = dataList.get(eval_index).getNumStar("5");
+        if (starTemp1 == 0) {
             i.weight = 1;
             j.weight = 99;
-        }
-        else{
+        } else {
             i.weight = starTemp1;
-            j.weight = (starTemp2-starTemp1);
+            j.weight = (starTemp2 - starTemp1);
         }
         left_5.setLayoutParams(i);
         right_5.setLayoutParams(j);
 
-        i = (LinearLayout.LayoutParams)left_4.getLayoutParams();
-        j = (LinearLayout.LayoutParams)right_4.getLayoutParams();
-        starTemp1 = dataList.get(a).getNumStar("4");
-        if(starTemp1==0){
+        i = (LinearLayout.LayoutParams) left_4.getLayoutParams();
+        j = (LinearLayout.LayoutParams) right_4.getLayoutParams();
+        starTemp1 = dataList.get(eval_index).getNumStar("4");
+        if (starTemp1 == 0) {
             i.weight = 1;
             j.weight = 99;
-        }
-        else{
+        } else {
             i.weight = starTemp1;
-            j.weight = (starTemp2-starTemp1);
+            j.weight = (starTemp2 - starTemp1);
         }
         left_4.setLayoutParams(i);
         right_4.setLayoutParams(j);
 
-        i = (LinearLayout.LayoutParams)left_3.getLayoutParams();
-        j = (LinearLayout.LayoutParams)right_3.getLayoutParams();
-        starTemp1 = dataList.get(a).getNumStar("3");
-        if(starTemp1==0){
+        i = (LinearLayout.LayoutParams) left_3.getLayoutParams();
+        j = (LinearLayout.LayoutParams) right_3.getLayoutParams();
+        starTemp1 = dataList.get(eval_index).getNumStar("3");
+        if (starTemp1 == 0) {
             i.weight = 1;
             j.weight = 99;
-        }
-        else{
+        } else {
             i.weight = starTemp1;
-            j.weight = (starTemp2-starTemp1);
+            j.weight = (starTemp2 - starTemp1);
         }
         left_3.setLayoutParams(i);
         right_3.setLayoutParams(j);
 
-        i = (LinearLayout.LayoutParams)left_2.getLayoutParams();
-        j = (LinearLayout.LayoutParams)right_2.getLayoutParams();
-        starTemp1 = dataList.get(a).getNumStar("2");
-        if(starTemp1==0){
+        i = (LinearLayout.LayoutParams) left_2.getLayoutParams();
+        j = (LinearLayout.LayoutParams) right_2.getLayoutParams();
+        starTemp1 = dataList.get(eval_index).getNumStar("2");
+        if (starTemp1 == 0) {
             i.weight = 1;
             j.weight = 99;
-        }
-        else{
+        } else {
             i.weight = starTemp1;
-            j.weight = (starTemp2-starTemp1);
+            j.weight = (starTemp2 - starTemp1);
         }
         left_2.setLayoutParams(i);
         right_2.setLayoutParams(j);
 
-        i = (LinearLayout.LayoutParams)left_1.getLayoutParams();
-        j = (LinearLayout.LayoutParams)right_1.getLayoutParams();
-        starTemp1 = dataList.get(a).getNumStar("1");
-        if(starTemp1==0){
+        i = (LinearLayout.LayoutParams) left_1.getLayoutParams();
+        j = (LinearLayout.LayoutParams) right_1.getLayoutParams();
+        starTemp1 = dataList.get(eval_index).getNumStar("1");
+        if (starTemp1 == 0) {
             i.weight = 1;
             j.weight = 99;
-        }
-        else{
+        } else {
             i.weight = starTemp1;
-            j.weight = (starTemp2-starTemp1);
+            j.weight = (starTemp2 - starTemp1);
         }
         left_1.setLayoutParams(i);
         right_1.setLayoutParams(j);
@@ -555,7 +559,7 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2017-07-20 15:27:24");
         temp_commentTime.add("2017-07-24 13:54:20");
         dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
-                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment,temp_commentTime));
+                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -568,7 +572,7 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2017-01-05 20:54:04");
         temp_commentTime.add("2017-01-10 11:50:35");
         dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계 - 백정엽", "4", "2017년",
-                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment,temp_commentTime));
+                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -580,7 +584,7 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2017-01-05 20:54:04");
         temp_commentTime.add("2017-01-10 11:50:35");
         dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러 - 김중헌", "4", "2017년",
-                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment,temp_commentTime));
+                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -593,7 +597,7 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2015-08-20 20:54:04");
         temp_commentTime.add("2015-08-21 11:50:35");
         dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학 - 김상욱", "1", "2015년",
-                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment,temp_commentTime));
+                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -606,7 +610,7 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2017-01-31 20:54:04");
         temp_commentTime.add("2017-02-01 11:50:35");
         dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조 - 백정엽", "3", "2016년",
-                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment,temp_commentTime));
+                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -619,7 +623,7 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2016-11-12 20:54:04");
         temp_commentTime.add("2016-11-13 11:50:35");
         dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "5", "2015년",
-                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment,temp_commentTime));
+                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment, temp_commentTime));
 
         temp_comment.clear();
         temp_score.clear();
@@ -632,6 +636,6 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2018-10-18 20:54:04");
         temp_commentTime.add("2018-10-20 11:50:35");
         dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment,temp_commentTime));
+                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
     }
 }

@@ -117,17 +117,8 @@ public class CauCoinActivity extends Activity {
                             }
                         }
                     }
-                    // 아래 -> 위
-                    else if (upY < (downY - 300)) {
-
-                    }
-                    // 위 -> 아래
-                    else if ((upY - 300) > downY) {
-
-                    }
                 }
-
-                return true;
+                return false;
             }
         });
 
