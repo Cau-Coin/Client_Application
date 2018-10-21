@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // 인터벌 시간이 유효시간 내인 경우
                 if (0 <= intervalTime && CAUCOIN_INTERVAL_TIME >= intervalTime) {
-                    if (caucoinClicked < 3) {
+                    if (caucoinClicked < 2) {
                         caucoinClicked++;
                     } else {
                         Intent a = new Intent(MainActivity.this, CauCoinActivity.class);
