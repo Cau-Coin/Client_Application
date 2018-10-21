@@ -122,4 +122,7 @@ public class Data_Evaluate {
         return commentTime.get(index);
     }
 
+    public void addScore(String score){
+        this.score.add(score);
+    }
 }
