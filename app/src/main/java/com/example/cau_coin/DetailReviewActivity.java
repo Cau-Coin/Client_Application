@@ -666,7 +666,7 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2018-8-20 11:50:35");
         dataList.add(new Data_Evaluate("00000009", "전자전기공학부", "4", "1", "웨어러블 디바이스용 집적회로설계 - 백광현", "3", "2018년",
                 "이건 도대체 무슨 과목일까", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
-        
+
         temp_comment.clear();
         temp_score.clear();
         temp_commentTime.clear();
