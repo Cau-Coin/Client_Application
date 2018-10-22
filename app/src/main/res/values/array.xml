@@ -7,15 +7,21 @@
         <item>전자전기공학부</item>
     </string-array>
 
-    <string-array name="blank">
-        <item>-선택-</item>
-    </string-array>
-
     <string-array name="subject_sw_1_1">
         <item>-선택-</item>
+        <item>CAU세미나 - 권준석</item>
+        <item>CAU세미나 - 이재성</item>
+        <item>IT개론 - 김명호</item>
+        <item>기초미분적분학 - 박혜형</item>
+        <item>기초컴퓨터프로그래밍 - 이남규</item>
+        <item>기초컴퓨터프로그래밍 - 김영주</item>
+        <item>기초컴퓨터프로그래밍 - 김승태</item>
+        <item>기초컴퓨터프로그래밍 - 이윤성</item>
+        <item>기초컴퓨터프로그래밍 - 이태민</item>
+        <item>기초컴퓨터프로그래밍 - 정재은</item>
         <item>미적분학 - 김상욱</item>
         <item>미적분학 - 권준석</item>
-        <item>일반물리 - 이근중</item>
+        <item>일반물리(1) - 이근중</item>
     </string-array>
 
     <string-array name="subject_sw_1_2">
@@ -23,160 +29,379 @@
         <item>논리회로 - 김상욱</item>
         <item>논리회로 - 조성래</item>
         <item>비쥬얼프로그래밍 - 김영주</item>
+        <item>이산수학 - 윤경현</item>
+        <item>이산수학 - 박재현</item>
+        <item>프로그래밍 - 김영주</item>
+        <item>프로그래밍 - 이남규</item>
+        <item>프로그래밍 - 김무철</item>
+        <item>프로그래밍 - 이창하</item>
+        <item>프로그래밍 - 김승태</item>
     </string-array>
 
     <string-array name="subject_sw_2_1">
         <item>-선택-</item>
-        <item>자료구조 - 강현철</item>
-        <item>컴퓨터시스템및어셈블리언어 - 최광남</item>
+        <item>감성컴퓨팅 - 박재화</item>
         <item>선형대수학 - 권준석</item>
+        <item>소프트웨어프로젝트 - 박상오</item>
+        <item>소프트웨어프로젝트 - 박재현</item>
+        <item>소프트웨어프로젝트 - 이남규</item>
+        <item>자료구조 - 강현철</item>
+        <item>자료구조 - 이남규</item>
+        <item>자료구조 - 송인식</item>
+        <item>창의적설계 - 홍병우</item>
+        <item>컴퓨터시스템및어셈블리언어 - 최광남</item>
     </string-array>
 
     <string-array name="subject_sw_2_2">
         <item>-선택-</item>
-        <item>컴퓨터구조 - 백정엽</item>
-        <item>확률및통계 - 권준석</item>
+        <item>객체지향프로그래밍 - 이남규</item>
+        <item>객체지향프로그래밍 - 손용석</item>
+        <item>객체지향프로그래밍 - 조용진</item>
+        <item>알고리즘분석 - 이재성</item>
         <item>오토마타와형식언어 - 김성권</item>
+        <item>자료구조설계 - 정재은</item>
+        <item>컴퓨터구조 - 김상욱</item>
+        <item>컴퓨터구조 - 백정엽</item>
+        <item>프로그래밍언어론 - 김중헌</item>
+        <item>확률및통계 - 김영주</item>
+        <item>확률및통계 - 권준석</item>
     </string-array>
 
     <string-array name="subject_sw_3_1">
         <item>-선택-</item>
+        <item>SW커리어세미나 - 강윤정</item>
+        <item>데이타베이스설계 - 이재성</item>
         <item>수치해석 - 이창하</item>
+        <item>수치해석 - 이재성</item>
         <item>알고리즘 - 백정엽</item>
+        <item>알고리즘 - 김대원</item>
+        <item>오픈소스SW프로젝트 - 김영주</item>
+        <item>운영체제 - 김성조</item>
+        <item>운영체제 - 박재현</item>
         <item>컴파일러 - 김중헌</item>
+        <item>컴퓨터통신 - 박재현</item>
+        <item>휴먼 ICT 소프트웨어공학 - 이찬근</item>
+        <item>휴먼 ICT 소프트웨어공학 - 송인식</item>
     </string-array>
 
     <string-array name="subject_sw_3_2">
         <item>-선택-</item>
         <item>데이타베이스설계 - 강현철</item>
+        <item>리눅스 시스템응용 설계 - 박재화</item>
+        <item>모바일 앱 개발 - 박재현</item>
         <item>모바일 앱 개발 - 김중헌</item>
+        <item>산업체핸즈온 프로젝트 - 김대훈</item>
         <item>웹프로그래밍 - 송인식</item>
+        <item>캡스톤디자인(1) - 박상오</item>
+        <item>캡스톤디자인(1) - 권영빈</item>
+        <item>컴퓨터통신 - 손용석</item>
+        <item>프로그래밍언어론 - 김명호</item>
+        <item>프로그래밍언어론 - 송인식</item>
+        <item>프로그래밍언어론 - 김중헌</item>
+        <item>프로그래밍언어론 - 김무철</item>
+        <item>휴먼ICT인공지능 - 김대원</item>
+        <item>휴먼ICT인공지능 - 이재성</item>
+        <item>휴먼인터페이스 미디어 - 박재화</item>
     </string-array>
 
     <string-array name="subject_sw_4_1">
         <item>-선택-</item>
+        <item>DB시스템및프로그래밍 - 강현철</item>
         <item>네트워크응용설계 - 백정엽</item>
-        <item>캡스톤디자인 - 권영빈</item>
+        <item>생체인식 및 응용 - 권영빈</item>
+        <item>정보보호이론 - 김성권</item>
+        <item>캡스톤디자인(2) - 권영빈</item>
         <item>컨텐츠기반무선이동통신 - 조성래</item>
+        <item>컴퓨터그래픽스 - 윤경현</item>
+        <item>패턴인식 - 박재화</item>
         <item>휴먼미디어멀티코어컴퓨팅 - 손봉수</item>
     </string-array>
 
     <string-array name="subject_sw_4_2">
         <item>-선택-</item>
+        <item>내장형시스템설계 - 박상오</item>
+        <item>디자인Thinking - 김대훈</item>
         <item>설계패턴 - 이찬근</item>
         <item>영상처리 - 최광남</item>
-        <item>캡스톤디자인 - 박상오</item>
+        <item>정보표준화 - 권영빈</item>
+        <item>휴먼인터페이스 영상 - 홍병우</item>
+        <item>휴먼인터페이스 컴퓨터게임설계 - 이창하</item>
     </string-array>
 
     <string-array name="subject_ie_1_1">
         <item>-선택-</item>
-        <item>미적분학 - 강수란</item>
-        <item>미적분학 - 천상민</item>
-        <item>일반물리 - 남형주</item>
+        <item>기초물리학 - 윤옥자</item>
+        <item>기초컴퓨터프로그래밍 - 임양규</item>
+        <item>미적분학(1) - 강수란</item>
+        <item>미적분학(1) - 천상민</item>
+        <item>일반물리(1) - 남형주</item>
+        <item>일반물리(1) - 김진우</item>
+        <item>일반화학(1) - 한승수</item>
     </string-array>
 
     <string-array name="subject_ie_1_2">
         <item>-선택-</item>
-        <item>미적분학 - 천상민</item>
-        <item>미적분학 - 강수란</item>
-        <item>일반화학 - 정재환</item>
+        <item>BINT 융합공학입문 - 민준홍</item>
+        <item>미적분학(2) - 천상민</item>
+        <item>미적분학(2) - 강수란</item>
+        <item>일반물리학(2) - 이근중</item>
+        <item>일반물리학(2) - 김진우</item>
+        <item>일반화학(2) - 정재환</item>
     </string-array>
 
     <string-array name="subject_ie_2_1">
         <item>-선택-</item>
+        <item>ProjectX 기초설계 - 하동환</item>
+        <item>그래픽프로그래밍설계 - 채영호</item>
+        <item>디지털이미징개론 - 유미옥</item>
+        <item>무기재료공학 - 백태종</item>
+        <item>물리화학(1) - 윤성훈</item>
+        <item>바이오메디컬설계 - 이민호</item>
+        <item>분자생물학 - 유승민</item>
+        <item>선형대수학 - 이원형</item>
         <item>유기화학 - 박한수</item>
         <item>융합소재과학 - 표성규</item>
-        <item>바이오메디컬설계 - 이민호</item>
+        <item>융합열역학개론 - 김태형</item>
+        <item>융합응용수학(1) - 손형빈</item>
+        <item>자료구조 - 박경주</item>
     </string-array>
 
     <string-array name="subject_ie_2_2">
         <item>-선택-</item>
+        <item>3D영상디자인설계 - 박진완</item>
+        <item>3D영상디자인설계 - 임양규</item>
+        <item>객체지향프로그래밍 - 박진호</item>
+        <item>공업수학 - 김영빈</item>
+        <item>나노공학개론(1) - 왕동환</item>
         <item>나노공학기초설계 - 손형빈</item>
+        <item>물리화학(2) - 황병일</item>
         <item>미세유체개론 - 민준홍</item>
         <item>생화학 - 나도균</item>
+        <item>세포생물학 - 이동현</item>
+        <item>융합응용수학(2) - 최종훈</item>
+        <item>응용회로이론 - 손형빈</item>
+        <item>피지컬컴퓨팅설계 - 김태용</item>
     </string-array>
 
     <string-array name="subject_ie_3_1">
         <item>-선택-</item>
         <item>생물공정공학 - 민준홍</item>
+        <item>나노공학개론(2) - 백태종</item>
+        <item>나노소재설계와물성 - 하돈형</item>
+        <item>네트워크게임프로그래밍 - 김태용</item>
+        <item>모바일 앱 개발 - 박진완</item>
+        <item>바이오융합설계 - 김태형</item>
+        <item>바이오컨쥬게이션공학 - 최종훈</item>
+        <item>생리학 - 유승민</item>
+        <item>생물공정공학 - 민준홍</item>
+        <item>스마트전기화학 시스템공학 - 김수길</item>
         <item>신호및시스템 - 백준기</item>
+        <item>알고리즘 - 홍현기</item>
         <item>융합양자개론 - 하돈형</item>
+        <item>환경에너지융합요소설계 - 왕동환</item>
     </string-array>
 
     <string-array name="subject_ie_3_2">
         <item>-선택-</item>
-        <item>바이오데이터분석 - 나도균</item>
+        <item>디지털신호처리 - 백준기</item>
+        <item>바이오 데이터 분석 - 나도균</item>
+        <item>바이오미케닉스 - 이민호</item>
+        <item>바이오시스템설계 - 유승민</item>
+        <item>스마트 기능성 고분자 - 박한수</item>
         <item>에너지환경촉매개론 - 백태종</item>
         <item>유무기기능소재요소설계 - 하돈형</item>
+        <item>인간과컴퓨터인터랙션 - 김영빈</item>
+        <item>인터랙티브컴퓨터그래픽스 - 박경주</item>
+        <item>인터페이스 물질전이론 - 표성규</item>
+        <item>임베디드소프트웨어 - 유리나</item>
+        <item>재료구조 및 X선 결정학 - 하돈형</item>
+        <item>탄소소재공학 - 윤성훈</item>
     </string-array>
 
     <string-array name="subject_ie_4_1">
         <item>-선택-</item>
+        <item>DNA와 사회 - 나도균</item>
         <item>나노융합종합설계 - 표성규</item>
-        <item>DNA와 사화 - 나도균</item>
+        <item>디스플레이재료및공학 - 왕동환</item>
+        <item>바이오시스템공학 - 이민호</item>
+        <item>삼차원집적공정개론 - 황병일</item>
+        <item>생명시스템 디지털분석 및 설계 - 나도균</item>
+        <item>에너지나노소재공학 - 윤성훈</item>
+        <item>영상처리 - 김영빈</item>
         <item>조직공학개론 - 박한수</item>
+        <item>컴퓨터비전응용 - 홍현기</item>
     </string-array>
 
     <string-array name="subject_ie_4_2">
         <item>-선택-</item>
-        <item>바이오융합공학세미나 - 이동현</item>
-        <item>데이터시각화 - 유미옥</item>
         <item>나노융합공정론 - 백태종</item>
+        <item>나노융합분석학 - 백태종</item>
+        <item>데이터시각화 - 유미옥</item>
+        <item>바이오공학종합설계 - 최종훈</item>
+        <item>바이오융합공학세미나 - 이동현</item>
+        <item>바이오융합공학프로젝트 - 이동현</item>
+        <item>소재의 물리적 성질 - 황병일</item>
+        <item>유기재료물성 및 ICT 융합소자 - 왕동환</item>
+        <item>융합바이오분석 - 김태형</item>
+        <item>휴먼ICT 인터페이스공학 - 민준홍,최영완</item>
+        <item>휴먼ICT 패턴인식개론 - 홍현기</item>
     </string-array>
 
     <string-array name="subject_ee_1_1">
         <item>-선택-</item>
-        <item>일반화학 - 정재환</item>
-        <item>일반물리 - 윤옥자</item>
-        <item>일반물리 - 김진우</item>
+        <item>기초미분적분학 - 박윤영</item>
+        <item>기초컴퓨터프로그래밍 - 노종석</item>
+        <item>기초컴퓨터프로그래밍 - 권금철</item>
+        <item>기초컴퓨터프로그래밍 - 홍철호</item>
+        <item>기초컴퓨터프로그래밍 - 안태호</item>
+        <item>미분적분학(1) - 천상민</item>
+        <item>미분적분학(1) - 강수란</item>
+        <item>일반물리(1) - 남형주</item>
+        <item>일반물리(1) - 김진우</item>
+        <item>일반물리(1) - 윤옥자</item>
+        <item>일반화학(1) - 정재환</item>
     </string-array>
 
     <string-array name="subject_ee_1_2">
         <item>-선택-</item>
-        <item>논리회로 - 박세현</item>
         <item>공업수학 - 최우준</item>
-        <item>미분적분학 - 강수란</item>
+        <item>공업수학 - 권금철</item>
+        <item>공업수학 - 최대현</item>
+        <item>공업수학 - 방성완</item>
+        <item>논리회로 - 박세현</item>
+        <item>논리회로 - 김준성</item>
+        <item>논리회로 - 송오영</item>
+        <item>논리회로 - 박수현</item>
+        <item>미분적분학(2) - 강수란</item>
+        <item>미분적분학(2) - 천상민</item>
+        <item>일반물리(2) - 남형주</item>
+        <item>일반물리(2) - 김진우</item>
+        <item>일반물리(2) - 이근중</item>
     </string-array>
 
     <string-array name="subject_ee_2_1">
         <item>-선택-</item>
+        <item>선형대수학 - 천상민</item>
+        <item>선형대수학 - 강수란</item>
         <item>선형대수학 - 정의채</item>
-        <item>전자기학 - 최대현</item>
+        <item>전기수학 - 양원영</item>
+        <item>전기수학 - 백창욱</item>
+        <item>전기수학 - 유성욱</item>
+        <item>전기수학 - 최대현</item>
+        <item>전자기학 - 김호성</item>
+        <item>전자기학 - 김정필</item>
+        <item>전자기학 - 방성완</item>
+        <item>전자기학 - 이한림</item>
+        <item>전자기학 - 최우준</item>
+        <item>창의ICT공학설계입문 - 김호성</item>
         <item>창의ICT공학설계입문 - 백광현</item>
+        <item>회로이론 - 양원영</item>
+        <item>회로이론 - 권혁인</item>
+        <item>회로이론 - 곽상신</item>
+        <item>회로이론 - 방승민</item>
+        <item>회로이론 - 방성완</item>
     </string-array>
 
     <string-array name="subject_ee_2_2">
         <item>-선택-</item>
+        <item>객체지향프로그래밍 - 홍철호</item>
+        <item>객체지향프로그래밍 - 권금철</item>
         <item>기초전자회로 - 양원형</item>
+        <item>기초전자회로 - 송상헌</item>
+        <item>기초전자회로 - 김창일</item>
+        <item>기초전자회로 - 이한림</item>
+        <item>수치해석 - 유성진</item>
         <item>수치해석 - 정진곤</item>
+        <item>수치해석 - 방성완</item>
+        <item>수치해석 - 김정필</item>
+        <item>전자장 - 김정필</item>
+        <item>전자장 - 이한림</item>
+        <item>전자장 - 방성완</item>
+        <item>전자장 - 최우준</item>
+        <item>회로및시스템 - 양원영</item>
+        <item>회로및시스템 - 심귀보</item>
         <item>회로및시스템 - 김정필</item>
+        <item>회로및시스템 - 노종석</item>
     </string-array>
 
     <string-array name="subject_ee_3_1">
         <item>-선택-</item>
+        <item>마이크로컴퓨터시스템 - 박호현</item>
+        <item>마이크로컴퓨터시스템 - 김준성</item>
+        <item>마이크로컴퓨터시스템 - 홍철호</item>
+        <item>물리전자 - 송상헌</item>
+        <item>물리전자 - 고중혁</item>
         <item>물리전자 - 최영완</item>
+        <item>물리전자 - 방성완</item>
+        <item>신호및시스템 - 장태규</item>
+        <item>신호및시스템 - 심덕선</item>
         <item>신호및시스템 - 정진곤</item>
+        <item>신호및시스템 - 최대현</item>
+        <item>자료구조 - 송오영</item>
         <item>전자회로 - 백동현</item>
+        <item>전자회로 - 김창일</item>
+        <item>전자회로 - 이한림</item>
+        <item>전자회로 - 박수현</item>
+        <item>확률변수론 - 양철관</item>
+        <item>확률변수론 - 유성진</item>
+        <item>확률변수론 - 정진곤</item>
+        <item>확률변수론 - 이정륜</item>
     </string-array>
 
     <string-array name="subject_ee_3_2">
         <item>-선택-</item>
-        <item>반도체공학 - 권혁인</item>
+        <item>ASIC설계 - 송오영</item>
         <item>ASIC설계 - 백광현</item>
+        <item>ASIC설계 - 유성욱</item>
+        <item>반도체공학 - 고중혁</item>
+        <item>반도체공학 - 권혁인</item>
+        <item>반도체공학 - 박성규</item>
+        <item>에너지변환공학 - 정태경</item>
+        <item>에너지변환공학 - 백창욱</item>
+        <item>에너지변환공학 - 노종석</item>
+        <item>운영체제 - 박호현</item>
+        <item>자동제어 - 전홍태</item>
+        <item>자동제어 - 이홍기</item>
+        <item>자동제어 - 문운철</item>
+        <item>자동제어 - 심귀보</item>
         <item>통신공학 - 장태규</item>
+        <item>통신공학 - 이정우</item>
+        <item>통신공학 - 조용수</item>
     </string-array>
 
     <string-array name="subject_ee_4_1">
         <item>-선택-</item>
+        <item>광전자융합센서공학 - 최영완,민준홍</item>
+        <item>데이터통신망 - 박세현</item>
+        <item>디지털 영상처리 - 유성욱</item>
+        <item>디지털신호처리 - 박수현</item>
         <item>디지털제어 - 유성진</item>
-        <item>전력전자공학 - 곽상신</item>
+        <item>디지털제어 - 전홍태</item>
+        <item>마이크로파 회로 및 시스템 - 임성준</item>
+        <item>모바일네트워크 - 송오영</item>
+        <item>반도체소자 원리와 응용 - 송상헌</item>
         <item>스마트전력전송 - 문운철</item>
+        <item>웨어러블 디바이스용 집적회로설계 - 백광현</item>
+        <item>이동통신 - 조용수</item>
+        <item>전지기기및응용 - 노종석</item>
+        <item>전력전자공학 - 곽상신</item>
+        <item>차세대융합 반도체공정 - 권혁인</item>
+        <item>차세대융합 반도체공정 - 김창일</item>
+        <item>컴퓨터구조 - 김준성</item>
+        <item>현대제어시스템공학 - 이홍기</item>
     </string-array>
 
     <string-array name="subject_ee_4_2">
         <item>-선택-</item>
-        <item>종합설계 - 최영완</item>
+        <item>감성디스플레이공학 - 김호성,박성규</item>
+        <item>마음공학 - 백광현,유권종</item>
+        <item>박막공학과 소자응용 - 고중혁</item>
+        <item>아날로그및RF회로설계 - 백동현</item>
+        <item>알고리즘 - 홍철호</item>
+        <item>전자전기세미나 - 백창욱</item>
         <item>지능정보융합시스템 - 강훈</item>
         <item>초소형전기기계시스템 - 백창욱</item>
+        <item>휴먼ICT 제어시스템설계 - 심덕선</item>
+        <item>휴먼ICT 통신시스템 - 이정우</item>
     </string-array>
 </resources>

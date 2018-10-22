@@ -368,7 +368,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:fontFamily="@font/nanumsquareroundeb"
-                            android:text=""
+                            android:text="@string/aboutus"
                             android:textColor="@color/normalColor"
                             android:textSize="42dp" />
                     </LinearLayout>
@@ -392,51 +392,56 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_caucoin_label"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="20dp"
                                     android:fontFamily="@font/nanumsquareroundeb"
-                                    android:text="CAU COIN"
+                                    android:text="@string/app_name"
                                     android:textColor="@color/normalColor"
                                     android:textSize="30dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_caucoin_intro"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Lecture evaluating block-chain powered system"
+                                    android:text="@string/caucoin_intro"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_caucoin_purpose"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Program for Always-On proejct, ICT Competition"
+                                    android:text="@string/caucoin_purpose"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_caucoin_when"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Developed from April to November, 2018"
+                                    android:text="@string/caucoin_when"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_caucoin_git"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ https://github.com/Cau-Coin"
+                                    android:text="@string/caucoin_git"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
                             </LinearLayout>
@@ -449,72 +454,79 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_developers_label"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/nanumsquareroundeb"
-                                    android:text="Developers"
+                                    android:text="@string/developers"
                                     android:textColor="@color/normalColor"
                                     android:textSize="30dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_name_junhui"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="30dp"
                                     android:layout_marginTop="12dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="Jun Hui Kim"
+                                    android:text="@string/name_junhui"
                                     android:textColor="@color/normalColor"
                                     android:textSize="20dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_role_junhui"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Block-Chain core development"
+                                    android:text="@string/role_junhui"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_identity_junhui"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Undergraduate Stundent of Chung-Ang Univ."
+                                    android:text="@string/identity_under"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_lab_junhui"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Distributed Platforms and Security Lab."
+                                    android:text="@string/lab_dps"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_git_junhui"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ https://github.com/hihiboss"
+                                    android:text="@string/git_junhui"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_mail_junhui"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ junhui820@gmail.com"
+                                    android:text="@string/mail_junhui"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
                             </LinearLayout>
@@ -526,61 +538,67 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_name_cheol"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="30dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="Cheol Lee"
+                                    android:text="@string/name_cheol"
                                     android:textColor="@color/normalColor"
                                     android:textSize="20dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_role_cheol"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Connection between App. and Chain"
+                                    android:text="@string/role_cheol"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_identity_cheol"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Master Stundent of Chung-Ang Univ."
+                                    android:text="@string/identity_master"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_lab_cheol"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Ubiquitous Computing Lab."
+                                    android:text="@string/lab_uc"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_git_cheol"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ https://github.com/freedomchurl"
+                                    android:text="@string/git_cheol"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_mail_cheol"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ clee@uclab.re.kr"
+                                    android:text="@string/mail_cheol"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
                             </LinearLayout>
@@ -592,61 +610,67 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_name_gunhee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="30dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="Gun Hee Jang"
+                                    android:text="@string/name_gunhee"
                                     android:textColor="@color/normalColor"
                                     android:textSize="20dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_role_gunhee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Client Application development"
+                                    android:text="@string/role_gunhee"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_identity_gunhee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Undergraduate Stundent of Chung-Ang Univ."
+                                    android:text="@string/identity_under"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_lab_gunhee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Ubiquitous Computing Lab."
+                                    android:text="@string/lab_uc"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_git_gunhee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ https://github.com/GunHee5719"
+                                    android:text="@string/git_gunhee"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_mail_gunhee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ ghjang@uclab.re.kr"
+                                    android:text="@string/mail_gunhee"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
@@ -660,61 +684,67 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_name_cheon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="30dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="Jun Hyeon Cheon"
+                                    android:text="@string/name_cheon"
                                     android:textColor="@color/normalColor"
                                     android:textSize="20dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_role_cheon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Application Logo design"
+                                    android:text="@string/role_cheon"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_identity_cheon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Undergraduate Stundent of Chung-Ang Univ."
+                                    android:text="@string/identity_under"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_lab_cheon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ Networked Systems Lab."
+                                    android:text="@string/lab_nsl"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_git_cheon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ https://github.com/jhcheon1000"
+                                    android:text="@string/git_cheon"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
 
                                 <TextView
+                                    android:id="@+id/caucoin_page3_mail_cheon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="55dp"
                                     android:layout_marginTop="7dp"
                                     android:fontFamily="@font/nanumsquareroundb"
-                                    android:text="▶ hhj2134@gmail.com"
+                                    android:text="@string/mail_cheon"
                                     android:textColor="@color/normalColor"
                                     android:textSize="13dp" />
                             </LinearLayout>

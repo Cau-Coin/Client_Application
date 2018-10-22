@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">CAU COIN</string>
+
+    <string name="aboutus">About Us</string>
+    <string name="developers">Developers</string>
+
+    <string name="caucoin_intro">▶ Lecture evaluating block-chain powered system</string>
+    <string name="caucoin_purpose">▶ Program for Always-On proejct, ICT Competition</string>
+    <string name="caucoin_when">▶ Developed from April to November, 2018</string>
+    <string name="caucoin_git">▶ https://github.com/Cau-Coin</string>
+
+    <string name="name_junhui">Jun Hui Kim</string>
+    <string name="name_gunhee">Gun Hee Jang</string>
+    <string name="name_cheol">Cheol Lee</string>
+    <string name="name_cheon">Jun Hyeon Cheon</string>
+
+    <string name="role_junhui">▶ Block-Chain core development</string>
+    <string name="role_gunhee">▶ Client Application development</string>
+    <string name="role_cheol">▶ Connection between App. and Chain</string>
+    <string name="role_cheon">▶ Application Logo design</string>
+
+    <string name="git_junhui">▶ https://github.com/hihiboss</string>
+    <string name="git_gunhee">▶ https://github.com/GunHee5719</string>
+    <string name="git_cheol">▶ https://github.com/freedomchurl</string>
+    <string name="git_cheon">▶ https://github.com/jhcheon1000</string>
+
+    <string name="mail_junhui">▶ junhui820@gmail.com</string>
+    <string name="mail_gunhee">▶ ghjang@uclab.re.kr</string>
+    <string name="mail_cheol">▶ clee@uclab.re.kr</string>
+    <string name="mail_cheon">▶ hhj2134@gmail.com</string>
+
+    <string name="lab_dps">▶ Distributed Platforms and Security Lab.</string>
+    <string name="lab_uc">▶ Ubiquitous Computing Lab.</string>
+    <string name="lab_nsl">▶ Networked Systems Lab.</string>
+
+    <string name="identity_under">▶ Undergraduate Stundent of Chung-Ang Univ.</string>
+    <string name="identity_master">▶ Master Stundent of Chung-Ang Univ.</string>
 </resources>
