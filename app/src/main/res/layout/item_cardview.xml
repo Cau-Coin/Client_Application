@@ -25,7 +25,8 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="7"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical">
                         <TextView
@@ -39,7 +40,8 @@
                             android:text="text"/>
                     </RelativeLayout>
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="6"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <LinearLayout
@@ -76,7 +78,7 @@
                                 android:layout_marginTop="2dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/darkColor"
-                                android:text="text"/>
+                                android:text="소프트웨어학부 4학년 2학기"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

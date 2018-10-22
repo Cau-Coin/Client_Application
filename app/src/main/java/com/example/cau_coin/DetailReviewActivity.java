@@ -637,5 +637,49 @@ public class DetailReviewActivity extends Activity {
         temp_commentTime.add("2018-10-20 11:50:35");
         dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
                 "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_commentTime.clear();
+        temp_score.add("2");
+        temp_score.add("4");
+        temp_score.add("3");
+        temp_comment.add("너무 어려워요");
+        temp_comment.add("수업듣기 좋아요");
+        temp_commentTime.add("2018-8-18 20:54:04");
+        temp_commentTime.add("2018-8-20 11:50:35");
+        dataList.add(new Data_Evaluate("00000008", "전자전기공학부", "4", "1", "광전자융합센서공학 - 최영완,민준홍", "3", "2018년",
+                "교수님이 2명이에요!", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_commentTime.clear();
+        temp_score.add("2");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("3");
+        temp_score.add("3");
+        temp_comment.add("과목명이 짱기네");
+        temp_comment.add("스마트기어 회로짜는거같은느낌일까");
+        temp_commentTime.add("2018-8-18 20:54:04");
+        temp_commentTime.add("2018-8-20 11:50:35");
+        dataList.add(new Data_Evaluate("00000009", "전자전기공학부", "4", "1", "웨어러블 디바이스용 집적회로설계 - 백광현", "3", "2018년",
+                "이건 도대체 무슨 과목일까", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
+
+        temp_comment.clear();
+        temp_score.clear();
+        temp_commentTime.clear();
+        temp_score.add("4");
+        temp_score.add("2");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_score.add("5");
+        temp_comment.add("잘되나 보자!");
+        temp_comment.add("겹치지 않겟지");
+        temp_commentTime.add("2016-11-12 20:54:04");
+        temp_commentTime.add("2016-11-13 11:50:35");
+        dataList.add(new Data_Evaluate("00000010", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "4", "2016년",
+                "논리회로를 2과목 넣으면 잘 출력이 되나?", "2016-11-12 01:05:10", temp_score, temp_comment, temp_commentTime));
     }
 }

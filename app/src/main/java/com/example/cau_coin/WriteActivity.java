@@ -190,7 +190,14 @@ public class WriteActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             select_subject = items[selectedIndex[0]];
-                            if (select_subject.equals("-선택-")) {
+                            if(!database.getEvaluate(userid,select_subject)){
+                                Toast.makeText(getApplicationContext(), "이미 강의평가를 진행한 과목입니다.", Toast.LENGTH_SHORT).show();
+                                select_subject="";
+                                subject.setText("과목 선택");
+                                subject.setTextColor(0xff565656);
+                                subject.setTypeface(null, Typeface.NORMAL);
+                            }
+                            else if (select_subject.equals("-선택-")) {
                                 select_subject="";
                                 subject.setText("과목 선택");
                                 subject.setTextColor(0xff565656);
@@ -309,7 +316,10 @@ public class WriteActivity extends Activity {
             Toast.makeText(getApplicationContext(), "과목을 선택해주세요", Toast.LENGTH_SHORT).show();
         } else if (select_year.equals("")) {
             Toast.makeText(getApplicationContext(), "수강년도를 선택해주세요", Toast.LENGTH_SHORT).show();
-        } else if (review.getText().toString().equals("")) {
+        } else if (select_evaluate.equals("")){
+            Toast.makeText(getApplicationContext(), "평점을 선택해주세요", Toast.LENGTH_SHORT).show();
+        }
+        else if (review.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "한줄평을 한 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show();
         } else {
             database.insertData_Evaluate(userid, select_subject);
@@ -545,8 +555,6 @@ public class WriteActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                System.out.println("@@@@@@@@@@@"+myJsonObject.toString());
 
                 String url = "http://115.68.207.101:4444/write_transaction";
                 URL obj = new URL(url);

@@ -43,6 +43,41 @@ public class CauCoinActivity extends Activity {
     private TextView index3;
 
     private TextView page3_aboutus;
+    private TextView page3_developers;
+
+    private TextView page3_caucoin_label;
+    private TextView page3_caucoin_intro;
+    private TextView page3_caucoin_purpose;
+    private TextView page3_caucoin_when;
+    private TextView page3_caucoin_git;
+
+    private TextView page3_name_junhui;
+    private TextView page3_role_junhui;
+    private TextView page3_identity_junhui;
+    private TextView page3_lab_junhui;
+    private TextView page3_git_junhui;
+    private TextView page3_mail_junhui;
+
+    private TextView page3_name_cheol;
+    private TextView page3_role_cheol;
+    private TextView page3_identity_cheol;
+    private TextView page3_lab_cheol;
+    private TextView page3_git_cheol;
+    private TextView page3_mail_cheol;
+
+    private TextView page3_name_gunhee;
+    private TextView page3_role_gunhee;
+    private TextView page3_identity_gunhee;
+    private TextView page3_lab_gunhee;
+    private TextView page3_git_gunhee;
+    private TextView page3_mail_gunhee;
+
+    private TextView page3_name_cheon;
+    private TextView page3_role_cheon;
+    private TextView page3_identity_cheon;
+    private TextView page3_lab_cheon;
+    private TextView page3_git_cheon;
+    private TextView page3_mail_cheon;
 
     private ImageView gunhee;
     private ImageView junhui;
@@ -76,6 +111,41 @@ public class CauCoinActivity extends Activity {
         index3 = (TextView) findViewById(R.id.caucoin_index3);
 
         page3_aboutus = (TextView) findViewById(R.id.caucoin_page3_aboutus);
+        page3_developers = (TextView) findViewById(R.id.caucoin_page3_developers_label);
+
+        page3_caucoin_label = (TextView) findViewById(R.id.caucoin_page3_caucoin_label);
+        page3_caucoin_intro = (TextView) findViewById(R.id.caucoin_page3_caucoin_intro);
+        page3_caucoin_purpose = (TextView) findViewById(R.id.caucoin_page3_caucoin_purpose);
+        page3_caucoin_when = (TextView) findViewById(R.id.caucoin_page3_caucoin_when);
+        page3_caucoin_git = (TextView) findViewById(R.id.caucoin_page3_caucoin_git);
+
+        page3_name_junhui = (TextView) findViewById(R.id.caucoin_page3_name_junhui);
+        page3_role_junhui = (TextView) findViewById(R.id.caucoin_page3_role_junhui);
+        page3_identity_junhui = (TextView) findViewById(R.id.caucoin_page3_identity_junhui);
+        page3_lab_junhui = (TextView) findViewById(R.id.caucoin_page3_lab_junhui);
+        page3_git_junhui = (TextView) findViewById(R.id.caucoin_page3_git_junhui);
+        page3_mail_junhui = (TextView) findViewById(R.id.caucoin_page3_mail_junhui);
+
+        page3_name_cheol = (TextView) findViewById(R.id.caucoin_page3_name_cheol);
+        page3_role_cheol = (TextView) findViewById(R.id.caucoin_page3_role_cheol);
+        page3_identity_cheol= (TextView) findViewById(R.id.caucoin_page3_identity_cheol);
+        page3_lab_cheol = (TextView) findViewById(R.id.caucoin_page3_lab_cheol);
+        page3_git_cheol = (TextView) findViewById(R.id.caucoin_page3_git_cheol);
+        page3_mail_cheol = (TextView) findViewById(R.id.caucoin_page3_mail_cheol);
+
+        page3_name_gunhee = (TextView) findViewById(R.id.caucoin_page3_name_gunhee);
+        page3_role_gunhee = (TextView) findViewById(R.id.caucoin_page3_role_gunhee);
+        page3_identity_gunhee= (TextView) findViewById(R.id.caucoin_page3_identity_gunhee);
+        page3_lab_gunhee = (TextView) findViewById(R.id.caucoin_page3_lab_gunhee);
+        page3_git_gunhee = (TextView) findViewById(R.id.caucoin_page3_git_gunhee);
+        page3_mail_gunhee = (TextView) findViewById(R.id.caucoin_page3_mail_gunhee);
+
+        page3_name_cheon = (TextView) findViewById(R.id.caucoin_page3_name_cheon);
+        page3_role_cheon = (TextView) findViewById(R.id.caucoin_page3_role_cheon);
+        page3_identity_cheon= (TextView) findViewById(R.id.caucoin_page3_identity_cheon);
+        page3_lab_cheon = (TextView) findViewById(R.id.caucoin_page3_lab_cheon);
+        page3_git_cheon = (TextView) findViewById(R.id.caucoin_page3_git_cheon);
+        page3_mail_cheon = (TextView) findViewById(R.id.caucoin_page3_mail_cheon);
 
         gunhee = (ImageView) findViewById(R.id.caucoin_gunhee);
         junhui = (ImageView) findViewById(R.id.caucoin_junhui);
@@ -189,9 +259,87 @@ public class CauCoinActivity extends Activity {
 
     }
 
-    public void longClick(String name, String role, String identity, String lab, String git, String mail){
+    public void setPage3_null(){
         page3_aboutus.setText("");
-        
+        page3_developers.setText("");
+
+        page3_caucoin_label.setText("");
+        page3_caucoin_intro.setText("");
+        page3_caucoin_purpose.setText("");
+        page3_caucoin_when.setText("");
+        page3_caucoin_git.setText("");
+
+        page3_name_junhui.setText("");
+        page3_role_junhui.setText("");
+        page3_identity_junhui.setText("");
+        page3_lab_junhui.setText("");
+        page3_git_junhui.setText("");
+        page3_mail_junhui.setText("");
+
+        page3_name_cheol.setText("");
+        page3_role_cheol.setText("");
+        page3_identity_cheol.setText("");
+        page3_lab_cheol.setText("");
+        page3_git_cheol.setText("");
+        page3_mail_cheol.setText("");
+
+        page3_name_gunhee.setText("");
+        page3_role_gunhee.setText("");
+        page3_identity_gunhee.setText("");
+        page3_lab_gunhee.setText("");
+        page3_git_gunhee.setText("");
+        page3_mail_gunhee.setText("");
+
+        page3_name_cheon.setText("");
+        page3_role_cheon.setText("");
+        page3_identity_cheon.setText("");
+        page3_lab_cheon.setText("");
+        page3_git_cheon.setText("");
+        page3_mail_cheon.setText("");
+    }
+
+    public void setPage3_fill(){
+        page3_aboutus.setText(R.string.aboutus);
+        page3_developers.setText(R.string.developers);
+
+        page3_caucoin_label.setText(R.string.app_name);
+        page3_caucoin_intro.setText(R.string.caucoin_intro);
+        page3_caucoin_purpose.setText(R.string.caucoin_purpose);
+        page3_caucoin_when.setText(R.string.caucoin_when);
+        page3_caucoin_git.setText(R.string.caucoin_git);
+
+        page3_name_junhui.setText(R.string.name_junhui);
+        page3_role_junhui.setText(R.string.role_junhui);
+        page3_identity_junhui.setText(R.string.identity_under);
+        page3_lab_junhui.setText(R.string.lab_dps);
+        page3_git_junhui.setText(R.string.git_junhui);
+        page3_mail_junhui.setText(R.string.mail_junhui);
+
+        page3_name_cheol.setText(R.string.name_cheol);
+        page3_role_cheol.setText(R.string.role_cheol);
+        page3_identity_cheol.setText(R.string.identity_master);
+        page3_lab_cheol.setText(R.string.lab_uc);
+        page3_git_cheol.setText(R.string.git_cheol);
+        page3_mail_cheol.setText(R.string.mail_cheol);
+
+        page3_name_gunhee.setText(R.string.name_gunhee);
+        page3_role_gunhee.setText(R.string.role_gunhee);
+        page3_identity_gunhee.setText(R.string.identity_under);
+        page3_lab_gunhee.setText(R.string.lab_uc);
+        page3_git_gunhee.setText(R.string.git_gunhee);
+        page3_mail_gunhee.setText(R.string.mail_gunhee);
+
+        page3_name_cheon.setText(R.string.name_cheon);
+        page3_role_cheon.setText(R.string.role_cheon);
+        page3_identity_cheon.setText(R.string.identity_under);
+        page3_lab_cheon.setText(R.string.lab_nsl);
+        page3_git_cheon.setText(R.string.git_cheon);
+        page3_mail_cheon.setText(R.string.mail_cheon);
+    }
+
+    public void longClick(String name, String role, String identity, String lab, String git, String mail){
+        setPage3_null();
+
         flipper.setInAnimation(AnimationUtils.loadAnimation(context, R.anim.push_top_in));
         flipper.setOutAnimation(AnimationUtils.loadAnimation(context, R.anim.push_top_out));
 
@@ -238,7 +386,7 @@ public class CauCoinActivity extends Activity {
                         index0.setText("○");
                         index1.setText("●");
                     } else if (currentIndex == 2) {
-                        page3_aboutus.setText("About Us");
+                        setPage3_fill();
                         index1.setText("○");
                         index2.setText("●");
                     }
