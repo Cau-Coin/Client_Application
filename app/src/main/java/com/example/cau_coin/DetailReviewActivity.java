@@ -166,12 +166,15 @@ public class DetailReviewActivity extends Activity {
                     }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(), items[selectedIndex[0]] + "점을 부여했습니다", Toast.LENGTH_SHORT).show();
+                            SendData sendData = new SendData();
+                            sendData.execute("score",items[selectedIndex[0]]);
+
+                            Toast.makeText(getApplicationContext(), items[selectedIndex[0]] + "점을 부여했습니다. 블록체인 시스템에 등록까지 일정 시간이 소요될 수 있습니다.", Toast.LENGTH_SHORT).show();
                             database.insertData_Score(id, evaluateId);
                             giveScore.setText("Already Scored");
 
-                            dataList.get(eval_index).addScore(items[selectedIndex[0]]);
-                            setStar();
+                            ReadData temp = new ReadData();
+                            temp.execute();
 
                         }
                     }).create().show();
@@ -205,24 +208,30 @@ public class DetailReviewActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         });
     }
 
+    // 댓글 입력
     public void registerComment() {
         if (inputComment.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "댓글을 입력해주세요", Toast.LENGTH_SHORT).show();
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String currentDateTime = dateFormat.format(new Date());
+            SendData sendData = new SendData();
+            sendData.execute("comment",inputComment.getText().toString());
 
-            Toast.makeText(getApplicationContext(), "[" + currentDateTime + "] " + inputComment.getText().toString(), Toast.LENGTH_SHORT).show();
             inputComment.setText("");
             hideKeyboard();
+
+            Toast.makeText(getApplicationContext(), "댓글을 등록하였습니다. 블록체인 시스템에 등록까지 일정 시간이 소요될 수 있습니다." , Toast.LENGTH_SHORT).show();
+
+            ReadData temp = new ReadData();
+            temp.execute();
         }
     }
 
+    // 댓글을 표기하기 위한 리사이클러 뷰
     class MyAdapter extends RecyclerView.Adapter {
         private Context context;
         private ArrayList<RecycleItem2> mItems;
@@ -289,19 +298,35 @@ public class DetailReviewActivity extends Activity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    // 블록으로부터 데이터 받아오기 위해 Transaction 전송
-    public class ReadData extends AsyncTask<String, Void, String> {
+    // Score과 Comment를 부여하는것에 대한 Transaction 전송
+    public class SendData extends AsyncTask<String, Void, String> {
 
         public String doInBackground(String... params) {
             try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateTime = dateFormat.format(new Date());
+
                 JSONObject myJsonObject = new JSONObject();
+                String type = params[0];
+                String input = params[1];
+
                 try {
-                    myJsonObject.put("type", "giveme");
+                    myJsonObject.put("type", type);
+                    myJsonObject.put("user_id", id);
+                    myJsonObject.put("evaluate_id", evaluateId);
+
+                    if(type.equals("score")){
+                        myJsonObject.put("score", input);
+                    }
+                    else{
+                        myJsonObject.put("comment", input);
+                    }
+                    myJsonObject.put("timestamp", currentDateTime);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                String url = "http://115.68.207.101:4444/read_block";
+                String url = "http://115.68.207.101:4444/write_transaction";
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -330,6 +355,49 @@ public class DetailReviewActivity extends Activity {
                 }
 
                 reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
+    }
+
+    // 블록으로부터 데이터 받아오기 위해 Transaction 전송
+    public class ReadData extends AsyncTask<String, Void, String> {
+
+        public String doInBackground(String... params) {
+            try {
+
+                String url = "http://115.68.207.101:4444/read_one_data/"+evaluateId;
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
                 conn.disconnect();
                 return sb.toString();
 
@@ -345,6 +413,8 @@ public class DetailReviewActivity extends Activity {
             super.onPostExecute(s);
             if (s != null) {
                 try {
+                    dataList.clear();
+
                     ArrayList<String> scoreParsed = new ArrayList<String>();
                     ArrayList<String> commentParsed = new ArrayList<String>();
                     ArrayList<String> commentTimeParsed = new ArrayList<String>();
@@ -372,7 +442,7 @@ public class DetailReviewActivity extends Activity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         item = jsonArray.getJSONObject(i);
 
-                        evaluateIdFromServer = item.getString("evaluateid");
+                        evaluateIdFromServer = item.getString("evaluate_id");
                         deptFromServer = item.getString("dept");
                         gradeFromServer = item.getString("grade");
                         semesterFromServer = item.getString("semester");
@@ -381,7 +451,7 @@ public class DetailReviewActivity extends Activity {
                         takeYearFromServer = item.getString("takeyear");
                         reviewFromServer = item.getString("review");
                         timeStampFromServer = item.getString("timestamp");
-                        scoreFromServer = item.getString("score");
+                        scoreFromServer = item.getString("scores");
                         commentFromServer = item.getString("comments");
 
                         if (gradeFromServer.contains("학년")) {
@@ -394,7 +464,8 @@ public class DetailReviewActivity extends Activity {
                         tempArray = new JSONArray(scoreFromServer);
                         scoreParsed.clear();
                         for (int j = 0; j < tempArray.length(); j++) {
-                            scoreTemp = tempArray.getString(j);
+                            JSONObject scoresTemp = tempArray.getJSONObject(j);
+                            scoreTemp = scoresTemp.getString("score");
                             scoreParsed.add(scoreTemp);
                         }
 
@@ -412,13 +483,10 @@ public class DetailReviewActivity extends Activity {
                         dataList.add(new Data_Evaluate(evaluateIdFromServer, deptFromServer, gradeFromServer, semesterFromServer, subjectFromServer, evaluateFromServer, takeYearFromServer, reviewFromServer,
                                 timeStampFromServer, scoreParsed, commentParsed, commentTimeParsed));
                     }
-
-
                 } catch (JSONException e) {
                 }
             }
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 서버쪽 완성되면 메소드와 여기 호출 지우기! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            setFakeData();
+
             for (int a = 0; a < dataList.size(); a++) {
                 if (dataList.get(a).getEvaluateId().equals(evaluateId)) {
                     String[] temp = dataList.get(a).getSubject().split("-");
@@ -428,7 +496,7 @@ public class DetailReviewActivity extends Activity {
                     mySubject.setText(temp[0].trim());
                     myProfessor.setText(temp[1].trim());
                     mySemester.setText(dataList.get(a).getGrade() + "학년 " + dataList.get(a).getSemester() + "학기");
-                    myEvaluate.setText(dataList.get(a).getEvaluate() + "점");
+                    myEvaluate.setText(dataList.get(a).getEvaluate());
                     myTakeYear.setText(dataList.get(a).getTakeYear() + " " + dataList.get(a).getSemester() + "학기 수강자");
                     myReview.setText(dataList.get(a).getReview());
                     myTimeStamp.setText(temp2[0] + "-" + temp2[1] + "-" + temp2[2].substring(0, 2));
@@ -440,6 +508,8 @@ public class DetailReviewActivity extends Activity {
                     for (int b = 0; b < dataList.get(a).getCommentNum(); b++) {
                         myList.add(new RecycleItem2(dataList.get(a).getComment(b), dataList.get(a).getCommentTime(b)));
                     }
+                    System.out.println("@@@@@@@@@@@@@@"+myList.size());
+                    System.out.println("@@@@@@@@@@@@@@"+dataList.get(a).getCommentNum());
                     adapter.notifyDataSetChanged();
                     break;
                 }
@@ -529,157 +599,5 @@ public class DetailReviewActivity extends Activity {
         }
         left_1.setLayoutParams(i);
         right_1.setLayoutParams(j);
-    }
-
-    // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    public void setFakeData() {
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("4");
-        temp_score.add("4");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_score.add("3");
-        temp_score.add("1");
-        temp_comment.add("교수님 좋아요!");
-        temp_comment.add("교수님이 너무 좋은거 동감이에요!");
-        temp_comment.add("수업을 안가게 돼요");
-        temp_comment.add("기말때 갑자기 어려워짐!");
-        temp_comment.add("기말고사 어려워요..ㅇㅈ..");
-        temp_comment.add("학점따기 개좋음");
-        temp_comment.add("학점 천사임");
-        temp_commentTime.add("2017-07-03 05:00:10");
-        temp_commentTime.add("2017-07-03 10:24:37");
-        temp_commentTime.add("2017-07-04 11:35:57");
-        temp_commentTime.add("2017-07-05 05:45:54");
-        temp_commentTime.add("2017-07-12 06:21:13");
-        temp_commentTime.add("2017-07-20 15:27:24");
-        temp_commentTime.add("2017-07-24 13:54:20");
-        dataList.add(new Data_Evaluate("00000001", "전자전기공학부", "1", "1", "선형대수학 - 권준석", "4", "2017년",
-                "교수님이 좋았어요", "2017-07-03 04:00:01", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("4");
-        temp_score.add("5");
-        temp_score.add("3");
-        temp_comment.add("인정... 영어 그자체");
-        temp_comment.add("교수님이 너무 야해요");
-        temp_commentTime.add("2017-01-05 20:54:04");
-        temp_commentTime.add("2017-01-10 11:50:35");
-        dataList.add(new Data_Evaluate("00000002", "소프트웨어학부", "4", "1", "네트워크응용설계 - 백정엽", "4", "2017년",
-                "교수님 영어실력은 감탄 그자체", "2017-01-04 23:10:54", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("3");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_comment.add("교수님은 좋아요");
-        temp_commentTime.add("2017-01-05 20:54:04");
-        temp_commentTime.add("2017-01-10 11:50:35");
-        dataList.add(new Data_Evaluate("00000003", "소프트웨어학부", "3", "1", "컴파일러 - 김중헌", "4", "2017년",
-                "교수님이 수업을 잘 안하심", "2017-06-30 20:00:01", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("3");
-        temp_comment.add("수업이 너무 지루해요");
-        temp_comment.add("교수님 진짜 별로임");
-        temp_commentTime.add("2015-08-20 20:54:04");
-        temp_commentTime.add("2015-08-21 11:50:35");
-        dataList.add(new Data_Evaluate("00000004", "융합공학부", "2", "1", "미적분학 - 김상욱", "1", "2015년",
-                "교수님 진짜 별로에요", "2015-08-20 14:07:09", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("5");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_comment.add("교수님 강의력은 정말 최고");
-        temp_comment.add("시험문제가 진짜 어렵긴 함..");
-        temp_commentTime.add("2017-01-31 20:54:04");
-        temp_commentTime.add("2017-02-01 11:50:35");
-        dataList.add(new Data_Evaluate("00000005", "융합공학부", "2", "2", "컴퓨터구조 - 백정엽", "3", "2016년",
-                "시험이 너무 어려워요", "2017-01-31 04:44:44", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("4");
-        temp_score.add("2");
-        temp_score.add("5");
-        temp_comment.add("수업시간에 졸수가 없어요...");
-        temp_comment.add("논리회로에서 컴공을 포기하게 되었어요ㅠ");
-        temp_commentTime.add("2016-11-12 20:54:04");
-        temp_commentTime.add("2016-11-13 11:50:35");
-        dataList.add(new Data_Evaluate("00000006", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "5", "2015년",
-                "조성래교수님 사랑해요!", "2016-11-12 01:05:10", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("2");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_comment.add("교수님 강의력만은 정말 최고에요");
-        temp_comment.add("좀 졸리긴해요");
-        temp_commentTime.add("2018-10-18 20:54:04");
-        temp_commentTime.add("2018-10-20 11:50:35");
-        dataList.add(new Data_Evaluate("00000007", "소프트웨어학부", "4", "2", "설계패턴 - 이찬근", "4", "2017년",
-                "교수님이 조금 지루해요. 수업은 잘하세요!", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("2");
-        temp_score.add("4");
-        temp_score.add("3");
-        temp_comment.add("너무 어려워요");
-        temp_comment.add("수업듣기 좋아요");
-        temp_commentTime.add("2018-8-18 20:54:04");
-        temp_commentTime.add("2018-8-20 11:50:35");
-        dataList.add(new Data_Evaluate("00000008", "전자전기공학부", "4", "1", "광전자융합센서공학 - 최영완,민준홍", "3", "2018년",
-                "교수님이 2명이에요!", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("2");
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("3");
-        temp_score.add("3");
-        temp_comment.add("과목명이 짱기네");
-        temp_comment.add("스마트기어 회로짜는거같은느낌일까");
-        temp_commentTime.add("2018-8-18 20:54:04");
-        temp_commentTime.add("2018-8-20 11:50:35");
-        dataList.add(new Data_Evaluate("00000009", "전자전기공학부", "4", "1", "웨어러블 디바이스용 집적회로설계 - 백광현", "3", "2018년",
-                "이건 도대체 무슨 과목일까", "2018-10-18 02:36:27", temp_score, temp_comment, temp_commentTime));
-
-        temp_comment.clear();
-        temp_score.clear();
-        temp_commentTime.clear();
-        temp_score.add("4");
-        temp_score.add("2");
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_score.add("5");
-        temp_comment.add("잘되나 보자!");
-        temp_comment.add("겹치지 않겟지");
-        temp_commentTime.add("2016-11-12 20:54:04");
-        temp_commentTime.add("2016-11-13 11:50:35");
-        dataList.add(new Data_Evaluate("00000010", "소프트웨어학부", "1", "2", "논리회로 - 조성래", "4", "2016년",
-                "논리회로를 2과목 넣으면 잘 출력이 되나?", "2016-11-12 01:05:10", temp_score, temp_comment, temp_commentTime));
     }
 }

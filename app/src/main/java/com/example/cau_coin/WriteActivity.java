@@ -327,7 +327,7 @@ public class WriteActivity extends Activity {
             SendData sendData = new SendData();
             sendData.execute(review.getText().toString());
 
-            Toast.makeText(getApplicationContext(), "평가가 등록되었습니다", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "평가가 등록되었습니다. 블록체인 시스템에 등록까지 일정 시간이 소요될 수 있습니다.", Toast.LENGTH_SHORT).show();
             Intent a = new Intent(WriteActivity.this, MainActivity.class);
             a.putExtra("name", name);
             a.putExtra("major", major);
@@ -543,7 +543,7 @@ public class WriteActivity extends Activity {
 
                 try {
                     myJsonObject.put("type", "evaluate");
-                    myJsonObject.put("userid", userid);
+                    myJsonObject.put("user_id", userid);
                     myJsonObject.put("dept", select_dept);
                     myJsonObject.put("grade", select_grade);
                     myJsonObject.put("semester", select_semester);
