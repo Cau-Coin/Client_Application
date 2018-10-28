@@ -301,7 +301,7 @@ public class DetailReviewActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                String url = "http://115.68.207.101:4444/read_block";
+                String url = "http://115.68.207.101:4444/read_one_data/evaluate_id="+evaluateId;
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -372,7 +372,7 @@ public class DetailReviewActivity extends Activity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         item = jsonArray.getJSONObject(i);
 
-                        evaluateIdFromServer = item.getString("evaluateid");
+                        evaluateIdFromServer = item.getString("evaluate_id");
                         deptFromServer = item.getString("dept");
                         gradeFromServer = item.getString("grade");
                         semesterFromServer = item.getString("semester");
@@ -417,8 +417,7 @@ public class DetailReviewActivity extends Activity {
                 } catch (JSONException e) {
                 }
             }
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 서버쪽 완성되면 메소드와 여기 호출 지우기! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            setFakeData();
+
             for (int a = 0; a < dataList.size(); a++) {
                 if (dataList.get(a).getEvaluateId().equals(evaluateId)) {
                     String[] temp = dataList.get(a).getSubject().split("-");
@@ -531,7 +530,6 @@ public class DetailReviewActivity extends Activity {
         right_1.setLayoutParams(j);
     }
 
-    // 데이터 받아오고 나서 list 추가하는 작업 가져야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public void setFakeData() {
         temp_score.add("5");
         temp_score.add("5");

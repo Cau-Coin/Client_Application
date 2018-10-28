@@ -543,7 +543,7 @@ public class WriteActivity extends Activity {
 
                 try {
                     myJsonObject.put("type", "evaluate");
-                    myJsonObject.put("userid", userid);
+                    myJsonObject.put("user_id", userid);
                     myJsonObject.put("dept", select_dept);
                     myJsonObject.put("grade", select_grade);
                     myJsonObject.put("semester", select_semester);

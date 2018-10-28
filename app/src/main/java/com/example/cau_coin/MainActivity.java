@@ -866,14 +866,14 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                String url = "http://115.68.207.101:4444/read_block";
+                String url = "http://115.68.207.101:4444/read_all_data";
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
 
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod("GET");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
@@ -937,7 +937,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         item = jsonArray.getJSONObject(i);
 
-                        evaluateIdFromServer = item.getString("evaluateid");
+                        evaluateIdFromServer = item.getString("evaluate_id");
                         deptFromServer = item.getString("dept");
                         gradeFromServer = item.getString("grade");
                         semesterFromServer = item.getString("semester");
@@ -982,8 +982,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 서버쪽 완성되면 메소드와 여기 호출 지우기! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            setFakeData();
 
             if (fromwhere.equals("detail")) {
                 if (num_Filter == 0) {
