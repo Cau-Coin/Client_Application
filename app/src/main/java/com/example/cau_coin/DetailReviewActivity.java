@@ -166,6 +166,9 @@ public class DetailReviewActivity extends Activity {
                     }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            SendData sendData = new SendData();
+                            sendData.execute("score",items[selectedIndex[0]]);
+
                             Toast.makeText(getApplicationContext(), items[selectedIndex[0]] + "점을 부여했습니다", Toast.LENGTH_SHORT).show();
                             database.insertData_Score(id, evaluateId);
                             giveScore.setText("Already Scored");
@@ -210,19 +213,22 @@ public class DetailReviewActivity extends Activity {
         });
     }
 
+    // 댓글 입력
     public void registerComment() {
         if (inputComment.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "댓글을 입력해주세요", Toast.LENGTH_SHORT).show();
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String currentDateTime = dateFormat.format(new Date());
+            SendData sendData = new SendData();
+            sendData.execute("score",inputComment.getText().toString());
 
-            Toast.makeText(getApplicationContext(), "[" + currentDateTime + "] " + inputComment.getText().toString(), Toast.LENGTH_SHORT).show();
             inputComment.setText("");
             hideKeyboard();
+
+            Toast.makeText(getApplicationContext(), "댓글을 등록하였습니다" , Toast.LENGTH_SHORT).show();
         }
     }
 
+    // 댓글을 표기하기 위한 리사이클러 뷰
     class MyAdapter extends RecyclerView.Adapter {
         private Context context;
         private ArrayList<RecycleItem2> mItems;
@@ -287,6 +293,80 @@ public class DetailReviewActivity extends Activity {
         startActivity(a);
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    // Score과 Comment를 부여하는것에 대한 Transaction 전송
+    public class SendData extends AsyncTask<String, Void, String> {
+
+        public String doInBackground(String... params) {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateTime = dateFormat.format(new Date());
+
+                JSONObject myJsonObject = new JSONObject();
+                String type = params[0];
+                String input = params[1];
+
+                try {
+                    myJsonObject.put("type", type);
+                    myJsonObject.put("user_id", id);
+                    myJsonObject.put("evaluate_id", evaluateId);
+
+                    if(type.equals("score")){
+                        myJsonObject.put("score", input);
+                    }
+                    else{
+                        myJsonObject.put("comment", input);
+                    }
+                    myJsonObject.put("timestamp", currentDateTime);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = "http://115.68.207.101:4444/write_transaction";
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
     }
 
     // 블록으로부터 데이터 받아오기 위해 Transaction 전송
