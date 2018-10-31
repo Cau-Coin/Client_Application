@@ -40,6 +40,7 @@ public class DetailReviewActivity extends Activity {
     private String name;
     private String major;
     private String evaluateId;
+    private String lookup;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -94,6 +95,7 @@ public class DetailReviewActivity extends Activity {
         name = getIntent().getExtras().getString("name");
         major = getIntent().getExtras().getString("major");
         evaluateId = getIntent().getExtras().getString("evaluateId");
+        lookup = getIntent().getExtras().getString("lookup");
 
         filter_dept = (ArrayList<String>) getIntent().getSerializableExtra("filter_dept");
         filter_grade = (ArrayList<String>) getIntent().getSerializableExtra("filter_grade");
@@ -167,7 +169,7 @@ public class DetailReviewActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             SendData sendData = new SendData();
-                            sendData.execute("score",items[selectedIndex[0]]);
+                            sendData.execute("score", items[selectedIndex[0]]);
 
                             Toast.makeText(getApplicationContext(), items[selectedIndex[0]] + "점을 부여했습니다. 블록체인 시스템에 등록까지 일정 시간이 소요될 수 있습니다.", Toast.LENGTH_SHORT).show();
                             database.insertData_Score(id, evaluateId);
@@ -219,12 +221,12 @@ public class DetailReviewActivity extends Activity {
             Toast.makeText(getApplicationContext(), "댓글을 입력해주세요", Toast.LENGTH_SHORT).show();
         } else {
             SendData sendData = new SendData();
-            sendData.execute("comment",inputComment.getText().toString());
+            sendData.execute("comment", inputComment.getText().toString());
 
             inputComment.setText("");
             hideKeyboard();
 
-            Toast.makeText(getApplicationContext(), "댓글을 등록하였습니다. 블록체인 시스템에 등록까지 일정 시간이 소요될 수 있습니다." , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "댓글을 등록하였습니다. 블록체인 시스템에 등록까지 일정 시간이 소요될 수 있습니다.", Toast.LENGTH_SHORT).show();
 
             ReadData temp = new ReadData();
             temp.execute();
@@ -315,10 +317,9 @@ public class DetailReviewActivity extends Activity {
                     myJsonObject.put("user_id", id);
                     myJsonObject.put("evaluate_id", evaluateId);
 
-                    if(type.equals("score")){
+                    if (type.equals("score")) {
                         myJsonObject.put("score", input);
-                    }
-                    else{
+                    } else {
                         myJsonObject.put("comment", input);
                     }
                     myJsonObject.put("timestamp", currentDateTime);
@@ -377,8 +378,12 @@ public class DetailReviewActivity extends Activity {
 
         public String doInBackground(String... params) {
             try {
-
-                String url = "http://115.68.207.101:4444/read_one_data/"+evaluateId;
+                String url;
+                if (lookup.equals("yes")) {
+                    url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
+                } else {
+                    url = "http://115.68.207.101:4444/read_one_data/" + evaluateId + "&" + id;
+                }
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -496,7 +501,7 @@ public class DetailReviewActivity extends Activity {
                     mySubject.setText(temp[0].trim());
                     myProfessor.setText(temp[1].trim());
                     mySemester.setText(dataList.get(a).getGrade() + "학년 " + dataList.get(a).getSemester() + "학기");
-                    myEvaluate.setText(dataList.get(a).getEvaluate()+".0점");
+                    myEvaluate.setText(dataList.get(a).getEvaluate() + "점");
                     myTakeYear.setText(dataList.get(a).getTakeYear() + " " + dataList.get(a).getSemester() + "학기 수강자");
                     myReview.setText(dataList.get(a).getReview());
                     myTimeStamp.setText(temp2[0] + "-" + temp2[1] + "-" + temp2[2].substring(0, 2));

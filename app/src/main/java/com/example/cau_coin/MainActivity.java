@@ -614,7 +614,7 @@ public class MainActivity extends AppCompatActivity {
                             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    float coinNum = Float.parseFloat(myCoinNum);
+                                    int coinNum = Integer.parseInt(myCoinNum);
                                     if (coinNum >= 1) {
                                         WriteLookup temp = new WriteLookup();
                                         temp.execute(mItems.get(position).getEvaluateId());
@@ -624,6 +624,7 @@ public class MainActivity extends AppCompatActivity {
                                         a.putExtra("major", major);
                                         a.putExtra("id", id);
                                         a.putExtra("evaluateId", mItems.get(position).evaluateId);
+                                        a.putExtra("lookup","no");
                                         a.putExtra("filter_dept", filter_dept);
                                         a.putExtra("filter_grade", filter_grade);
                                         a.putExtra("filter_semester", filter_semester);
@@ -650,6 +651,7 @@ public class MainActivity extends AppCompatActivity {
                             a.putExtra("major", major);
                             a.putExtra("id", id);
                             a.putExtra("evaluateId", mItems.get(position).evaluateId);
+                            a.putExtra("lookup","yes");
                             a.putExtra("filter_dept", filter_dept);
                             a.putExtra("filter_grade", filter_grade);
                             a.putExtra("filter_semester", filter_semester);
