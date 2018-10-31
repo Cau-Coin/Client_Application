@@ -25,8 +25,7 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
                     <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="7"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical">
                         <TextView
@@ -37,11 +36,10 @@
                             android:textColor="@color/moredarkColor"
                             android:textStyle="bold"
                             android:layout_marginLeft="15dp"
-                            android:text="text"/>
+                            android:text="Subject"/>
                     </RelativeLayout>
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="6"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <LinearLayout
@@ -59,7 +57,7 @@
                                 android:layout_marginRight="12dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/darkColor"
-                                android:text="text"/>
+                                android:text="Take year"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -78,7 +76,7 @@
                                 android:layout_marginTop="2dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/darkColor"
-                                android:text="소프트웨어학부 4학년 2학기"/>
+                                android:text="Semester"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -86,8 +84,7 @@
                 <!-- 학부, 학년, 학기 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
+                    android:layout_height="match_parent">
                     <TextView
                         android:id="@+id/cardview_status_unlook"
                         android:visibility="visible"
@@ -95,12 +92,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="22dp"
+                        android:layout_centerVertical="true"
                         android:textSize="14dp"
                         android:textColor="@color/darkColor"
                         android:text="미열람 상태이므로 리뷰 내용 확인 불가"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:orientation="vertical">
                         <TextView
                             android:id="@+id/cardview_status_look1"

@@ -398,7 +398,8 @@ public class DetailReviewActivity extends Activity {
                 if (lookup.equals("yes")) {
                     url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
                 } else {
-                    url = "http://115.68.207.101:4444/read_one_data/" + evaluateId + "&" + id;
+                    //url = "http://115.68.207.101:4444/read_one_data/" + evaluateId + "&" + id;
+                    url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
                 }
                 URL obj = new URL(url);
 
