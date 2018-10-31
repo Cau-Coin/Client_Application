@@ -31,10 +31,20 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:fontFamily="@font/nanumsquareroundeb"
-                android:text="선형대수학 : 권준석"
+                android:text=""
                 android:textColor="@color/normalColor"
                 android:textSize="20dp"
                 android:textStyle="bold" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/detail_refresh"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/refreshimg2"/>
 
         </LinearLayout>
 
@@ -87,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="text" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -112,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="text" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -137,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="text" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -162,7 +172,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="text" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -187,7 +197,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="text" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -212,7 +222,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="text" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -237,7 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="text" />
+                        android:text="" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -336,7 +346,7 @@
                                     android:id="@+id/detail_score"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="5.0"
+                                    android:text=""
                                     android:layout_centerHorizontal="true"
                                     android:textSize="50dp"
                                     android:textColor="@color/ratingsColor"
@@ -372,7 +382,7 @@
                                             android:id="@+id/detail_leftstar5"
                                             android:layout_width="0dp"
                                             android:layout_height="match_parent"
-                                            android:layout_weight="1"
+                                            android:layout_weight="0"
                                             android:background="@color/starsColor"/>
                                         <TextView
                                             android:id="@+id/detail_rightstar5"
@@ -409,7 +419,7 @@
                                             android:id="@+id/detail_leftstar4"
                                             android:layout_width="0dp"
                                             android:layout_height="match_parent"
-                                            android:layout_weight="1"
+                                            android:layout_weight="0"
                                             android:background="@color/starsColor"/>
                                         <TextView
                                             android:id="@+id/detail_rightstar4"
@@ -446,7 +456,7 @@
                                             android:id="@+id/detail_leftstar3"
                                             android:layout_width="0dp"
                                             android:layout_height="match_parent"
-                                            android:layout_weight="1"
+                                            android:layout_weight="0"
                                             android:background="@color/starsColor"/>
                                         <TextView
                                             android:id="@+id/detail_rightstar3"
@@ -483,7 +493,7 @@
                                             android:id="@+id/detail_leftstar2"
                                             android:layout_width="0dp"
                                             android:layout_height="match_parent"
-                                            android:layout_weight="1"
+                                            android:layout_weight="0"
                                             android:background="@color/starsColor"/>
                                         <TextView
                                             android:id="@+id/detail_rightstar2"
@@ -520,7 +530,7 @@
                                             android:id="@+id/detail_leftstar1"
                                             android:layout_width="0dp"
                                             android:layout_height="match_parent"
-                                            android:layout_weight="1"
+                                            android:layout_weight="0"
                                             android:background="@color/starsColor"/>
                                         <TextView
                                             android:id="@+id/detail_rightstar1"
