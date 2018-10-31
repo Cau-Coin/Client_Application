@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
     private String fromwhere;
     private InputMethodManager imm;
 
+    private String myCoinNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -282,10 +284,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 anim();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("User Information");
                 builder.setIcon(R.drawable.personimg);
-                builder.setMessage("\n Student ID : " + id + "\n\n Name : " + name + "\n\n Major : " + major + "\n\n Holding Coin : " + "10");
+                builder.setMessage("\n Student ID : " + id + "\n\n Name : " + name + "\n\n Major : " + major + "\n\n Holding Coin : " + myCoinNum);
                 builder.setCancelable(false);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -313,6 +316,9 @@ public class MainActivity extends AppCompatActivity {
         }
         ReadData temp = new ReadData();
         temp.execute();
+
+        ReadCoin temp2 = new ReadCoin();
+        temp2.execute();
     }
 
     // 검색을 진행하는 함수
@@ -555,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
                 ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.INVISIBLE);
                 ((ViewHolder) holder).cardview_status_look1.setVisibility(View.VISIBLE);
                 ((ViewHolder) holder).cardview_status_look2.setVisibility(View.VISIBLE);
-                ((ViewHolder) holder).cardview_status_look1.setText("[ 수강자 평점 : " + mItems.get(position).getEvaluate() + ", 평가 평점 : " + mItems.get(position).getScore() + "점 ]");
+                ((ViewHolder) holder).cardview_status_look1.setText("[ 수강자 평점 : " + mItems.get(position).getEvaluate() + ".0점, 평가 평점 : " + mItems.get(position).getScore() + "점 ]");
                 ((ViewHolder) holder).cardview_status_look2.setText(mItems.get(position).getReview());
             } else {
                 ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffffffff);
@@ -599,7 +605,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         final int position = getPosition();
-                        // 코인을 사용하는 것에 대한 트랜잭션을 전송해야 함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                         if (!mItems.get(position).getLookup()) {  // 처음 열람한 경우
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setTitle("리뷰 상세 보기");
@@ -609,20 +614,25 @@ public class MainActivity extends AppCompatActivity {
                             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    WriteLookup temp = new WriteLookup();
-                                    temp.execute(mItems.get(position).getEvaluateId());
+                                    float coinNum = Float.parseFloat(myCoinNum);
+                                    if (coinNum >= 1) {
+                                        WriteLookup temp = new WriteLookup();
+                                        temp.execute(mItems.get(position).getEvaluateId());
 
-                                    Intent a = new Intent(MainActivity.this, DetailReviewActivity.class);
-                                    a.putExtra("name", name);
-                                    a.putExtra("major", major);
-                                    a.putExtra("id", id);
-                                    a.putExtra("evaluateId", mItems.get(position).evaluateId);
-                                    a.putExtra("filter_dept", filter_dept);
-                                    a.putExtra("filter_grade", filter_grade);
-                                    a.putExtra("filter_semester", filter_semester);
-                                    a.putExtra("num_Filter", num_Filter);
-                                    startActivity(a);
-                                    finish();
+                                        Intent a = new Intent(MainActivity.this, DetailReviewActivity.class);
+                                        a.putExtra("name", name);
+                                        a.putExtra("major", major);
+                                        a.putExtra("id", id);
+                                        a.putExtra("evaluateId", mItems.get(position).evaluateId);
+                                        a.putExtra("filter_dept", filter_dept);
+                                        a.putExtra("filter_grade", filter_grade);
+                                        a.putExtra("filter_semester", filter_semester);
+                                        a.putExtra("num_Filter", num_Filter);
+                                        startActivity(a);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "코인이 부족하여 열람할 수 없습니다", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
                             builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -802,7 +812,6 @@ public class MainActivity extends AppCompatActivity {
         public String doInBackground(String... params) {
             try {
                 String eval_id = params[0];
-                System.out.println("@@@@@@@@@@@@@@@@"+eval_id);
 
                 String url = "http://115.68.207.101/write_lookup.php?userid=" + id + "&evalid=" + eval_id;
                 URL obj = new URL(url);
@@ -966,7 +975,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } catch (JSONException e) {
-                    System.out.println("@@@@@@@@@@@@@@@@@@@"+e);
+
                 }
             }
 
@@ -993,6 +1002,50 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 setMainPage5();
+            }
+        }
+    }
+
+    // 블록으로부터 코인정보를 받아오는 Transaction 전송
+    public class ReadCoin extends AsyncTask<String, Void, String> {
+
+        public String doInBackground(String... params) {
+            try {
+                String url = "http://115.68.207.101:4444/coin/" + id;
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                conn.disconnect();
+                return sb.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s != null) {
+                myCoinNum = String.valueOf(s);
             }
         }
     }

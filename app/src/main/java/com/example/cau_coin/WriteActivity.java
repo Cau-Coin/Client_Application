@@ -548,7 +548,7 @@ public class WriteActivity extends Activity {
                     myJsonObject.put("grade", select_grade);
                     myJsonObject.put("semester", select_semester);
                     myJsonObject.put("subject", select_subject);
-                    myJsonObject.put("evaluate", select_evaluate);
+                    myJsonObject.put("evaluate", select_evaluate.substring(0,1));
                     myJsonObject.put("takeyear", select_year);
                     myJsonObject.put("review", review);
                     myJsonObject.put("timestamp", currentDateTime);

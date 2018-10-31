@@ -496,7 +496,7 @@ public class DetailReviewActivity extends Activity {
                     mySubject.setText(temp[0].trim());
                     myProfessor.setText(temp[1].trim());
                     mySemester.setText(dataList.get(a).getGrade() + "학년 " + dataList.get(a).getSemester() + "학기");
-                    myEvaluate.setText(dataList.get(a).getEvaluate());
+                    myEvaluate.setText(dataList.get(a).getEvaluate()+".0점");
                     myTakeYear.setText(dataList.get(a).getTakeYear() + " " + dataList.get(a).getSemester() + "학기 수강자");
                     myReview.setText(dataList.get(a).getReview());
                     myTimeStamp.setText(temp2[0] + "-" + temp2[1] + "-" + temp2[2].substring(0, 2));
@@ -508,8 +508,6 @@ public class DetailReviewActivity extends Activity {
                     for (int b = 0; b < dataList.get(a).getCommentNum(); b++) {
                         myList.add(new RecycleItem2(dataList.get(a).getComment(b), dataList.get(a).getCommentTime(b)));
                     }
-                    System.out.println("@@@@@@@@@@@@@@"+myList.size());
-                    System.out.println("@@@@@@@@@@@@@@"+dataList.get(a).getCommentNum());
                     adapter.notifyDataSetChanged();
                     break;
                 }
