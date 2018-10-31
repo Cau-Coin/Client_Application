@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,16 +48,13 @@ public class DetailReviewActivity extends Activity {
 
     private ArrayList<Data_Evaluate> dataList = new ArrayList<Data_Evaluate>();
 
-    ArrayList<String> temp_score = new ArrayList<String>();
-    ArrayList<String> temp_comment = new ArrayList<String>();
-    ArrayList<String> temp_commentTime = new ArrayList<String>();
-
     private ArrayList<String> filter_dept;
     private ArrayList<String> filter_semester;
     private ArrayList<String> filter_grade;
     private int num_Filter;
 
     private ImageView returnbutton;
+    private ImageView refreshbutton;
     private TextView myProfessor;
     private TextView mySemester;
     private TextView mySubject;
@@ -115,6 +111,7 @@ public class DetailReviewActivity extends Activity {
         recyclerView.setAdapter(adapter);
 
         returnbutton = (ImageView) findViewById(R.id.detail_returnback);
+        refreshbutton = (ImageView) findViewById(R.id.detail_refresh);
         myProfessor = (TextView) findViewById(R.id.detail_professor);
         mySemester = (TextView) findViewById(R.id.detail_semester);
         mySubject = (TextView) findViewById(R.id.detail_subject);
@@ -150,6 +147,25 @@ public class DetailReviewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        refreshbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(DetailReviewActivity.this, DetailReviewActivity.class);
+                a.putExtra("name", name);
+                a.putExtra("major", major);
+                a.putExtra("id", id);
+                a.putExtra("evaluateId", evaluateId);
+                a.putExtra("lookup", "yes");
+                a.putExtra("filter_dept", filter_dept);
+                a.putExtra("filter_grade", filter_grade);
+                a.putExtra("filter_semester", filter_semester);
+                a.putExtra("num_Filter", num_Filter);
+                startActivity(a);
+                finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 

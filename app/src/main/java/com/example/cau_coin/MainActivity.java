@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab, fab1, fab2;
+    private FloatingActionButton fab, fab1, fab2, fab3;
 
     private String fromwhere;
     private InputMethodManager imm;
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab1 = (FloatingActionButton) findViewById(R.id.main_fab1);
         fab2 = (FloatingActionButton) findViewById(R.id.main_fab2);
+        fab3 = (FloatingActionButton) findViewById(R.id.main_fab3);
 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -302,6 +303,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(MainActivity.this, MainActivity.class);
+                a.putExtra("name", name);
+                a.putExtra("major", major);
+                a.putExtra("id", id);
+                a.putExtra("from", "detail");
+                a.putExtra("filter_dept", filter_dept);
+                a.putExtra("filter_grade", filter_grade);
+                a.putExtra("filter_semester", filter_semester);
+                a.putExtra("num_Filter", num_Filter);
+                startActivity(a);
+                finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
+
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -388,15 +407,19 @@ public class MainActivity extends AppCompatActivity {
             fab.setImageResource(R.drawable.plusimg);
             fab1.startAnimation(fab_close);
             fab2.startAnimation(fab_close);
+            fab3.startAnimation(fab_close);
             fab1.setClickable(false);
             fab2.setClickable(false);
+            fab3.setClickable(false);
             isFabOpen = false;
         } else {
             fab.setImageResource(R.drawable.ximg2);
             fab1.startAnimation(fab_open);
             fab2.startAnimation(fab_open);
+            fab3.startAnimation(fab_open);
             fab1.setClickable(true);
             fab2.setClickable(true);
+            fab3.setClickable(true);
             isFabOpen = true;
         }
     }
@@ -624,7 +647,7 @@ public class MainActivity extends AppCompatActivity {
                                         a.putExtra("major", major);
                                         a.putExtra("id", id);
                                         a.putExtra("evaluateId", mItems.get(position).evaluateId);
-                                        a.putExtra("lookup","no");
+                                        a.putExtra("lookup", "no");
                                         a.putExtra("filter_dept", filter_dept);
                                         a.putExtra("filter_grade", filter_grade);
                                         a.putExtra("filter_semester", filter_semester);
@@ -651,7 +674,7 @@ public class MainActivity extends AppCompatActivity {
                             a.putExtra("major", major);
                             a.putExtra("id", id);
                             a.putExtra("evaluateId", mItems.get(position).evaluateId);
-                            a.putExtra("lookup","yes");
+                            a.putExtra("lookup", "yes");
                             a.putExtra("filter_dept", filter_dept);
                             a.putExtra("filter_grade", filter_grade);
                             a.putExtra("filter_semester", filter_semester);

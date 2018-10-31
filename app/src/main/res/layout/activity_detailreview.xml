@@ -35,6 +35,17 @@
                 android:textColor="@color/normalColor"
                 android:textSize="20dp"
                 android:textStyle="bold" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="40"/>
+            <ImageView
+                android:id="@+id/detail_refresh"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/refreshimg2"/>
 
         </LinearLayout>
 
