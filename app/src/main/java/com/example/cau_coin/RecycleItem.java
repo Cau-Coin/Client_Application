@@ -10,7 +10,7 @@ public class RecycleItem {
     String score;
     String evaluate;
     String review;
-    boolean lookup;
+    int lookup; // 1이면 열람함, 2면 본인 글
 
     public String getSubject() {
         return subject;
@@ -32,7 +32,7 @@ public class RecycleItem {
         return evaluateId;
     }
 
-    public boolean getLookup() {
+    public int getLookup() {
         return lookup;
     }
 
@@ -40,7 +40,7 @@ public class RecycleItem {
         return dept;
     }
 
-    public void setLookup(boolean lookup) {
+    public void setLookup(int lookup) {
         this.lookup = lookup;
     }
 
@@ -48,7 +48,7 @@ public class RecycleItem {
         return score;
     }
 
-    public String getEvaluate(){
+    public String getEvaluate() {
         return evaluate;
     }
 
@@ -56,7 +56,7 @@ public class RecycleItem {
         return review;
     }
 
-    public RecycleItem(String dept, String grade, String semester, String subject, String takeYear, String evaluateId, String score,String evaluate, String review) {
+    public RecycleItem(String dept, String grade, String semester, String subject, String takeYear, String evaluateId, String score, String evaluate, String review, int lookup) {
         this.dept = dept;
         this.subject = subject;
         this.grade = grade;
@@ -64,8 +64,8 @@ public class RecycleItem {
         this.takeYear = takeYear;
         this.evaluateId = evaluateId;
         this.score = score;
-        this.evaluate=evaluate;
-        this.review=review;
-        this.lookup=false;
+        this.evaluate = evaluate;
+        this.review = review;
+        this.lookup=lookup;
     }
 }

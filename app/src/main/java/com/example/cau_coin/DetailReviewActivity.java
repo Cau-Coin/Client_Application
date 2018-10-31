@@ -311,9 +311,9 @@ public class DetailReviewActivity extends Activity {
         a.putExtra("filter_grade", filter_grade);
         a.putExtra("filter_semester", filter_semester);
         a.putExtra("num_Filter", num_Filter);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         startActivity(a);
         finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     // Score과 Comment를 부여하는것에 대한 Transaction 전송
@@ -440,6 +440,7 @@ public class DetailReviewActivity extends Activity {
                     ArrayList<String> scoreParsed = new ArrayList<String>();
                     ArrayList<String> commentParsed = new ArrayList<String>();
                     ArrayList<String> commentTimeParsed = new ArrayList<String>();
+                    String userIdFromServer;
                     String evaluateIdFromServer;
                     String deptFromServer;
                     String gradeFromServer;
@@ -464,6 +465,7 @@ public class DetailReviewActivity extends Activity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         item = jsonArray.getJSONObject(i);
 
+                        userIdFromServer = item.getString("user_id");
                         evaluateIdFromServer = item.getString("evaluate_id");
                         deptFromServer = item.getString("dept");
                         gradeFromServer = item.getString("grade");
@@ -502,7 +504,7 @@ public class DetailReviewActivity extends Activity {
                             commentTimeParsed.add(commentTemp);
                         }
 
-                        dataList.add(new Data_Evaluate(evaluateIdFromServer, deptFromServer, gradeFromServer, semesterFromServer, subjectFromServer, evaluateFromServer, takeYearFromServer, reviewFromServer,
+                        dataList.add(new Data_Evaluate(userIdFromServer, evaluateIdFromServer, deptFromServer, gradeFromServer, semesterFromServer, subjectFromServer, evaluateFromServer, takeYearFromServer, reviewFromServer,
                                 timeStampFromServer, scoreParsed, commentParsed, commentTimeParsed));
                     }
                 } catch (JSONException e) {
