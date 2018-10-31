@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,8 @@ public class DetailReviewActivity extends Activity {
 
     private int eval_index;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,8 @@ public class DetailReviewActivity extends Activity {
         num_Filter = getIntent().getExtras().getInt("num_Filter");
 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        progressBar = (ProgressBar) findViewById(R.id.detail_progressbar);
 
         final TextView giveScore = (TextView) findViewById(R.id.detail_givescore);
         ImageView registerComment = (ImageView) findViewById(R.id.detail_registerComment);
@@ -134,6 +139,7 @@ public class DetailReviewActivity extends Activity {
         right_1 = (TextView) findViewById(R.id.detail_rightstar1);
         numRating = (TextView) findViewById(R.id.detail_numRating);
 
+        showProgress();
         ReadData temp = new ReadData();
         temp.execute();
 
@@ -536,6 +542,7 @@ public class DetailReviewActivity extends Activity {
                     break;
                 }
             }
+            unshowProgress();
         }
     }
 
@@ -621,5 +628,61 @@ public class DetailReviewActivity extends Activity {
         }
         left_1.setLayoutParams(i);
         right_1.setLayoutParams(j);
+    }
+
+
+    public void showProgress() {
+        progressBar.bringToFront();
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+
+        myProfessor.setVisibility(View.INVISIBLE);
+        mySemester.setVisibility(View.INVISIBLE);
+        mySubject.setVisibility(View.INVISIBLE);
+        myEvaluate.setVisibility(View.INVISIBLE);
+        myTakeYear.setVisibility(View.INVISIBLE);
+        myReview.setVisibility(View.INVISIBLE);
+        myTimeStamp.setVisibility(View.INVISIBLE);
+        myScore.setVisibility(View.INVISIBLE);
+        myTitle.setVisibility(View.INVISIBLE);
+
+        left_5.setVisibility(View.INVISIBLE);
+        left_4.setVisibility(View.INVISIBLE);
+        left_3.setVisibility(View.INVISIBLE);
+        left_2.setVisibility(View.INVISIBLE);
+        left_1.setVisibility(View.INVISIBLE);
+        right_5.setVisibility(View.INVISIBLE);
+        right_4.setVisibility(View.INVISIBLE);
+        right_3.setVisibility(View.INVISIBLE);
+        right_2.setVisibility(View.INVISIBLE);
+        right_1.setVisibility(View.INVISIBLE);
+        numRating.setVisibility(View.INVISIBLE);
+    }
+
+    public void unshowProgress() {
+        progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+
+        myProfessor.setVisibility(View.VISIBLE);
+        mySemester.setVisibility(View.VISIBLE);
+        mySubject.setVisibility(View.VISIBLE);
+        myEvaluate.setVisibility(View.VISIBLE);
+        myTakeYear.setVisibility(View.VISIBLE);
+        myReview.setVisibility(View.VISIBLE);
+        myTimeStamp.setVisibility(View.VISIBLE);
+        myScore.setVisibility(View.VISIBLE);
+        myTitle.setVisibility(View.VISIBLE);
+
+        left_5.setVisibility(View.VISIBLE);
+        left_4.setVisibility(View.VISIBLE);
+        left_3.setVisibility(View.VISIBLE);
+        left_2.setVisibility(View.VISIBLE);
+        left_1.setVisibility(View.VISIBLE);
+        right_5.setVisibility(View.VISIBLE);
+        right_4.setVisibility(View.VISIBLE);
+        right_3.setVisibility(View.VISIBLE);
+        right_2.setVisibility(View.VISIBLE);
+        right_1.setVisibility(View.VISIBLE);
+        numRating.setVisibility(View.VISIBLE);
     }
 }
