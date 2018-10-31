@@ -3,6 +3,7 @@ package com.example.cau_coin;
 import java.util.ArrayList;
 
 public class Data_Evaluate {
+    private String userId;
     private String evaluateId;
     private String dept;
     private String grade;
@@ -16,8 +17,9 @@ public class Data_Evaluate {
     private ArrayList<String> comment = new ArrayList<String>();
     private ArrayList<String> commentTime = new ArrayList<String>();
 
-    public Data_Evaluate(String evaluateId, String dept, String grade, String semester, String subject, String evaluate, String takeYear, String review, String timeStamp, ArrayList<String> score,
+    public Data_Evaluate(String userId, String evaluateId, String dept, String grade, String semester, String subject, String evaluate, String takeYear, String review, String timeStamp, ArrayList<String> score,
                          ArrayList<String> comment,ArrayList<String> commentTime) {
+        this.userId = userId;
         this.evaluateId = evaluateId;
         this.dept = dept;
         this.grade = grade;
@@ -30,6 +32,10 @@ public class Data_Evaluate {
         this.score.addAll(score);
         this.comment.addAll(comment);
         this.commentTime.addAll(commentTime);
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public String getEvaluateId() {
@@ -120,9 +126,5 @@ public class Data_Evaluate {
 
     public String getCommentTime(int index) {
         return commentTime.get(index);
-    }
-
-    public void addScore(String score){
-        this.score.add(score);
     }
 }
