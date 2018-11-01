@@ -32,7 +32,7 @@
                             android:id="@+id/cardview_subject"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14dp"
                             android:textColor="@color/moredarkColor"
                             android:textStyle="bold"
                             android:layout_marginLeft="15dp"
@@ -55,7 +55,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:layout_marginRight="12dp"
-                                android:textSize="14dp"
+                                android:textSize="12dp"
                                 android:textColor="@color/darkColor"
                                 android:text="Take year"/>
                         </LinearLayout>
@@ -74,7 +74,7 @@
                                 android:gravity="center_vertical"
                                 android:layout_marginRight="12dp"
                                 android:layout_marginTop="2dp"
-                                android:textSize="14dp"
+                                android:textSize="12dp"
                                 android:textColor="@color/darkColor"
                                 android:text="Semester"/>
                         </LinearLayout>
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="22dp"
                         android:layout_centerVertical="true"
-                        android:textSize="14dp"
+                        android:textSize="13dp"
                         android:textColor="@color/darkColor"
                         android:text="미열람 상태이므로 리뷰 내용 확인 불가"/>
                     <LinearLayout
@@ -107,7 +107,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="22dp"
-                            android:textSize="14dp"
+                            android:textSize="13dp"
                             android:textStyle="bold"
                             android:textColor="@color/darkColor"
                             android:text="text"/>
@@ -118,7 +118,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="22dp"
                             android:layout_marginTop="2dp"
-                            android:textSize="14dp"
+                            android:textSize="13dp"
                             android:textStyle="bold"
                             android:textColor="@color/darkColor"
                             android:text="text"/>

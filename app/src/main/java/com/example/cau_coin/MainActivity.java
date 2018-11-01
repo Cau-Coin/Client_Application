@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                                     tempLook = 0;
                                 }
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(), dataList.get(i).getEvaluate(), dataList.get(i).getReview(),tempLook));
+                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(), dataList.get(i).getEvaluate(), dataList.get(i).getReview(), tempLook));
                             }
                             checkLookup();
                             unshowProgress();
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
                                     tempLook = 0;
                                 }
                                 myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(), dataList.get(i).getEvaluate(), dataList.get(i).getReview(),tempLook));
+                                        dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(), dataList.get(i).getEvaluate(), dataList.get(i).getReview(), tempLook));
                                 if (num_Filter <= 0) {
                                     myList2.clear();
                                     adapter2.notifyDataSetChanged();
@@ -482,11 +482,11 @@ public class MainActivity extends AppCompatActivity {
                 data5 = dataList.get(i);
             }
         }
-        int tempLook1=0;
-        int tempLook2=0;
-        int tempLook3=0;
-        int tempLook4=0;
-        int tempLook5=0;
+        int tempLook1 = 0;
+        int tempLook2 = 0;
+        int tempLook3 = 0;
+        int tempLook4 = 0;
+        int tempLook5 = 0;
         if (data1.getUserId().equals(id)) {
             tempLook1 = 2;
         }
@@ -505,31 +505,31 @@ public class MainActivity extends AppCompatActivity {
 
         switch (dataList.size()) {
             case 4:
-                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(),tempLook1));
-                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(),tempLook2));
-                myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(), data3.getEvaluate(), data3.getReview(),tempLook3));
-                myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore(), data4.getEvaluate(), data4.getReview(),tempLook4));
+                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(), tempLook1));
+                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(), tempLook2));
+                myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(), data3.getEvaluate(), data3.getReview(), tempLook3));
+                myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore(), data4.getEvaluate(), data4.getReview(), tempLook4));
                 break;
             case 3:
-                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(),tempLook1));
-                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(),tempLook2));
-                myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(), data3.getEvaluate(), data3.getReview(),tempLook3));
+                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(), tempLook1));
+                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(), tempLook2));
+                myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(), data3.getEvaluate(), data3.getReview(), tempLook3));
                 break;
             case 2:
-                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(),tempLook1));
-                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(),tempLook2));
+                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(), tempLook1));
+                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(), tempLook2));
                 break;
             case 1:
-                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(),tempLook1));
+                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(), tempLook1));
                 break;
             case 0:
                 break;
             default:
-                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(),tempLook1));
-                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(),tempLook2));
-                myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(), data3.getEvaluate(), data3.getReview(),tempLook3));
-                myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore(), data4.getEvaluate(), data4.getReview(),tempLook4));
-                myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore(), data5.getEvaluate(), data5.getReview(),tempLook5));
+                myList.add(new RecycleItem(data1.getDept(), data1.getGrade(), data1.getSemester(), data1.getSubject(), data1.getTakeYear(), data1.getEvaluateId(), data1.getScore(), data1.getEvaluate(), data1.getReview(), tempLook1));
+                myList.add(new RecycleItem(data2.getDept(), data2.getGrade(), data2.getSemester(), data2.getSubject(), data2.getTakeYear(), data2.getEvaluateId(), data2.getScore(), data2.getEvaluate(), data2.getReview(), tempLook2));
+                myList.add(new RecycleItem(data3.getDept(), data3.getGrade(), data3.getSemester(), data3.getSubject(), data3.getTakeYear(), data3.getEvaluateId(), data3.getScore(), data3.getEvaluate(), data3.getReview(), tempLook3));
+                myList.add(new RecycleItem(data4.getDept(), data4.getGrade(), data4.getSemester(), data4.getSubject(), data4.getTakeYear(), data4.getEvaluateId(), data4.getScore(), data4.getEvaluate(), data4.getReview(), tempLook4));
+                myList.add(new RecycleItem(data5.getDept(), data5.getGrade(), data5.getSemester(), data5.getSubject(), data5.getTakeYear(), data5.getEvaluateId(), data5.getScore(), data5.getEvaluate(), data5.getReview(), tempLook5));
                 break;
         }
         checkLookup();
@@ -585,7 +585,7 @@ public class MainActivity extends AppCompatActivity {
                             tempLook = 0;
                         }
                         myList.add(new RecycleItem(dataList.get(i).getDept(), dataList.get(i).getGrade(), dataList.get(i).getSemester(),
-                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(), dataList.get(i).getEvaluate(), dataList.get(i).getReview(),tempLook));
+                                dataList.get(i).getSubject(), dataList.get(i).getTakeYear(), dataList.get(i).getEvaluateId(), dataList.get(i).getScore(), dataList.get(i).getEvaluate(), dataList.get(i).getReview(), tempLook));
                     }
                 }
             }
@@ -627,7 +627,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            if(mItems.get(position).getLookup() == 2){
+            if (mItems.get(position).getLookup() == 2) {
                 ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffeeeeee);
 
                 ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.INVISIBLE);
@@ -635,8 +635,7 @@ public class MainActivity extends AppCompatActivity {
                 ((ViewHolder) holder).cardview_status_look2.setVisibility(View.VISIBLE);
                 ((ViewHolder) holder).cardview_status_look1.setText("[본인 게시글 - 수강자 평점 : " + mItems.get(position).getEvaluate() + ".0점, 평가 평점 : " + mItems.get(position).getScore() + "점 ]");
                 ((ViewHolder) holder).cardview_status_look2.setText(mItems.get(position).getReview());
-            }
-            else if (mItems.get(position).getLookup() == 1) {
+            } else if (mItems.get(position).getLookup() == 1) {
                 ((ViewHolder) holder).firstLayout.setBackgroundColor(0xffeeeeee);
 
                 ((ViewHolder) holder).cardview_status_unlook.setVisibility(View.INVISIBLE);
@@ -827,7 +826,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 조회 리스트를 가져오기 위한 서버 연동 코드
+    // 조회 리스트를 가져오기 위한 중앙 서버 연동 코드
     public class GetLookup extends AsyncTask<String, Void, String> {
 
         public String doInBackground(String... params) {
@@ -891,7 +890,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 조회 시 조회 리스트에 추가하기 위한 서버 연동 코드
+    // 조회 시 조회 리스트에 추가하기 위한 중앙 서버 연동 코드
     public class WriteLookup extends AsyncTask<String, Void, String> {
 
         public String doInBackground(String... params) {
@@ -949,12 +948,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 블록으로부터 데이터 받아오기 위해 Transaction 전송
+    // 블록으로부터 데이터 받아오기 위해 블록체인 서버에 Transaction 전송
     public class ReadData extends AsyncTask<String, Void, String> {
 
         public String doInBackground(String... params) {
             try {
-                String url = "http://115.68.207.101:4444/read_all_data";
+                int randomNum = (int) (Math.random() * 10);
+                randomNum = randomNum % 3;
+
+                String url;
+                if (randomNum == 0) {
+                    url = "http://115.68.207.101:4444/read_all_data";
+                } else if (randomNum == 1) {
+                    url = "http://115.68.232.77:4444/read_all_data";
+                } else {
+                    url = "http://115.68.232.78:4444/read_all_data";
+                }
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -1099,12 +1108,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 블록으로부터 코인정보를 받아오는 Transaction 전송
+    // 블록으로부터 코인정보를 받아오는 Transaction 블록체인 서버에 전송
     public class ReadCoin extends AsyncTask<String, Void, String> {
 
         public String doInBackground(String... params) {
             try {
-                String url = "http://115.68.207.101:4444/coin/" + id;
+                int randomNum = (int) (Math.random() * 10);
+                randomNum = randomNum % 3;
+
+                String url;
+                if (randomNum == 0) {
+                    url = "http://115.68.207.101:4444/coin/" + id;
+                } else if (randomNum == 1) {
+                    url = "http://115.68.232.77:4444/coin/" + id;
+                } else {
+                    url = "http://115.68.232.78:4444/coin/" + id;
+                }
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -1144,15 +1163,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 소프트 키보드 숨기기
     public void hideKeyboard() {
         imm.hideSoftInputFromWindow(inputSearch.getWindowToken(), 0);
     }
 
+    // Progress bar 보이기
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
     }
 
+    // Progress bar 숨기기
     public void unshowProgress() {
         progressBar.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);

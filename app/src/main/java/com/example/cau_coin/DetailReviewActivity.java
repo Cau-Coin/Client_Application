@@ -349,7 +349,17 @@ public class DetailReviewActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                String url = "http://115.68.207.101:4444/write_transaction";
+                int randomNum = (int) (Math.random() * 10);
+                randomNum = randomNum % 3;
+
+                String url;
+                if (randomNum == 0) {
+                    url = "http://115.68.207.101:4444/write_transaction";
+                } else if (randomNum == 1) {
+                    url = "http://115.68.232.77:4444/write_transaction";
+                } else {
+                    url = "http://115.68.232.78:4444/write_transaction";
+                }
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -401,11 +411,29 @@ public class DetailReviewActivity extends Activity {
         public String doInBackground(String... params) {
             try {
                 String url;
+
+                int randomNum = (int) (Math.random() * 10);
+                randomNum = randomNum % 3;
+
                 if (lookup.equals("yes")) {
-                    url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
+                    if (randomNum == 0) {
+                        url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
+                    } else if (randomNum == 1) {
+                        url = "http://115.68.232.77:4444/read_one_data/" + evaluateId;
+                    } else {
+                        url = "http://115.68.232.78:4444/read_one_data/" + evaluateId;
+                    }
                 } else {
-                    //url = "http://115.68.207.101:4444/read_one_data/" + evaluateId + "&" + id;
-                    url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
+                    if (randomNum == 0) {
+                        //url = "http://115.68.207.101:4444/read_one_data/" + evaluateId + "&" + id;
+                        url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
+                    } else if (randomNum == 1) {
+                        //url = "http://115.68.232.77:4444/read_one_data/" + evaluateId + "&" + id;
+                        url = "http://115.68.232.77:4444/read_one_data/" + evaluateId;
+                    } else {
+                        //url = "http://115.68.232.78:4444/read_one_data/" + evaluateId + "&" + id;
+                        url = "http://115.68.232.78:4444/read_one_data/" + evaluateId;
+                    }
                 }
                 URL obj = new URL(url);
 
