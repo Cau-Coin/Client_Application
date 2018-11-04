@@ -517,6 +517,7 @@
                                     android:layout_height="50dp"
                                     android:background="@null"
                                     android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
                                     android:textColor="@color/ratingsColor"
                                     android:textColorHint="@color/ratingsColor"
                                     android:inputType="text"

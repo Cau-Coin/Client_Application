@@ -317,9 +317,9 @@ public class DetailReviewActivity extends Activity {
         a.putExtra("filter_grade", filter_grade);
         a.putExtra("filter_semester", filter_semester);
         a.putExtra("num_Filter", num_Filter);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         startActivity(a);
         finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     // Score과 Comment를 부여하는것에 대한 Transaction 전송
@@ -425,14 +425,11 @@ public class DetailReviewActivity extends Activity {
                     }
                 } else {
                     if (randomNum == 0) {
-                        //url = "http://115.68.207.101:4444/read_one_data/" + evaluateId + "&" + id;
-                        url = "http://115.68.207.101:4444/read_one_data/" + evaluateId;
+                        url = "http://115.68.207.101:4444/read_one_data/" + evaluateId + "/" + id;
                     } else if (randomNum == 1) {
-                        //url = "http://115.68.232.77:4444/read_one_data/" + evaluateId + "&" + id;
-                        url = "http://115.68.232.77:4444/read_one_data/" + evaluateId;
+                        url = "http://115.68.232.77:4444/read_one_data/" + evaluateId + "/" + id;
                     } else {
-                        //url = "http://115.68.232.78:4444/read_one_data/" + evaluateId + "&" + id;
-                        url = "http://115.68.232.78:4444/read_one_data/" + evaluateId;
+                        url = "http://115.68.232.78:4444/read_one_data/" + evaluateId + "/" + id;
                     }
                 }
                 URL obj = new URL(url);
