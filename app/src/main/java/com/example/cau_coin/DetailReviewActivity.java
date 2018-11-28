@@ -354,9 +354,9 @@ public class DetailReviewActivity extends Activity {
 
                 String url;
                 if (randomNum == 0) {
-                    url = "http://115.68.207.101:4444/write_transaction";
-                } else if (randomNum == 1) {
                     url = "http://115.68.232.77:4444/write_transaction";
+                } else if (randomNum == 1) {
+                    url = "http://115.68.207.101:4444/write_transaction";
                 } else {
                     url = "http://115.68.232.78:4444/write_transaction";
                 }
@@ -567,7 +567,9 @@ public class DetailReviewActivity extends Activity {
                     break;
                 }
             }
-            unshowProgress();
+            if(s!=null){
+                unshowProgress();
+            }
         }
     }
 

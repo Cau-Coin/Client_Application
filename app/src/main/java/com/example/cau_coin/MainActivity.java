@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private String myCoinNum;
 
     private ProgressBar progressBar;
+    private boolean dataGetSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -350,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         showProgress();
+        dataGetSuccess=false;
         ReadData temp = new ReadData();
         temp.execute();
 
@@ -958,9 +960,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String url;
                 if (randomNum == 0) {
-                    url = "http://115.68.207.101:4444/read_all_data";
-                } else if (randomNum == 1) {
                     url = "http://115.68.232.77:4444/read_all_data";
+                } else if (randomNum == 1) {
+                    url = "http://115.68.207.101:4444/read_all_data";
                 } else {
                     url = "http://115.68.232.78:4444/read_all_data";
                 }
@@ -1073,6 +1075,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
 
                 }
+                dataGetSuccess=true;
             }
 
             if (fromwhere.equals("detail")) {
@@ -1158,8 +1161,10 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
             if (s != null) {
                 myCoinNum = String.valueOf(s);
+                if(dataGetSuccess){
+                    unshowProgress();
+                }
             }
-            unshowProgress();
         }
     }
 

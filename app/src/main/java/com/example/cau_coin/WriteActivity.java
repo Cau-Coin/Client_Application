@@ -190,15 +190,14 @@ public class WriteActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             select_subject = items[selectedIndex[0]];
-                            if(!database.getEvaluate(userid,select_subject)){
+                            if (!database.getEvaluate(userid, select_subject)) {
                                 Toast.makeText(getApplicationContext(), "이미 강의평가를 진행한 과목입니다.", Toast.LENGTH_SHORT).show();
-                                select_subject="";
+                                select_subject = "";
                                 subject.setText("과목 선택");
                                 subject.setTextColor(0xff565656);
                                 subject.setTypeface(null, Typeface.NORMAL);
-                            }
-                            else if (select_subject.equals("-선택-")) {
-                                select_subject="";
+                            } else if (select_subject.equals("-선택-")) {
+                                select_subject = "";
                                 subject.setText("과목 선택");
                                 subject.setTextColor(0xff565656);
                                 subject.setTypeface(null, Typeface.NORMAL);
@@ -230,7 +229,7 @@ public class WriteActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         select_year = items[selectedIndex[0]];
                         if (select_year.equals("-선택-")) {
-                            select_year="";
+                            select_year = "";
                             takeYear.setText("수강년도 선택");
                             takeYear.setTextColor(0xff565656);
                             takeYear.setTypeface(null, Typeface.NORMAL);
@@ -304,7 +303,7 @@ public class WriteActivity extends Activity {
         });
     }
 
-    public void registerEval(){
+    public void registerEval() {
         hideKeyboard();
         if (select_dept.equals("")) {
             Toast.makeText(getApplicationContext(), "학부를 선택해주세요", Toast.LENGTH_SHORT).show();
@@ -316,10 +315,9 @@ public class WriteActivity extends Activity {
             Toast.makeText(getApplicationContext(), "과목을 선택해주세요", Toast.LENGTH_SHORT).show();
         } else if (select_year.equals("")) {
             Toast.makeText(getApplicationContext(), "수강년도를 선택해주세요", Toast.LENGTH_SHORT).show();
-        } else if (select_evaluate.equals("")){
+        } else if (select_evaluate.equals("")) {
             Toast.makeText(getApplicationContext(), "평점을 선택해주세요", Toast.LENGTH_SHORT).show();
-        }
-        else if (review.getText().toString().equals("")) {
+        } else if (review.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "한줄평을 한 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show();
         } else {
             database.insertData_Evaluate(userid, select_subject);
@@ -338,35 +336,32 @@ public class WriteActivity extends Activity {
         }
     }
 
-    public void hideKeyboard(){
+    public void hideKeyboard() {
         imm.hideSoftInputFromWindow(review.getWindowToken(), 0);
     }
 
     public String[] setSubjectItem() {
         switch (select_grade) {
             case "1학년":
-                switch (select_dept){
+                switch (select_dept) {
                     case "소프트웨어학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_sw_1_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_sw_1_2);
                         }
                         break;
                     case "융합공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ie_1_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ie_1_2);
                         }
                         break;
                     case "전자전기공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ee_1_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ee_1_2);
                         }
                         break;
@@ -375,28 +370,25 @@ public class WriteActivity extends Activity {
                 }
                 break;
             case "2학년":
-                switch (select_dept){
+                switch (select_dept) {
                     case "소프트웨어학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_sw_2_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_sw_2_2);
                         }
                         break;
                     case "융합공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ie_2_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ie_2_2);
                         }
                         break;
                     case "전자전기공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ee_2_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ee_2_2);
                         }
                         break;
@@ -405,28 +397,25 @@ public class WriteActivity extends Activity {
                 }
                 break;
             case "3학년":
-                switch (select_dept){
+                switch (select_dept) {
                     case "소프트웨어학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_sw_3_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_sw_3_2);
                         }
                         break;
                     case "융합공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ie_3_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ie_3_2);
                         }
                         break;
                     case "전자전기공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ee_3_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ee_3_2);
                         }
                         break;
@@ -435,28 +424,25 @@ public class WriteActivity extends Activity {
                 }
                 break;
             case "4학년":
-                switch (select_dept){
+                switch (select_dept) {
                     case "소프트웨어학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_sw_4_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_sw_4_2);
                         }
                         break;
                     case "융합공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ie_4_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ie_4_2);
                         }
                         break;
                     case "전자전기공학부":
-                        if(select_semester.equals("1학기")){
+                        if (select_semester.equals("1학기")) {
                             return getResources().getStringArray(R.array.subject_ee_4_1);
-                        }
-                        else if(select_semester.equals("2학기")){
+                        } else if (select_semester.equals("2학기")) {
                             return getResources().getStringArray(R.array.subject_ee_4_2);
                         }
                         break;
@@ -467,7 +453,7 @@ public class WriteActivity extends Activity {
             default:
                 break;
         }
-        String[] temp = {"0","0"};
+        String[] temp = {"0", "0"};
         return temp;
     }
 
@@ -548,7 +534,7 @@ public class WriteActivity extends Activity {
                     myJsonObject.put("grade", select_grade);
                     myJsonObject.put("semester", select_semester);
                     myJsonObject.put("subject", select_subject);
-                    myJsonObject.put("evaluate", select_evaluate.substring(0,1));
+                    myJsonObject.put("evaluate", select_evaluate.substring(0, 1));
                     myJsonObject.put("takeyear", select_year);
                     myJsonObject.put("review", review);
                     myJsonObject.put("timestamp", currentDateTime);
@@ -556,7 +542,17 @@ public class WriteActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                String url = "http://115.68.207.101:4444/write_transaction";
+                int randomNum = (int) (Math.random() * 10);
+                randomNum = randomNum % 3;
+
+                String url;
+                if (randomNum == 0) {
+                    url = "http://115.68.232.77:4444/write_transaction";
+                } else if (randomNum == 1) {
+                    url = "http://115.68.207.101:4444/write_transaction";
+                } else {
+                    url = "http://115.68.232.78:4444/write_transaction";
+                }
                 URL obj = new URL(url);
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
